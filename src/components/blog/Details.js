@@ -16,7 +16,7 @@ const Details = ({ blog, auth, getBlog, deleteBlog, addNotification }) => {
 
   // Log visit
   useEffect(() => {
-    if (blog && blog.title && blog.authorId !== auth.uid) {
+    if (blog && blog.title && auth && blog.authorId !== auth.uid) {
       addNotification({title: blog.title, authorId: blog.authorId});
     }
   }, [auth, blog, addNotification]);
