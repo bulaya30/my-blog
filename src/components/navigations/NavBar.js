@@ -4,7 +4,7 @@ import { useSidebar } from './SidebarContext';
 import SignedIn from './SignedInLink'
 import SignedOutLink from './SignedOutLink'
 import { connect } from 'react-redux'
-
+import Logo from '../../img/logo/Logo.png'
 function NavBar(props) {
   const { auth } = props;
   const { sidebarOpen, setSidebarOpen } = useSidebar();
@@ -13,7 +13,7 @@ function NavBar(props) {
     // d-none d-lg-flex = hide on screens < 992px, show as flex on ≥ 992px
     <header className="fixed-top header d-flex align-items-center">
       <Link to='/' className="logo d-flex align-items-center"> 
-        <img src="/logo.png" alt="logo" />
+        <img src={Logo} alt="Norrechel Logo" height="40" /> {/* logo */}
         <span className="d-none d-lg-block">Norrechel</span>
       </Link>
 
