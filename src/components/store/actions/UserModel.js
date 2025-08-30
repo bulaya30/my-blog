@@ -1,4 +1,5 @@
 import firebase from "../../../config/DB";
+import axios from "axios";
 let unsubscribeProfile = null;
 
 export const listenToAuthChanges = () => {
@@ -46,27 +47,19 @@ export const updateProfile = (profile) => {
 
       // If user selected a new photo
       if (updatedProfile.photo instanceof File) {
-        const extension = updatedProfile.photo.name.split('.').pop();
-        const newFileName = `${updatedProfile.firstName}_${Date.now()}.${extension}`;
-        const fileRef = firebase
-          .storage()
-          .ref()
-          .child(`profilePhotos/${user.uid}/${newFileName}`);
+        const formData = new FormData();
+        formData.append("file", updatedProfile.photo);
+        formData.append("upload_preset", "user_profiles"); // <- your actual preset name
+        formData.append("folder", `user_profiles/${user.uid}`); // optional folder by user ID
 
-        // Upload new photo
-        await fileRef.put(updatedProfile.photo);
-        const newPhotoURL = await fileRef.getDownloadURL();
-        updatedProfile.photo = newPhotoURL;
+        // Upload to Cloudinary
+        const cloudinaryResponse = await axios.post(
+          "https://api.cloudinary.com/v1_1/dzoaynyni/image/upload",
+          formData
+        );
 
-        // Delete old photo if it exists and is a Firebase URL
-        if (user.photo && user.photo.startsWith("https://")) {
-          try {
-            const oldPhotoRef = firebase.storage().refFromURL(user.photo);
-            await oldPhotoRef.delete();
-          } catch (deleteErr) {
-            console.warn("Could not delete old profile photo:", deleteErr);
-          }
-        }
+        updatedProfile.photo = cloudinaryResponse.data.secure_url;
+
       }
 
       // Remove undefined or null values
@@ -74,7 +67,7 @@ export const updateProfile = (profile) => {
         Object.entries(updatedProfile).filter(([_, v]) => v !== undefined && v !== null)
       );
 
-      // Update Firestore
+      // Update Firestore (or your backend DB)
       await firebase.firestore()
         .collection("users")
         .doc(user.uid)
