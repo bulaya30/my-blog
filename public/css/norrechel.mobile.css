@@ -1,0 +1,207 @@
+@media (max-width: 1199px) {
+  #main {
+    padding: 20px;
+  }
+}
+@media (min-width: 768px) {
+  .dropdown-menu-arrow::before {
+    content: "";
+    width: 13px;
+    height: 13px;
+    background: #fff;
+    position: absolute;
+    top: -7px;
+    right: 20px;
+    transform: rotate(45deg);
+    border-top: 1px solid #eaedf1;
+    border-left: 1px solid #eaedf1;
+  }
+}
+
+@media (min-width: 1200px) {
+  .logo {
+    width: 280px;
+  }
+}
+@media (max-width: 1199px) {
+  .header .search-bar {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    box-shadow: 0px 0px 15px 0px rgba(1, 41, 112, 0.1);
+    background: white;
+    z-index: 9999;
+    transition: 0.3s;
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .header .search-bar-show {
+    top: 60px;
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+/* Desktop: always visible, ignore open/closed classes */
+@media (min-width: 992px) {
+
+  .sidebar {
+    transform: translateX(0) !important;
+  }
+}
+/* Mobile: hidden by default, slide in when open */
+@media (max-width: 991px) {
+  #main{
+    padding: 80px 0;
+    margin: 0;
+    font-size: 14px;
+  }
+      /*------------------------------------------------------------- 
+  # Sliders
+  ---------------------------------------------------------------*/
+  .slider{
+    margin: 0 0 10px 0;
+    font-size: 1em;
+  }
+  .carousel-item{
+    padding: 0;
+    height: 20vh;
+  }
+  .carousel-item p{
+    width: 75%;
+    margin: 50px auto 10px auto;
+    font-size: 1.2em;
+    font-weight: 500;
+  }
+ .carousel-item i{
+    margin: 0 5%;
+    font-size: .95em;
+    font-weight: 300;
+  }
+  #page-content{
+    padding: 70px 0;
+  }
+  .tabContents{
+    padding: 0;
+    margin: 0;
+  }
+
+  .sidebar.closed {
+    transform: translateX(0) !important;
+  }
+  .sidebar.open {
+    transform: translateX(-100%);
+  }
+  .page-container {
+    max-width: 100% !important;
+    padding: 3px 20px !important;  
+  }
+  
+/*------------------------------------------------------------- 
+  # Home Category
+  ---------------------------------------------------------------*/
+  .home-category-container{
+    padding: 3px 0;
+  }
+  .home-category-container h2{
+    margin-top: 5px;
+    font-size: 1em;
+    font-weight: 600;
+  }
+  .home-category-container ul{
+    margin: 0;
+    padding: 2px;
+  }
+  .blog-details-content{
+    padding: 0;
+  }
+  .blog-div-content{
+    background: red;
+    width: 100%;
+    font-size: 1em;
+    height: 30vh;
+  }
+}
+
+@media (min-width: 1200px) {
+
+  #main,
+  #footer {
+    margin-left: 300px;
+  }
+}
+
+@media (max-width: 1199px) {
+  .toggle-sidebar .sidebar {
+    left: 0;
+  }
+}
+
+@media (min-width: 1200px) {
+
+  .toggle-sidebar #main,
+  .toggle-sidebar #footer {
+    margin-left: 0;
+  }
+
+  .toggle-sidebar .sidebar {
+    left: -300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  #main{
+    min-height: 100vh;
+  }
+  .carousel-item p{
+    width: 75%;
+    margin: 30px auto 5px auto;
+    font-size: 1em;
+    font-weight: 400;
+  }
+ .carousel-item i{
+    margin: 0 5%;
+    font-size: .95em;
+    font-weight: 300;
+  }
+  .page-container {
+    max-width: 100%;
+    padding: 0;  
+  }
+}
+
+
+
+/* For very small devices (phones under 576px) */
+@media (max-width: 576px) {
+  .header {
+    height: 50px;           /* make header shorter */
+    padding: 0 15px;        /* tighter spacing */
+    font-size: 14px;        /* smaller text/icons if needed */
+  }
+}
+
+/* For small-to-medium devices (phones to tablets, up to 768px) */
+@media (min-width: 577px) and (max-width: 768px) {
+  .header {
+    height: 55px;
+    padding: 0 18px;
+  }
+    .blog-details-content{
+    padding: 0;
+    
+  }
+  .blog-div-content{
+    width: 100%;
+   
+  }
+}

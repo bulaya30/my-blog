@@ -1,0 +1,60 @@
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { signOut } from '../store/actions/AuthModel';
+
+const SignedIn = ({ auth, signOut }) => {
+  const displayName = auth ? auth.lastName[0]+'. '+auth.firstName : 'User';
+
+  return (
+    <div className="norrechel-navbar">
+      <ul className="nav__link d-flex align-items-center">
+        <li className="nav-item dropdown pe-3">
+          <NavLink to="#" className="nav-link nav-profile d-flex align-items-center pe-0" data-bs-toggle="dropdown">
+            <i className="bi bi-person"></i>
+            <span className="d-none d-md-block dropdown-toggle ps-2">{displayName}</span>
+          </NavLink>
+          <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li className="dropdown-header">
+              <h6>{displayName}</h6>
+            </li>
+            <hr className="dropdown-divider" />
+            <li>
+              <NavLink to="/profile" className="dropdown-item d-flex align-items-center">
+                <i className="bi bi-person"></i>
+                <span>My Profile</span>
+              </NavLink>
+            </li>
+            <hr className="dropdown-divider" />
+            <li>
+              <NavLink to="/blog" className="dropdown-item d-flex align-items-center">
+                <i className="bi bi-grid"></i>
+                <span>Blogs</span>
+              </NavLink>
+            </li>
+            <hr className="dropdown-divider" />
+            <li>
+              <button onClick={signOut} className="dropdown-item d-flex align-items-center text-danger" id="logout">
+                <i className="lni lni-exit"></i>
+                <span>Log out</span>
+              </button>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  );
+};
+
+const mapStateToProps = (state) => {
+  // console.log('NavBar state: ', state) 
+  return{
+    auth: state.auth.user.profile,
+  }
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  signOut: () => dispatch(signOut()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignedIn);
