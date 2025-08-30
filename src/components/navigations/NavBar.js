@@ -1,38 +1,44 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useSidebar } from './SidebarContext';
+import { connect } from 'react-redux'
 import SignedIn from './SignedInLink'
 import SignedOutLink from './SignedOutLink'
-import { connect } from 'react-redux'
 import Logo from '../../img/logo/Logo.png'
-function NavBar(props) {
-  const { auth } = props;
-  const { sidebarOpen, setSidebarOpen } = useSidebar();
+// import './NavBar.css' // Make sure this file handles the responsive styles
+
+function NavBar({ auth }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   return (
-    // d-none d-lg-flex = hide on screens < 992px, show as flex on ≥ 992px
-    <header className="fixed-top header d-flex align-items-center">
-      <Link to='/' className="logo d-flex align-items-center"> 
-        <img src={Logo} alt="Norrechel Logo" height="40" /> {/* logo */}
-        <span className="d-none d-lg-block">Norrechel</span>
-      </Link>
-
-      <i 
-        className="bi bi-list toggle-sidebar-btn" 
-        onClick={() => setSidebarOpen(!sidebarOpen)}
-      ></i>
-
-      <div className="search-bar">
-        <form className="search-form d-flex align-items-center">
-          <input type="search" id="search" name="search" placeholder="Search" title="Enter search keyword" autoComplete="off" />
-          <button type="submit" title="Search"><i className="bi bi-search"></i></button>
-        </form>
-        <div className="control" id="search-menu"></div>
+    <header className="navbar">
+      <div className="logo">
+        <Link to='/' className="logo d-flex align-items-center"> 
+          <img src={Logo} alt="Norrechel Logo" height="40" /> 
+          <span className="d-none d-lg-block">Norrechel</span>
+        </Link>
       </div>
-
-      <nav className="header-nav ms-auto">
-        {auth ? <SignedIn /> : <SignedOutLink /> }
+      <nav className={menuOpen ? "nav-open" : ""}>
+        <ul className="nav-links">
+          <li><Link to="/" onClick={() => setMenuOpen(false)}>Home</Link></li>
+          <li><Link to="/blogs" onClick={() => setMenuOpen(false)}>Blogs</Link></li>
+          <li><Link to="/categories" onClick={() => setMenuOpen(false)}>Categories</Link></li>
+          <li><Link to="/about" onClick={() => setMenuOpen(false)}>About</Link></li>
+          <li><Link to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link></li>
+          {auth ? <SignedIn /> : (
+            <>
+              <li><Link to="/login" className="auth-btn my-2 my-md-0" onClick={() => setMenuOpen(false)}>Login</Link></li>
+              <li><Link to="/register" className="auth-btn" onClick={() => setMenuOpen(false)}>Register</Link></li>
+            </>
+          )}
+        </ul>
       </nav>
+      <button className="menu-toggle" onClick={toggleMenu}>
+        <i className="bx bx-menu"></i>
+      </button>
     </header>
   )
 }
@@ -42,4 +48,5 @@ const mapStateToProps = (state) => {
     auth: state.auth.user,
   }
 }
+
 export default connect(mapStateToProps)(NavBar)
