@@ -45,24 +45,44 @@ export const getBlog = (field, value) => {
     }
   };
 };
-
-
 export const addBlog = (blog) => {
-  return (dispatch, getState) => {
+  return async (dispatch) => {
+    try {
+      // Check if a blog with same title and author exists
+      const snapshot = await firebase.firestore()
+      .collection('blogs')
+      .where('title', '==', blog.title.trim())
+      .where('authorId', '==', blog.authorId.trim())
+      .get();
+    console.log(blog, snapshot.empty)
 
-    firebase.firestore().collection('blogs').add({
-      ...blog,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    }).then((docRef) => {
+      if (!snapshot.empty) {
+        // Blog already exists
+        dispatch({ type: 'ERROR', payload: 'A blog with this title and author already exists' });
+        return { error: 'A blog with this title and author already exists' };
+      }
+      // Add new blog
+      const docRef = await firebase.firestore()
+        .collection('blogs')
+        .add({
+          ...blog,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
       dispatch({ 
         type: 'ADD_BLOG_SUCCESS', 
         payload: { id: docRef.id, ...blog }
       });
-    }).catch((error) => {
+
+      return { success: true, blog: { id: docRef.id, ...blog }, error: null };
+
+    } catch (error) {
       dispatch({ type: 'ERROR', payload: error.message });
-    });
+      return { success: false, error: error.message };
+    }
   };
 };
+
 
 export const updateBlog = (id, blog) => {
   return async (dispatch) => {

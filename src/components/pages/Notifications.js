@@ -88,7 +88,6 @@ useEffect(() => {
 };
 
 const mapStateToProps = (state) =>{ 
-  console.log('Notification state: ', state)  
   return{
     notifications: state.notification.notifications || []
   }

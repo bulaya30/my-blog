@@ -6,37 +6,39 @@ import { Editor } from '@tinymce/tinymce-react';
 const CreateBlog = () => {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth.user);
+  const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState({ message: '', type: '' });
 
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('');
   const [content, setContent] = useState('');
 
-  // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!title.trim() || !content.trim()) return;
 
-    if (!auth) {
-      alert('You must be logged in to create a blog');
-      return;
+    setLoading(true);
+    const result = await dispatch(
+      addBlog({
+        title: title.trim(),
+        category: category.trim(),
+        content: content.trim(),
+        authorId: auth.uid
+      })
+    );
+    setLoading(false);
+    if (result?.success) {
+      setToast({ message: 'Blog added successfully!', type: 'success' });
+      setTimeout(() => setToast({ message: '', type: '' }), 5000);
+      setTitle('');
+      setCategory('');
+      setContent('');
+    } else {
+      setToast({ message: result?.error || 'Failed to add blog', type: 'error' });
+      setTimeout(() => setToast({ message: '', type: '' }), 5000);
     }
-
-    const newBlog = {
-      title,
-      category,
-      content,
-      authorId: auth.uid,
-      createdAt: new Date()
-    };
-
-    dispatch(addBlog(newBlog));
-
-    // Reset form
-    setTitle('');
-    setCategory('');
-    setContent('');
   };
 
-  // Show loading if auth is not ready
   if (!auth) {
     return <p>Loading user info...</p>;
   }
@@ -46,6 +48,14 @@ const CreateBlog = () => {
       <div className="card">
         <h2>New Blog</h2>
         <div className="card-body">
+          {/* Toast message */}
+          {toast.message && (
+            <div
+              className={`toast ${toast.type === 'error' ? 'bg-red-500' : 'bg-green-500'} text-white p-3 rounded mb-4`}
+            >
+              {toast.message}
+            </div>
+          )}
           <form onSubmit={handleSubmit} id="new-blog-form" autoComplete="off">
             
             <div className="input-box">
@@ -114,10 +124,16 @@ const CreateBlog = () => {
                 className="btn btn-sm w-100"
                 name="submit"
                 type="submit"
+                style={{ display: loading ? 'none' : 'block' }}
               >
                 Publish
               </button>
-              <button className="btn btn-sm w-100 loading-btn" type="button" disabled>
+              <button 
+                className="btn btn-sm w-100 loading-btn" 
+                type="button" 
+                disabled 
+                style={{ display: loading ? 'block' : 'none' }}
+              >
                 <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 <span>Publishing...</span>
               </button>

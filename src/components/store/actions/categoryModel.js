@@ -1,20 +1,41 @@
 import firebase from "../../../config/DB";
 
+
 export const addCategory = (category) => {
-  return (dispatch) => {
-    firebase.firestore().collection('categories').add({
-      ...category,
-      createdAt: new Date()
-    }).then((docRef) => {
+  return async (dispatch) => {
+    try {
+      // Check if category already exists
+      const snapshot = await firebase.firestore()
+        .collection('categories')
+        .where('name', '==', category.name.trim())
+        .get();
+
+      if (!snapshot.empty) {
+        // Category already exists
+        dispatch({ type: 'CATEGORY_ERROR', payload: 'Category name already exists' });
+        return {error : 'Category name already exists'};
+      }
+
+      // Add new category
+      const docRef = await firebase.firestore()
+        .collection('categories')
+        .add({
+          ...category,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
       dispatch({ 
         type: 'ADD_CATEGORY_SUCCESS', 
         payload: { id: docRef.id, ...category }
       });
-    }).catch((error) => {
-      dispatch({ type: 'ERROR', payload: error.message });
-    });
+       return { success: true, category, error: null };
+
+    } catch (error) {
+      dispatch({ type: 'CATEGORY_ERROR', payload: error.message });
+    }
   };
 };
+
 export const getCategory = (field, value) => {
   return (dispatch) => {
     let query;
@@ -28,7 +49,7 @@ export const getCategory = (field, value) => {
           dispatch({ type: 'GET_CATEGORY', payload: null });
         }
       }, (error) => {
-        dispatch({ type: 'ERROR', payload: error.message });
+        dispatch({ type: 'CATEGORY_ERROR', payload: error.message });
       });
     } else {
       // Fetch by field filter
@@ -44,7 +65,7 @@ export const getCategory = (field, value) => {
         const payload = category.length === 1 ? category[0] : category;
         dispatch({ type: 'GET_CATEGORY', payload });
       }, (error) => {
-        dispatch({ type: 'ERROR', payload: error.message });
+        dispatch({ type: 'CATEGORY_ERROR', payload: error.message });
       });
     }
   };
@@ -75,7 +96,7 @@ export const deleteCategory = (id) => {
         dispatch({ type: 'DELETE_CATEGORY', payload: { id } });
       })
       .catch((error) => {
-        dispatch({ type: 'ERROR', payload: error.message });
+        dispatch({ type: 'CATEGORY_ERROR', payload: error.message });
       });
   };
 };

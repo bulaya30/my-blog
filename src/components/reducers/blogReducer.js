@@ -25,7 +25,7 @@ const BlogReducer = (state = initState, action) => {
     console.log('Blog deleted:', action.payload);
       return state
 
-    case 'ERROR':
+    case 'BLOG_ERROR':
       return { 
         ...state, 
         error: action.payload || action.error || 'Unknown error' 
