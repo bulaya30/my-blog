@@ -33,4 +33,6 @@
   .menu-toggle {
     display: block;
   }
+  .home-section{ padding: 1rem auto; }
+  .home-section h2 { margin-bottom: 1rem; }
 }

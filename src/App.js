@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NavBar from './components/navigations/NavBar';
 import HomePage from './components/home/Home';
+import Acceuil from './components/home/Acceuil';
 import Details from './components/blog/Details';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
@@ -27,7 +28,7 @@ export class App extends Component {
         <div className="App">
           <NavBar />
           <Routes>
-            <Route exact path='/' element={<HomePage />} />
+            <Route exact path='/' element={<Acceuil />} />
             <Route path='/blogs/:id' element={<Details />} />
             <Route path='/blogs/:id/edit' element={<UpdateBlog />} />
             <Route path='/categories/:id' element={<BlogByCategory />} />
