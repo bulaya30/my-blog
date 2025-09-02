@@ -43,7 +43,6 @@ export const getCategory = (field, value) => {
       query = firebase.firestore().collection('categories').doc(value);
       query.onSnapshot(doc => {
         if (doc.exists) {
-          console.log('Category mpdel data ', {id: doc.id, ...doc.data()})
           dispatch({ type: 'GET_CATEGORY', payload: { id: doc.id, ...doc.data() } });
         } else {
           dispatch({ type: 'GET_CATEGORY', payload: null });
