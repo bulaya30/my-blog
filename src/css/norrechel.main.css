@@ -521,9 +521,63 @@
   position: relative;
   width: 100%;
 }
-.input-term{
-  margin-bottom: 30px;
+.input-term {
+  align-items: center;
+  gap: 0.5rem; /* space between checkbox and label */
+  margin-top: 0.5rem;
 }
+
+.input-term input[type="checkbox"] {
+  appearance: none;           /* remove default browser checkbox */
+  width: 18px;
+  height: 18px;
+  border: 2px solid #999;     /* gray border */
+  border-radius: 4px;         /* rounded square */
+  background-color: #fff;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+
+.input-term input[type="checkbox"]:checked {
+  background-color: #007bff;  /* your theme color */
+  border-color: #007bff;
+}
+
+.input-term input[type="checkbox"]:checked::after {
+  content: " ✔";
+  color: #fff;
+  font-size: 10px;
+  position: absolute;
+  left: 2px;
+  top: -1px;
+}
+
+.input-term .term {
+  font-size: 0.9rem;
+  color: #444;
+  cursor: pointer;
+  line-height: 1.2;
+}
+
+.input-term .term a {
+  color: #007bff;
+  text-decoration: none;
+  margin-left: 0.25rem;
+}
+
+.input-term .term a:hover {
+  text-decoration: underline;
+}
+
+/* Make sure it wraps nicely on small screens */
+@media (max-width: 576px) {
+  .input-term {
+    flex-wrap: wrap;
+    font-size: 0.85rem;
+  }
+}
+
 .input-box input:not([type="checkbox"]),
 .input-box textarea,
 .input-box select{
@@ -586,7 +640,7 @@
   font-size: .9em;
 }
 .input-box .term{
-  margin: 25px 30px;
+  margin: 15px 30px;
    color: #012970;
   font-size: .9em;
   transition: .5s;

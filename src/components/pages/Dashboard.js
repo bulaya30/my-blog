@@ -7,11 +7,11 @@ export class Dashboard extends Component {
     return (
       <article className="dashboard">
         <div className="row">
-            <div className="col-lg-8 col-sm-12 mb-2">
+            <div className="col-lg-8 col-md-8 col-sm-12 mb-2">
                 <div className="row">
                     {/* Visit card */}
-                    <div className="col-xxl-4 col-md-6 mb-2">
-                        <div className="card shadow-small info-card visits-card">
+                    <div className="col-lg-6 col-md-6 mb-2">
+                        <div className="card border-0 shadow-small info-card visits-card">
                             <div className="filter">
                                 <NavLink to='#' className="icon" data-bs-toggle="dropdown"><i className="bi bi-three-dots"></i></NavLink>
                                 <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -33,8 +33,8 @@ export class Dashboard extends Component {
                         </div>
                     </div>
                     {/* Comment card */}
-                    <div className="col-xxl-4 col-md-6">
-                        <div className="card info-card visits-card">
+                    <div className="col-lg-6 col-md-6">
+                        <div className="card border-0 info-card visits-card">
                             <div className="filter">
                                 <NavLink to='#' className="icon" data-bs-toggle="dropdown"><i className="bi bi-three-dots"></i></NavLink>
                                 <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -110,7 +110,7 @@ export class Dashboard extends Component {
                     </div>
                 </div>
             </div>
-            <div className="col-lg-4 col-sm-12">
+            <div className="col-lg-4 col-md-8 col-sm-12">
                 <Notifications />  
             </div>
         </div>

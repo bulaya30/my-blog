@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getBlog } from '../store/actions/BlogModel'
 import { connect } from 'react-redux'
 import Category from '../category/List'
+import Footer from './footer'
 
 function Acceuil() {
     const blogs = useSelector(state=>state);
@@ -12,6 +13,7 @@ function Acceuil() {
     // console.log(latestBlogs);
 
   return (
+    <>
     <div id="main">
         <div className="container">
             {/* Hero Section */}
@@ -83,14 +85,15 @@ function Acceuil() {
             <section className="newsletter container text-center">
                 <h2>Stay Updated!</h2>
                 <p>Get the latest articles straight to your inbox.</p>
-                <form>
+                <form className='d-flex'>
                     <input type="email" placeholder="Enter your email" />
                     <button type="submit" className="btn sub-btn">Subscribe</button>
                 </form>
             </section>
         </div>
     </div>
-
+    <Footer />
+    </>
   )
 }
 export default Acceuil;

@@ -45,7 +45,7 @@ const CreateBlog = () => {
 
   return (
     <div className="form-section">
-      <div className="card">
+      <div className="card border-0 shadow-sm">
         <h2>New Blog</h2>
         <div className="card-body">
           {/* Toast message */}

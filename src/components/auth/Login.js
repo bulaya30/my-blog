@@ -1,93 +1,122 @@
-import React, { Component } from 'react'
-import { NavLink, Navigate } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { signIn } from '../store/actions/AuthModel'
-import firebase from '../../config/DB'; // Import Firebase directly for login
+import React, { Component } from 'react';
+import { NavLink, Navigate } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { signIn } from '../store/actions/AuthModel';
+import firebase from '../../config/DB'; // Firebase instance
 
 class Login extends Component {
-    state = {
-        email: '',
-        password: ''
-    }
-    handleChange = (e) => {
-        this.setState({
-            [e.target.id] : e.target.value
-        })
-    }
-    handleSubmit = (e) => {
-        e.preventDefault()
-        this.props.signIn(this.state)
-    }
+  state = {
+    email: '',
+    password: '',
+    showPassword: false, // toggle state
+  };
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.id]: e.target.value,
+    });
+  };
+
+  togglePassword = () => {
+    this.setState({ showPassword: !this.state.showPassword });
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.signIn(this.state);
+  };
+
   render() {
     const { authError, auth } = this.props;
-   
-    if (auth) {
-        return <Navigate to="/" replace />;
-    }
+
+    if (auth) return <Navigate to="/" replace />;
+
     return (
-     <div id="main">
-        {/* {auth.isLoaded ? null : <div>Loading...</div>} */}
+      <div id="main" className="login-page">
         <div className="container">
-            <div className="row">
-                <div className="col-8"></div>
-                <div className="col-4 p-3">
-                    <div className="row">
-                        <div className="auth-container">
-                            <div className="auth-section">
-                                <div className="form-container login">
-                                    <h2 className="form-title">Login</h2>
-                                    <div className="auth-info-content login">
-                                        <h2>LET US KNOW YOU</h2>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias, eveniet?</p>
-                                    </div>
-                                    {authError ? <div className="errors hide">{authError }</div> : null}
-                                    <form id="login-form" autoComplete="off" onSubmit={this.handleSubmit}>
-                                        <div className="input-box">
-                                            <input type="email" id="email" name="email" required onChange = {this.handleChange} />
-                                            <label htmlFor="email">Email address</label>
-                                            <div className="input-errors email">Email address required</div>
-                                        </div>
-                                        <div className="input-box">
-                                            <input type="password" id="password" name="password" required onChange = {this.handleChange} />
-                                            <label htmlFor="password">Password</label>
-                                            <div className="input-errors password">Password required</div>
-                                        </div>
-                                        <div className="input-box">
-                                            <button id="login-btn" className="btn btn-sm w-100" name="submit" type="submit">Login</button>
-                                            <button className="btn btn-sm w-100 loading-btn" type="button" disabled>
-                                                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                                <span className="">Loging in...</span>
-                                            </button>
-                                        </div>
-                                        <br/>
-                                        <div className="auth-link">
-                                            <p>Don't have an account? 
-                                                <NavLink className="signUp-link" to='/register'> Register</NavLink></p>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>   
-                        </div>
+          <div className="row justify-content-center">
+            <div className="col-lg-4 col-md-8 col-sm-10">
+              <div className="auth-container">
+                <div className="form-container login">
+                  <h2 className="form-title text-center my-4">Welcome Back</h2>
+                  <div className="auth-info-content login text-center mb-3">
+                    <h4>Sign in to your account</h4>
+                  </div>
+
+                  {authError && <div className="errors">{authError}</div>}
+
+                  <form id="login-form" autoComplete="off" onSubmit={this.handleSubmit}>
+                    <div className="input-box">
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        onChange={this.handleChange}
+                      />
+                      <label htmlFor="email">Email address</label>
+                      <div className="input-errors email">Email address required</div>
                     </div>
+
+                    <div className="input-box position-relative">
+                      <input
+                        type={this.state.showPassword ? 'text' : 'password'}
+                        id="password"
+                        name="password"
+                        required
+                        onChange={this.handleChange}
+                      />
+                      <label htmlFor="password">Password</label>
+                      <i
+                        className={`bx ${this.state.showPassword ? 'bx-show' : 'bx-hide'} password-toggle`}
+                        onClick={this.togglePassword}
+                        style={{
+                          position: 'absolute',
+                          right: '10px',
+                          top: '50%',
+                          cursor: 'pointer',
+                          transform: 'translateY(-50%)',
+                        }}
+                      ></i>
+                      <div className="input-errors password">Password required</div>
+                    </div>
+
+                    <div className="input-box">
+                      <button id="login-btn" className="btn w-100" type="submit">
+                        Login
+                      </button>
+                      <button className="btn w-100 loading-btn" type="button" disabled>
+                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span className="ms-2">Logging in...</span>
+                      </button>
+                    </div>
+
+                    <div className="auth-link mt-3 text-center">
+                      <p>
+                        Don't have an account?
+                        <NavLink className="signUp-link ms-1" to="/register">
+                          Register
+                        </NavLink>
+                      </p>
+                    </div>
+                  </form>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
-     </div>
-    )
+      </div>
+    );
   }
 }
 
-const mapStateToProps = (state) => {
-    // console.log('Auth State:', state);
-    return {    
-        authError: state.auth.authError,
-        auth: firebase.auth().currentUser, // Get current user from Firebase
-    }
-}
+const mapStateToProps = (state) => ({
+  authError: state.auth.authError,
+  auth: firebase.auth().currentUser, // Current user from Firebase
+});
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        signIn: (user) => dispatch(signIn(user))
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+const mapDispatchToProps = (dispatch) => ({
+  signIn: (user) => dispatch(signIn(user)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

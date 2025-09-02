@@ -10,8 +10,8 @@ class Account extends Component {
       if (!user) return <div>Loading...</div>;
       return (
         <div className="row">
-            <div className="col-xl-4">
-                <div className="card">
+            <div className="col-lg-4 col-md-12 col-sm-12">
+                <div className="card border-0 shadow-sm mb-3">
                     <div className="card-body profile-card pt-4 d-flex flex-column align-items-center">
                         <img src={user.photo || "logo.png"} alt="" className="rounded-circle"/>
                         <h2>{user.firstName} {user.lastName}</h2>
@@ -25,8 +25,8 @@ class Account extends Component {
                     </div>
                 </div>
             </div>
-            <div className="col-xl-8">
-                <div className="card">
+            <div className="col-lg-8 col-md-12 col-sm-12">
+                <div className="card border-0 shadow-sm">
                     <div className="card-body pt-3">
                         <ul className="nav nav-underline">
                             <li className="nav-item">

@@ -33,7 +33,7 @@ const CreateCategory = () => {
 
   return (
     <div className="form-section">
-      <div className="card">
+      <div className="card border-0 shadow-sm">
         <h2>New Category</h2>
         <div className="card-body">
           <form id="new-category-form" autoComplete="off" onSubmit={handleSubmit}>
