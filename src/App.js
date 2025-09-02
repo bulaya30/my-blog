@@ -16,7 +16,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'boxicons/css/boxicons.min.css';
-import './css/norrechel.style.css';
+import './css/norrechel.main.css';
 import './css/norrechel.profile.css';
 import './css/norrechel.mobile.css';
 
