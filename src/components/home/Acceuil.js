@@ -131,7 +131,7 @@ function Acceuil() {
                 </form>
 
                 {error && <p className="text-danger mt-2">{error}</p>}
-                {!error && email === '' && <p className="text-success mt-2">Thank you for subscribing!</p>}
+                {/* {!error && email === '' && <p className="text-success mt-2">Thank you for subscribing!</p>} */}
                 </section>
         </div>
     </div>
