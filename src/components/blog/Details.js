@@ -66,7 +66,7 @@ const Details = ({ blog, auth, getBlog, deleteBlog, addNotification }) => {
 
             {/* CreatedAt safe render */}
             <p className='mt-4 text-end'>
-              By {blog.author 
+              Written by {blog.author 
               ? `${blog.author.firstName || ''} ${blog.author.lastName || ''}`.trim()
               : 'Unknown Author'} •{" "}
               {blog.createdAt?.toDate 
