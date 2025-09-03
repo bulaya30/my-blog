@@ -1,18 +1,32 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import { NavLink } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { getBlog } from '../store/actions/BlogModel'
+import { addSubscriber } from '../store/actions/SubscriberModel';
 import Footer from './footer'
 
 function Acceuil() {
     const dispatch = useDispatch();
+    const [email, setEmail] = useState('');
     const blogs = useSelector(state => state.blog.blogs)
+    const { error } = useSelector(state => state);
     useEffect(()=>{
         dispatch(getBlog())
     }, [dispatch])
     if (!blogs || blogs.length === 0) {
         return <div>Loading blogs...</div>;
     }
+   const handleSubmit = async (e) => {
+  e.preventDefault();
+  const result = await dispatch(addSubscriber(email));
+  console.log(result)
+  if (result.success) {
+    alert('Thank you for subscribing!');
+    setEmail('');
+  } else {
+    alert(result.message);
+  }
+};
 
   return (
     <>
@@ -102,14 +116,24 @@ function Acceuil() {
 
             
             {/* Newsletter */}
-            <section className="newsletter container text-center">
+           <section className="newsletter container text-center my-5">
                 <h2>Stay Updated!</h2>
                 <p>Get the latest articles straight to your inbox.</p>
-                <form className='d-flex'>
-                    <input type="email" placeholder="Enter your email" />
+                
+                <form className="d-flex justify-content-center" onSubmit={handleSubmit}>
+                    <input
+                    type="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    />
                     <button type="submit" className="btn sub-btn">Subscribe</button>
                 </form>
-            </section>
+
+                {error && <p className="text-danger mt-2">{error}</p>}
+                {!error && email === '' && <p className="text-success mt-2">Thank you for subscribing!</p>}
+                </section>
         </div>
     </div>
     <Footer />
