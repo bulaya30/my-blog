@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from '../store/actions/ContactModel';
 
 export default function Contact() {
+  const dispatch = useDispatch();
+  const { loading, success, error } = useSelector((state) => state.contact);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: ''
   });
-
-  const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -16,9 +19,7 @@ export default function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you can integrate Firebase, API, or email service
-    console.log(formData);
-    setSubmitted(true);
+    dispatch(addContact(formData));
     setFormData({ name: '', email: '', message: '' });
   };
 
@@ -40,9 +41,14 @@ export default function Contact() {
         <div className="col-lg-8">
           <div className="form-section">
             <div className="card shadow-sm border-0 p-4">
-              {submitted && (
+              {success && (
                 <div className="alert alert-success" role="alert">
-                  Thank you! Your message has been sent.
+                  ✅ Thank you! Your message has been sent.
+                </div>
+              )}
+              {error && (
+                <div className="alert alert-danger" role="alert">
+                  ❌ {error}
                 </div>
               )}
               <form onSubmit={handleSubmit} autoComplete='off'>
@@ -53,6 +59,7 @@ export default function Contact() {
                     required
                     value={formData.name}
                     onChange={handleChange}
+                    disabled={loading}
                   />
                   <label htmlFor="name" className="form-label">Full Name</label>
                 </div>
@@ -64,6 +71,7 @@ export default function Contact() {
                     required
                     value={formData.email}
                     onChange={handleChange}
+                    disabled={loading}
                   />
                   <label htmlFor="email" className="form-label">Email Address</label>
                 </div>
@@ -75,14 +83,14 @@ export default function Contact() {
                     required
                     value={formData.message}
                     onChange={handleChange}
+                    disabled={loading}
                   ></textarea>
                   <label htmlFor="message" className="form-label">Message</label>
                 </div>
                 <div className='input-box'>
-                  <button type="submit" className="btn btn-sm w-100">
-                    Send Message
+                  <button type="submit" className="btn btn-sm w-100" disabled={loading}>
+                    {loading ? 'Sending...' : 'Send Message'}
                   </button>
-
                 </div>
               </form>
             </div>

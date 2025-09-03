@@ -54,6 +54,11 @@ const Profile = ({ auth, categories, getCategory, deleteCategory }) => {
               <i className="bi bi-plus-circle"></i><span>New Blog</span>
             </Link>
           </li>
+          <li className="nav-item">
+            <Link to="#" className="nav-link" data-bs-toggle="tab" data-bs-target="#subcribers">
+              <i className="bi bi-plus-circle"></i><span>Subscribers</span>
+            </Link>
+          </li>
           <li className="nav-heading">Account</li>
           <li className="nav-item">
             <Link to="#" className="nav-link" data-bs-toggle="tab" data-bs-target="#profile">

@@ -68,7 +68,7 @@ const Details = ({ blog, auth, getBlog, deleteBlog, addNotification }) => {
             <p className='mt-4 text-end'>
               Written by {blog.author 
               ? `${blog.author.firstName || ''} ${blog.author.lastName || ''}`.trim()
-              : 'Unknown Author'} •{" "}
+              : 'Unknown Author'} <br /> Published in {" "}
               {blog.createdAt?.toDate 
               ? blog.createdAt.toDate().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
               : 'Unknown Date'}
