@@ -91,7 +91,6 @@ const EditCategory = ({ singleCategory, updateCategory, getCategory }) => {
 };
 
 const mapStateToProps = (state) => {
-  // console.log(state)
   return{
   singleCategory: state.category.categories || null
   };

@@ -20,12 +20,10 @@ const LikeReducer = (state = initState, action) => {
         case 'ERROR' : 
             return state
         case 'UPDATE_LIKE' :
-            console.log('Like updated:', action.payload);
             return {
                 ...state,
             }
         case 'DELETE_LIKE' :
-            console.log('Like deleted:', action.payload);
             return {
                 ...state,
             }

@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { getCategory, deleteCategory } from '../store/actions/categoryModel'
 
 const Category = ({ categories, getCategory, auth, deleteCategory }) => {
-  // console.log(auth)
   useEffect(()=>{
     getCategory()
   }, [getCategory])
@@ -42,7 +41,6 @@ const Category = ({ categories, getCategory, auth, deleteCategory }) => {
 };
 
 const mapStateToProps = (state) => {
-  // console.log('Category state: ', state)
   return {
     categories: state.category.categories || [],
     auth : state.auth.user?.profile || null,

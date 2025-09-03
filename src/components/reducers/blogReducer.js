@@ -19,10 +19,8 @@ const BlogReducer = (state = initState, action) => {
       };
 
     case 'UPDATE_BLOG': // optional helper
-    console.log('Blog updated:', action.payload);
       return state
     case 'DELETE_BLOG': // optional helper
-    console.log('Blog deleted:', action.payload);
       return state
 
     case 'BLOG_ERROR':

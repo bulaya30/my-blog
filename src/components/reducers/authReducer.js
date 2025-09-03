@@ -4,7 +4,6 @@ const initState = {
 };
 
 const authReducer = (state = initState, action) => {
-  // console.log("AuthReducer action:", action);
 
   switch (action.type) {
     case "LOGIN_SUCCESS":

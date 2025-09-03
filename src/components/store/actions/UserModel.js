@@ -74,7 +74,6 @@ export const updateProfile = (profile) => {
 
       dispatch({ type: "UPDATE_PROFILE_SUCCESS", payload: cleanedProfile });
     } catch (err) {
-      console.error("Error updating profile:", err);
       dispatch({ type: "UPDATE_PROFILE_ERROR", err });
     }
   };

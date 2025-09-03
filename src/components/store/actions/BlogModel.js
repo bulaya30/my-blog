@@ -68,7 +68,6 @@ async function fetchAuthor(authorId) {
     const snap = await db.collection('users').doc(authorId).get();
     return snap.exists ? { id: snap.id, ...snap.data() } : null;
   } catch (err) {
-    console.error('Error fetching author', err);
     return null;
   }
 }
@@ -135,7 +134,6 @@ export const updateBlog = (id, blog) => {
       dispatch({ type: 'UPDATE_BLOG', payload: { id, ...blog } });
       
     } catch (err) {
-      console.error('Error updating blog:', err);
       dispatch({ type: 'ERROR', payload: err.message });
     }
   };

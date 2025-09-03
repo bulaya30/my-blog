@@ -19,7 +19,6 @@ function Acceuil() {
    const handleSubmit = async (e) => {
   e.preventDefault();
   const result = await dispatch(addSubscriber(email));
-  console.log(result)
   if (result.success) {
     alert('Thank you for subscribing!');
     setEmail('');

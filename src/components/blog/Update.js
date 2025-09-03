@@ -53,7 +53,6 @@ const UpdateBlog = () => {
       dispatch(updateBlog(id, updatedBlog));
       navigate(-1);
     } catch (error) {
-      console.error('Error updating blog:', error);
     } finally {
       setLoading(false);
     }

@@ -12,7 +12,6 @@ function BlogByCategory({ auth, category, blogs, getCategory, getBlog }) {
   useEffect(() => {
     if (id) getCategory('id', id);
   }, [id, getCategory]);
-  // console.log(category)
   // Load blogs once category is available
   useEffect(() => {
     if (category && category.name) {

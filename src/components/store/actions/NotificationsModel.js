@@ -39,7 +39,6 @@ export const addNotification = (blog) => {
       dispatch({ type: 'VISIT_LOGGED', payload: { ...blog, visitor } });
 
     } catch (error) {
-      console.error('Error logging visitor:', error);
       dispatch({ type: 'ERROR', payload: error.message });
     }
   };
@@ -68,7 +67,6 @@ export const getNotification = () => {
         }));
         dispatch({ type: 'GET_NOTIFICATION', payload: notifications });
       }, (error) => {
-        console.error("Error fetching notifications:", error);
       });
 
     // Return unsubscribe so you can clean up in useEffect
