@@ -13,7 +13,7 @@ export default function About() {
           <p className="lead mb-4">
             Empowering young people to discover their potential and rise to their goals.
           </p>
-          <NavLink to="/blogs" className="btn btn-primary btn-lg px-4">
+          <NavLink to="/blogs" className="btn btn-sm hero-btn">
             Explore Our Blogs
           </NavLink>
         </section>
@@ -34,7 +34,7 @@ export default function About() {
                 Through thoughtful articles, guides, and mentorship insights, we aim to inspire growth, self-confidence,
                 and a mindset focused on success.
               </p>
-              <NavLink to="/contact" className="btn btn-outline-primary mt-3">
+              <NavLink to="/contact" className="btn btn-sm hero-btn mt-3">
                 Join Norrechel
               </NavLink>
             </div>
@@ -52,7 +52,7 @@ export default function About() {
               { title: "Commit to Goals", desc: "Motivate them to take consistent actions that lead to real achievements." }
             ].map((item, idx) => (
               <div key={idx} className="timeline-item mb-4">
-                <div className="timeline-content p-3 border rounded shadow-sm bg-white">
+                <div className="timeline-content p-3 border-0 rounded shadow-sm bg-white">
                   <h5>{item.title}</h5>
                   <p>{item.desc}</p>
                 </div>
@@ -65,7 +65,7 @@ export default function About() {
         <section className="about-team py-5 text-center">
           <h2 className="mb-4">Start Your Journey Today</h2>
           <p>We believe every young person has the potential to achieve greatness. Take the first step with us.</p>
-          <NavLink to="/register" className="btn btn-primary btn-lg mt-3">Join Norrechel</NavLink>
+          <NavLink to="/contact" className="btn btn-sm hero-btn mt-3">Join Norrechel</NavLink>
         </section>
 
       </div>

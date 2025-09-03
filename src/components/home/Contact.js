@@ -23,12 +23,12 @@ export default function Contact() {
   };
 
   return (
-    <div id="main" className="container py-5">
-      <h1 className="text-center mb-4">Contact Us</h1>
+    <div id="main" className="container py-3">
+      <h1 className="text-center mb-2">Contact Us</h1>
       <div className="row">
         {/* Contact Info */}
-        <div className="col-lg-4 mb-4">
-          <div className="card shadow-sm border-0 p-3">
+        <div className="col-lg-4 my-4">
+          <div className="card shadow-sm border-0 p-4">
             <h5>Get in Touch</h5>
             <p><strong>Address:</strong> Kansanga, Kampala/Uganda</p>
             <p><strong>Phone:</strong> +256 750274516</p>
@@ -38,53 +38,55 @@ export default function Contact() {
 
         {/* Contact Form */}
         <div className="col-lg-8">
-          <div className="card shadow-sm border-0 p-4">
-            {submitted && (
-              <div className="alert alert-success" role="alert">
-                Thank you! Your message has been sent.
-              </div>
-            )}
-            <form onSubmit={handleSubmit}>
-              <div className="mb-3">
-                <label htmlFor="name" className="form-label">Full Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="name"
-                  required
-                  value={formData.name}
-                  onChange={handleChange}
-                />
-              </div>
+          <div className="form-section">
+            <div className="card shadow-sm border-0 p-4">
+              {submitted && (
+                <div className="alert alert-success" role="alert">
+                  Thank you! Your message has been sent.
+                </div>
+              )}
+              <form onSubmit={handleSubmit} autoComplete='off'>
+                <div className="input-box">
+                  <input
+                    type="text"
+                    id="name"
+                    required
+                    value={formData.name}
+                    onChange={handleChange}
+                  />
+                  <label htmlFor="name" className="form-label">Full Name</label>
+                </div>
 
-              <div className="mb-3">
-                <label htmlFor="email" className="form-label">Email Address</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="email"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                />
-              </div>
+                <div className="input-box">
+                  <input
+                    type="email"
+                    id="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                  />
+                  <label htmlFor="email" className="form-label">Email Address</label>
+                </div>
 
-              <div className="mb-3">
-                <label htmlFor="message" className="form-label">Message</label>
-                <textarea
-                  className="form-control"
-                  id="message"
-                  rows="5"
-                  required
-                  value={formData.message}
-                  onChange={handleChange}
-                ></textarea>
-              </div>
+                <div className="input-box">
+                  <textarea
+                    id="message"
+                    rows="5"
+                    required
+                    value={formData.message}
+                    onChange={handleChange}
+                  ></textarea>
+                  <label htmlFor="message" className="form-label">Message</label>
+                </div>
+                <div className='input-box'>
+                  <button type="submit" className="btn btn-sm w-100">
+                    Send Message
+                  </button>
 
-              <button type="submit" className="btn btn-primary w-100">
-                Send Message
-              </button>
-            </form>
+                </div>
+              </form>
+            </div>
+
           </div>
         </div>
       </div>

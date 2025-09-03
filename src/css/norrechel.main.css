@@ -513,7 +513,7 @@ body {
   left: 20px;
   width: 4px;
   height: 100%;
-  background: #007bff;
+  background: #012970;
   border-radius: 2px;
 }
 
@@ -532,7 +532,7 @@ body {
   top: 0;
   width: 20px;
   height: 20px;
-  background: #007bff;
+  background: #012970;
   border-radius: 50%;
   border: 3px solid #fff;
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
@@ -548,7 +548,7 @@ body {
 }
 
 .timeline-content h5 {
-  color: #007bff;
+  color: #012970;
   margin-bottom: 0.5rem;
 }
 
@@ -564,10 +564,7 @@ body {
   box-shadow: 0 6px 15px rgba(0,0,0,0.15);
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  
-}
+
 
 
 .footer {

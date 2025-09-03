@@ -1,12 +1,18 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { NavLink } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { getBlog } from '../store/actions/BlogModel'
 import Footer from './footer'
 
 function Acceuil() {
-    const blogs = useSelector(state=>state);
-    // const latestBlogs = blogs.slice(0, 3);
-    // console.log(latestBlogs);
+    const dispatch = useDispatch();
+    const blogs = useSelector(state => state.blog.blogs)
+    useEffect(()=>{
+        dispatch(getBlog())
+    }, [dispatch])
+    if (!blogs || blogs.length === 0) {
+        return <div>Loading blogs...</div>;
+    }
 
   return (
     <>
@@ -55,33 +61,30 @@ function Acceuil() {
             </section>
             {/* Latest Blogs */}
             <section className="latest-blogs home-section my-5">
-            <h2 className="mb-4 text-center">Latest Blogs</h2>
-            <div className="row">
-                <div className="col-md-4 mb-4">
-                <div className="blog-card norrechel-card p-3 h-100">
-                    <h3>Unlock Your Potential</h3>
-                    <p>By John Doe • Aug 30, 2025</p>
-                    <NavLink to="/blogs/1" className="read-more">Read More →</NavLink>
+                <h2 className="mb-4 text-center">Latest Blogs</h2>
+                <div className="row">
+                    {Array.isArray(blogs) && blogs.slice(0, 3).map(blog => (
+                    <div key={blog.id} className="col-md-4 mb-4">
+                        <div className="blog-card norrechel-card p-3 h-100">
+                        <h3>{blog.title}</h3>
+                        <p>
+                            By {blog.author 
+                                ? `${blog.author.firstName || ''} ${blog.author.lastName || ''}`.trim()
+                                : 'Unknown Author'} •{" "}
+                            {blog.createdAt?.toDate 
+                            ? blog.createdAt.toDate().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                            : 'Unknown Date'}
+                        </p>
+                        <NavLink to={`/blogs/${blog.id}`} className="read-more">
+                            Read More →
+                        </NavLink>
+                        </div>
+                    </div>
+                    ))}
                 </div>
+                <div className="text-center mt-3">
+                    <NavLink to="/blogs" className="btn hero-btn">View All Blogs</NavLink>
                 </div>
-                <div className="col-md-4 mb-4">
-                <div className="blog-card norrechel-card p-3 h-100">
-                    <h3>Building Character for Success</h3>
-                    <p>By Jane Smith • Aug 29, 2025</p>
-                    <NavLink to="/blogs/2" className="read-more">Read More →</NavLink>
-                </div>
-                </div>
-                <div className="col-md-4 mb-4">
-                <div className="blog-card norrechel-card p-3 h-100">
-                    <h3>Commitment & Goal Setting</h3>
-                    <p>By Alex Roe • Aug 28, 2025</p>
-                    <NavLink to="/blogs/3" className="read-more">Read More →</NavLink>
-                </div>
-                </div>
-            </div>
-            <div className="text-center mt-3">
-                <NavLink to="/blogs" className="btn btn-outline-primary">View All Blogs</NavLink>
-            </div>
             </section>
             {/* About */}
             <section className="about home-section bg-white container mb-3 py-4 text-center">
@@ -92,7 +95,7 @@ function Acceuil() {
                     achieving their goals. Our content inspires, motivates, and provides actionable 
                     insights for growth and success.
                 </p>
-                <NavLink to="/about" className="hero-btn btn btn-primary mt-3">
+                <NavLink to="/about" className="hero-btn btn mt-3">
                     Learn More
                 </NavLink>
                 </section>

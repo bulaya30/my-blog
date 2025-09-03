@@ -38,7 +38,6 @@ export const updateProfile = (profile) => {
     const state = getState();
     const user = state.auth?.user;
     if (!user) {
-      console.error("No user ID found in state");
       return;
     }
 

@@ -89,7 +89,6 @@ class Account extends Component {
   }
 }
 const mapStateToProps = (state) => {
-    // console.log('Redux User State:', state.auth);
   return {
     user: state.auth.user.profile
   }

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { getBlog, deleteBlog } from '../store/actions/BlogModel';
 import { addNotification } from '../store/actions/NotificationsModel';
 import DOMPurify from 'dompurify';
-import moment from 'moment';
+// import moment from 'moment';
 
 const Details = ({ blog, auth, getBlog, deleteBlog, addNotification }) => {
   const { id } = useParams();
@@ -33,14 +33,11 @@ const Details = ({ blog, auth, getBlog, deleteBlog, addNotification }) => {
       <h2 className="text-center"><strong>{blog.title}</strong></h2>
 
       <div className="row">
-        <div className="col-3 p-2">
-          <p>
-            <strong>Category</strong><br /> 
-            {blog.category}
-          </p>
-        </div>
 
-        <div className="col-9">
+        <div className="col-12">
+          <p className='ms-4'>
+            Category: <strong>{blog.category}</strong>
+          </p>
           <div className="blog-details-content">
             <div 
               className="blog-div-content"
@@ -68,11 +65,13 @@ const Details = ({ blog, auth, getBlog, deleteBlog, addNotification }) => {
             )}
 
             {/* CreatedAt safe render */}
-            <p className="text-muted mt-3">
-              Posted on{" "}
-              {blog.createdAt
-                ? moment(blog.createdAt.toDate ? blog.createdAt.toDate() : blog.createdAt).format("MMMM Do, YYYY")
-                : "Unknown date"}
+            <p className='mt-4 text-end'>
+              By {blog.author 
+              ? `${blog.author.firstName || ''} ${blog.author.lastName || ''}`.trim()
+              : 'Unknown Author'} •{" "}
+              {blog.createdAt?.toDate 
+              ? blog.createdAt.toDate().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+              : 'Unknown Date'}
             </p>
           </div>
         </div>

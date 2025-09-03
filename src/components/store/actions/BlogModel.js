@@ -1,6 +1,5 @@
 import { db, firebase, auth } from "../../../config/DB";
 
-
 export const getBlog = (field, value) => {
   return (dispatch) => {
     const blogsRef = db.collection('blogs');
@@ -8,9 +7,11 @@ export const getBlog = (field, value) => {
     if (field === 'id') {
       // Fetch single document by ID
       blogsRef.doc(value).onSnapshot(
-        (doc) => {
+        async (doc) => {
           if (doc.exists) {
-            dispatch({ type: 'GET_BLOG', payload: { id: doc.id, ...doc.data() } });
+            const blogData = { id: doc.id, ...doc.data() };
+            const author = await fetchAuthor(blogData.authorId);
+            dispatch({ type: 'GET_BLOG', payload: { ...blogData, author } });
           } else {
             dispatch({ type: 'GET_BLOG', payload: null });
           }
@@ -29,13 +30,27 @@ export const getBlog = (field, value) => {
       }
 
       queryRef.onSnapshot(
-        (snapshot) => {
+        async (snapshot) => {
           const blogs = snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data()
           }));
-          // If only one blog matches, send just the object; otherwise send array
-          const payload = blogs.length === 1 ? blogs[0] : blogs;
+
+          // Fetch all authors in parallel (batch)
+          const uniqueAuthorIds = [...new Set(blogs.map(b => b.authorId))];
+          const authorMap = await fetchAuthors(uniqueAuthorIds);
+
+          // Attach author to each blog
+          const blogsWithAuthors = blogs.map(blog => ({
+            ...blog,
+            author: authorMap[blog.authorId] || null
+          }));
+
+          // If only one blog matches, send object; else send array
+          const payload = blogsWithAuthors.length === 1 
+            ? blogsWithAuthors[0] 
+            : blogsWithAuthors;
+
           dispatch({ type: 'GET_BLOG', payload });
         },
         (error) => {
@@ -45,6 +60,29 @@ export const getBlog = (field, value) => {
     }
   };
 };
+
+// Helper to fetch one author
+async function fetchAuthor(authorId) {
+  if (!authorId) return null;
+  try {
+    const snap = await db.collection('users').doc(authorId).get();
+    return snap.exists ? { id: snap.id, ...snap.data() } : null;
+  } catch (err) {
+    console.error('Error fetching author', err);
+    return null;
+  }
+}
+
+// Helper to fetch multiple authors
+async function fetchAuthors(authorIds) {
+  const authorMap = {};
+  await Promise.all(authorIds.map(async id => {
+    const snap = await db.collection('users').doc(id).get();
+    if (snap.exists) authorMap[id] = { id: snap.id, ...snap.data() };
+  }));
+  return authorMap;
+}
+
 export const addBlog = (blog) => {
   return async (dispatch) => {
     try {
@@ -54,7 +92,6 @@ export const addBlog = (blog) => {
       .where('title', '==', blog.title.trim())
       .where('authorId', '==', blog.authorId.trim())
       .get();
-    console.log(blog, snapshot.empty)
 
       if (!snapshot.empty) {
         // Blog already exists
@@ -87,7 +124,6 @@ export const addBlog = (blog) => {
 export const updateBlog = (id, blog) => {
   return async (dispatch) => {
     try {
-      console.log('Current user: ', auth.currentUser.uid)
       await db.collection('blogs')
         .doc(id)
         .update({
