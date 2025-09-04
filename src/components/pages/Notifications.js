@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Notifications = ({ notifications, getNotification }) => {
   const [filter, setFilter] = useState('Today');
-
+  // console.log(notifications)
   useEffect(() => {
     const unsubscribe = getNotification(); 
     return () => {
@@ -75,7 +75,8 @@ useEffect(() => {
                 </div>
                 <i className='bi bi-circle-fill activity-badge text-success align-self-start'></i>
                 <div className="activity-content">
-                  A new visitor read the Blog <NavLink to='#' className="fw-bold text-dark">{n.blogTitle}</NavLink>
+                    <h4>{n.title}</h4>
+                  <p>{n.message} </p>
                 </div>
               </div>
             ))}
@@ -88,6 +89,7 @@ useEffect(() => {
 };
 
 const mapStateToProps = (state) =>{ 
+  // console.log(state)
   return{
     notifications: state.notification.notifications || []
   }

@@ -1,11 +1,14 @@
 const initState = {
   authError: null,
   user: null,
+  isAdmin: false,
 };
 
 const authReducer = (state = initState, action) => {
 
   switch (action.type) {
+    case 'SET_ADMIN':
+      return { ...state, isAdmin: action.payload };
     case "LOGIN_SUCCESS":
     case "LOGIN_AUTH":
     case "PROFILE_LOADED":

@@ -1,79 +1,88 @@
 import firebase from "../../../config/DB";
-
+import { addNotification } from "./NotificationsModel";
+import { ADMIN_EMAILS } from "../../../config/Admin.config";
 
 export const signIn = (credentials) => {
   return async (dispatch) => {
     try {
       const res = await firebase.auth().signInWithEmailAndPassword(credentials.email, credentials.password);
       const uid = res.user.uid;
-      const userDoc = await firebase.firestore().collection("users").doc(uid).get();
 
-      const fullUser = {
-        ...res.user.toJSON(),
-        profile: userDoc.exists ? userDoc.data() : {}
-      };
+      // Fetch user profile
+      const doc = await firebase.firestore().collection('users').doc(uid).get();
+      const profileData = doc.exists ? { id: doc.id, ...doc.data() } : {};
 
-      dispatch({ type: 'LOGIN_SUCCESS', payload: fullUser });
+      // Update Redux
+      dispatch({ type: 'LOGIN_SUCCESS', payload: { ...res.user.toJSON(), profile: profileData } });
+      dispatch({ type: 'PROFILE_LOADED', payload: profileData });
+      dispatch({ type: 'SET_ADMIN', payload: profileData.role === 'admin' });
+
     } catch (err) {
       dispatch({ type: 'LOGIN_ERROR', err });
     }
   };
 };
 
-
-
-
-
+// Sign Out
 export const signOut = () => {
-  return (dispatch, getState) => {
-    firebase.auth().signOut()
-      .then(() => {
-        dispatch({ type: 'SIGNOUT_SUCCESS' }); // <-- clears user in Redux immediately
-      })
-      .catch(err => {
-        dispatch({ type: 'SIGNOUT_ERROR', err });
-      });
+  return async (dispatch) => {
+    try {
+      await firebase.auth().signOut();
+      dispatch({ type: 'SIGNOUT_SUCCESS' });
+    } catch (err) {
+      dispatch({ type: 'SIGNOUT_ERROR', err });
+    }
   };
 };
+
 export const signUp = (newUser) => {
-  return (dispatch) => {
-    let createdUser = null;
+  return async (dispatch) => {
+    try {
+      const res = await firebase.auth().createUserWithEmailAndPassword(newUser.email, newUser.password);
+      const createdUser = res.user;
+      const uid = createdUser.uid;
+      const role = ADMIN_EMAILS.includes(newUser.email.toLowerCase()) ? 'admin' : 'user';
 
-    firebase.auth().createUserWithEmailAndPassword(newUser.email, newUser.password)
-      .then((res) => {
-        createdUser = res.user; // save auth user
-        const userDocRef = firebase.firestore().collection('users').doc(res.user.uid);
-
-        return userDocRef.set({
-          firstName: newUser.fname,
-          lastName: newUser.lname,
-          email: newUser.email,
-          company: '',
-          country: '',
-          address: '',
-          phone: '',
-          title: '',
-          facebook: '',
-          instagram: '',
-          linkedin: '',
-          twitter: '',
-          photo: '',
-          about: '',
-        }).then(() => userDocRef.get()); // <-- fetch the document you just created
-      })
-      .then((doc) => {
-        if (doc.exists) {
-          dispatch({
-            type: 'SIGNUP_SUCCESS',
-            payload: {
-              ...createdUser.toJSON(),
-              profile: doc.data() // merge Firestore profile
-            }
-          });
-        }
-      })
-      .catch((err) => {
-        dispatch({ type: 'SIGNUP_ERROR', err });
+      const userDocRef = firebase.firestore().collection('users').doc(uid);
+      await userDocRef.set({
+        firstName: newUser.fname,
+        lastName: newUser.lname,
+        email: newUser.email,
+        company: '',
+        country: '',
+        address: '',
+        phone: '',
+        title: '',
+        facebook: '',
+        instagram: '',
+        linkedin: '',
+        twitter: '',
+        photo: '',
+        about: '',
+        role,
       });
+
+      // 4️⃣ Fetch the created document
+      const doc = await userDocRef.get();
+
+      // 5️⃣ Update Redux state
+      if (doc.exists) {
+        const profileData = { id: doc.id, ...doc.data() };
+        dispatch({ type: 'PROFILE_LOADED', payload: profileData });
+        dispatch({ type: 'SET_ADMIN', payload: profileData.role === 'admin' });
+
+        dispatch({ type: 'SIGNUP_SUCCESS', payload: { ...createdUser.toJSON(), profile: profileData } });
+      }
+
+      // 6️⃣ Send admin notification
+      await dispatch(addNotification({
+        title: "New User",
+        message: `A new user ${newUser.email} created an account.`,
+        type: "Registration",
+      }));
+
+    } catch (err) {
+      dispatch({ type: 'SIGNUP_ERROR', err });
+    }
   };
 };

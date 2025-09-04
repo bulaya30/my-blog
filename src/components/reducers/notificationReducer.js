@@ -7,9 +7,9 @@ export default function notificationsReducer(state = initialState, action) {
   switch (action.type) {
     case 'GET_NOTIFICATION':
       return { ...state, notifications: action.payload };
-    case 'VISIT_LOGGED':
+    case 'NOTIFICATION_SUCCESS':
       return { ...state, notifications: [action.payload, ...state.notifications] };
-    case 'ERROR':
+    case 'NOTIFICATION_ERROR':
       return { ...state, error: action.payload };
     default:
       return state;

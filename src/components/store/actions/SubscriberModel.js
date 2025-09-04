@@ -1,4 +1,5 @@
 import { db, firebase } from '../../../config/DB';
+import { addNotification } from './NotificationsModel';
 
 export const addSubscriber = (email) => {
   return async (dispatch) => {
@@ -10,11 +11,15 @@ export const addSubscriber = (email) => {
         return { success: false, message: 'Email already subscribed' };
       }
 
-      await docRef.set({
+      await db.collection('subscribers').add({
         email,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       });
-
+      await dispatch(addNotification({
+        title: "New Subscriber",
+        message: `A new user ${email} just subscribed.`,
+        type: "subscription",
+      }));
       dispatch({ type: 'SUBSCRIBE_SUCCESS', payload: email });
       return { success: true, message: 'Subscription successful' };
     } catch (error) {

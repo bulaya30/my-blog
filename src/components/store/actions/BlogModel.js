@@ -1,4 +1,5 @@
 import { db, firebase, auth } from "../../../config/DB";
+import { addNotification } from "./NotificationsModel";
 
 export const getBlog = (field, value) => {
   return (dispatch) => {
@@ -105,6 +106,12 @@ export const addBlog = (blog) => {
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
 
+        const author = await fetchAuthor(blog.authorId);
+        await dispatch(addNotification({
+          title: "New Article",
+          message: `${author.firstName} ${author.lastName} published a new Article ${blog.title}.`,
+          type: "Publish",
+        }));
       dispatch({ 
         type: 'ADD_BLOG_SUCCESS', 
         payload: { id: docRef.id, ...blog }
@@ -140,8 +147,10 @@ export const updateBlog = (id, blog) => {
 };
 
 export const deleteBlog = (id) => {
-  return (dispatch) => {
-    const uid = firebase.auth().currentUser.uid;
+  return (dispatch, getState) => {
+    const state = getState()
+    const admin = state.auth.isAdmin
+    const uid = admin ? state.blog.blogs.authorId : firebase.auth().currentUser.uid;
     const blogRef = firebase.firestore().collection('blogs').doc(id);
 
     blogRef.get().then(doc => {

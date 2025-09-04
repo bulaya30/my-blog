@@ -1,4 +1,5 @@
 import { db, firebase } from '../../../config/DB';
+import { addNotification } from './NotificationsModel';
 
 export const addContact = (formData) => {
   return async (dispatch) => {
@@ -8,7 +9,11 @@ export const addContact = (formData) => {
         ...formData,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       });
-
+      await dispatch(addNotification({
+        title: "New Subscriber",
+        message: `A new user ${formData.email} just contacted.`,
+        type: "Contact",
+      }));
       dispatch({ type: 'CONTACT_SUCCESS', payload: formData });
     } catch (error) {
       dispatch({ type: 'CONTACT_ERROR', payload: error.message });
