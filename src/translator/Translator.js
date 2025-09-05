@@ -1,17 +1,22 @@
-// utils/translate.js
-export async function translateText(text, targetLang = "fr") {
-  const res = await fetch(
-    `https://translation.googleapis.com/language/translate/v2?key=YOUR_API_KEY`,
-    {
+async function translateText(text, targetLang) {
+  if (!text) return "";
+
+  try {
+    const response = await fetch("https://translate.argosopentech.com/translate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         q: text,
+        source: "en",
         target: targetLang,
+        format: "text",
       }),
-    }
-  );
+    });
 
-  const data = await res.json();
-  return data.data.translations[0].translatedText;
+    const data = await response.json();
+    return data.translatedText || text;
+  } catch (err) {
+    console.error("Translation error:", err);
+    return text; // fallback to original
+  }
 }
