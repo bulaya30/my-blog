@@ -19,12 +19,12 @@ export const getBlog = (field, value) => {
           if (doc.exists) {
             const data = doc.data();
             const blogData = {
-              id: doc.id, ...doc.data()
-              // title: lang === "fr" ? data.title_fr : data.title_en,
-              // content: lang === "fr" ? data.content_fr : data.content_en,
-              // authorId: data.authorId,
-              // createdAt: data.createdAt,
-              // updatedAt: data.updatedAt || null,
+              id: doc.id, 
+              title: lang === "fr" ? data.title_fr : data.title_en,
+              content: lang === "fr" ? data.content_fr : data.content_en,
+              authorId: data.authorId,
+              createdAt: data.createdAt,
+              updatedAt: data.updatedAt || null,
             };
             const author = await fetchAuthor(blogData.authorId);
             dispatch({ type: "GET_BLOG", payload: { ...blogData, author } });
@@ -47,12 +47,12 @@ export const getBlog = (field, value) => {
           const blogs = snapshot.docs.map((doc) => {
             const data = doc.data();
             return {
-              id: doc.id, ...doc.data()
-              // title: lang === "fr" ? data.title_fr : data.title_en,
-              // content: lang === "fr" ? data.content_fr : data.content_en,
-              // authorId: data.authorId,
-              // createdAt: data.createdAt,
-              // updatedAt: data.updatedAt || null,
+              id: doc.id,
+              title: lang === "fr" ? data.title_fr : data.title_en,
+              content: lang === "fr" ? data.content_fr : data.content_en,
+              authorId: data.authorId,
+              createdAt: data.createdAt,
+              updatedAt: data.updatedAt || null,
             };
           });
 

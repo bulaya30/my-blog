@@ -39,7 +39,8 @@ const Details = ({admin, blog, auth, getBlog, deleteBlog }) => {
               />
 
               {/* Show Edit/Delete only if user is blog owner */}
-              {auth && blog.authorId === auth.uid &&  (
+              {auth && blog.authorId === auth.uid ? (
+                // Case 1 & 2: Blog owner (admin or not)
                 <>
                   <button 
                     className="btn btn-danger mt-3" 
@@ -56,16 +57,19 @@ const Details = ({admin, blog, auth, getBlog, deleteBlog }) => {
                     <i className="bi bi-pencil-square"></i>
                   </Link>
                 </>
-              )}
-              { admin && blog.authorId !== auth.uid && (
-                <button 
+              ) : (
+                // Case 3: Admin but not owner
+                admin && (
+                  <button 
                     className="btn btn-danger mt-3" 
                     onClick={handleDelete} 
                     title="Delete this Article"
                   >
                     <i className="bi bi-trash"></i>
                   </button>
+                )
               )}
+
 
               {/* CreatedAt safe render */}
               <p className='mt-4 text-end'>
