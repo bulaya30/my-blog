@@ -49,13 +49,9 @@ const UpdateBlog = () => {
       category: categoryValue,
       content
     };
-    try {
-      dispatch(updateBlog(id, updatedBlog));
-      navigate(-1);
-    } catch (error) {
-    } finally {
-      setLoading(false);
-    }
+    dispatch(updateBlog(id, updatedBlog))
+    .then(() => navigate(-1))
+    .finally(() => setLoading(false));
   };
 
   // Handle input changes

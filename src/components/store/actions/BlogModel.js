@@ -1,6 +1,6 @@
 import { db, firebase, auth } from "../../../config/DB";
 import { addNotification } from "./NotificationsModel";
-import { translateText } from "../../../translator/Translator";
+import translateText from "../../../translator/Translator"
 
 /**
  * Fetch a single blog or a list of blogs
@@ -141,8 +141,7 @@ export const addBlog = (blog) => {
 /**
  * Update a blog
  * Automatically re-translates English → French if title/content change
- */
-export const updateBlog = (id, blog) => {
+ */export const updateBlog = (id, blog) => {
   return async (dispatch) => {
     try {
       const title_fr = await translateText(blog.title, "fr");
@@ -162,8 +161,14 @@ export const updateBlog = (id, blog) => {
         type: "UPDATE_BLOG",
         payload: { id, ...blog, title_fr, content_fr },
       });
+
+      // Return success so component can await
+      return { success: true };
     } catch (err) {
       dispatch({ type: "ERROR", payload: err.message });
+
+      // Throw error so component can catch
+      throw err;
     }
   };
 };
