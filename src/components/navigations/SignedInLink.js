@@ -1,10 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { useTranslation } from "react-i18next";
 import { signOut } from '../store/actions/AuthModel';
 
 const SignedIn = ({ auth, signOut }) => {
   const displayName = auth ? auth.firstName[0]+'. '+auth.lastName : '';
+    const { t } = useTranslation();
 
   return (
     <div className="norrechel-navbar">
@@ -22,21 +24,21 @@ const SignedIn = ({ auth, signOut }) => {
             <li>
               <NavLink to="/profile" className="dropdown-item d-flex align-items-center">
                 <i className="bi bi-person"></i>
-                <span>My Profile</span>
+                <span>{t('profile')}</span>
               </NavLink>
             </li>
             <hr className="dropdown-divider" />
             <li>
               <NavLink to="/blog" className="dropdown-item d-flex align-items-center">
                 <i className="bi bi-grid"></i>
-                <span>Blogs</span>
+                <span>{t('blogs')}</span>
               </NavLink>
             </li>
             <hr className="dropdown-divider" />
             <li>
               <button onClick={signOut} className="dropdown-item d-flex align-items-center text-danger" id="logout">
                 <i className="lni lni-exit"></i>
-                <span>Log out</span>
+                <span>{t('logout')}</span>
               </button>
             </li>
           </ul>

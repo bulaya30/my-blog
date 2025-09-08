@@ -1,6 +1,6 @@
 import { db, firebase, auth } from "../../../config/DB";
 import { addNotification } from "./NotificationsModel";
-import translateText from "../../../translator/Translator"
+import {translateText } from "../../../translator/Translator"
 
 /**
  * Fetch a single blog or a list of blogs
@@ -108,6 +108,7 @@ export const addBlog = (blog) => {
         title_fr,
         content_fr,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
       });
 
       const author = await fetchAuthor(blog.authorId);
@@ -148,7 +149,7 @@ export const addBlog = (blog) => {
       const content_fr = await translateText(blog.content, "fr");
 
       await db.collection("blogs").doc(id).update({
-        ...blog,
+        // ...blog,
         title_en: blog.title,
         content_en: blog.content,
         title_fr,

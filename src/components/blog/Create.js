@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addBlog } from '../store/actions/BlogModel';
 import { Editor } from '@tinymce/tinymce-react';
+import { useTranslation } from 'react-i18next';
 
 const CreateBlog = () => {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth.user);
+  const { i18n } = useTranslation();
+
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState({ message: '', type: '' });
 
@@ -18,15 +21,25 @@ const CreateBlog = () => {
     if (!title.trim() || !content.trim()) return;
 
     setLoading(true);
+
+    // Determine the current language
+    const currentLang = localStorage.getItem('lang') || 'en';
+    const originalLang = currentLang; // author input language
+    const targetLang = originalLang === 'en' ? 'fr' : 'en'; // translate to the other language
+
     const result = await dispatch(
       addBlog({
         title: title.trim(),
-        category: category.trim(),
         content: content.trim(),
-        authorId: auth.uid
+        category: category.trim(),
+        authorId: auth.uid,
+        lang: originalLang, // pass original language to action if needed
+        targetLang // the language to auto-translate
       })
     );
+
     setLoading(false);
+
     if (result?.success) {
       setToast({ message: 'Blog added successfully!', type: 'success' });
       setTimeout(() => setToast({ message: '', type: '' }), 5000);
@@ -39,16 +52,14 @@ const CreateBlog = () => {
     }
   };
 
-  if (!auth) {
-    return <p>Loading user info...</p>;
-  }
+  if (!auth) return <p>Loading user info...</p>;
 
   return (
     <div className="form-section">
       <div className="card border-0 shadow-sm">
-        <h2>New Blog</h2>
+        <h2>{i18n.t('newBlog')}</h2>
         <div className="card-body">
-          {/* Toast message */}
+
           {toast.message && (
             <div
               className={`toast ${toast.type === 'error' ? 'bg-red-500' : 'bg-green-500'} text-white p-3 rounded mb-4`}
@@ -56,8 +67,9 @@ const CreateBlog = () => {
               {toast.message}
             </div>
           )}
+
           <form onSubmit={handleSubmit} id="new-blog-form" autoComplete="off">
-            
+
             <div className="input-box">
               <input
                 type="text"
@@ -67,8 +79,7 @@ const CreateBlog = () => {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
-              <label htmlFor="title">Title</label>
-              <div className="input-errors title">Blog title required</div>
+              <label htmlFor="title">{i18n.t('title')}</label>
             </div>
 
             <div className="input-box">
@@ -80,20 +91,18 @@ const CreateBlog = () => {
                 onChange={(e) => setCategory(e.target.value)}
               >
                 <option value=""></option>
-                <option value="Mentorship and advice">Mentorship and advice</option>
-                <option value="Tips">Tips</option>
-                <option value="Business">Business</option>
+                <option value="Mentorship and advice">{i18n.t('mentorship')}</option>
+                <option value="Tips">{i18n.t('tips')}</option>
+                <option value="Business">{i18n.t('business')}</option>
               </select>
-              <label htmlFor="category">Category</label>
-              <div className="input-errors category"></div>
+              <label htmlFor="category">{i18n.t('category')}</label>
             </div>
 
             <div className="input-box">
-              <label htmlFor="content">Content</label>
+              <label htmlFor="content">{i18n.t('content')}</label>
               <Editor
                 apiKey="uw12u5jyw7fsvuxv9x7tp76nm2s5plzg8dqcwu60fz5jt28o"
                 id="content"
-                name="content"
                 value={content}
                 init={{
                   height: 300,
@@ -105,37 +114,33 @@ const CreateBlog = () => {
                     ' checklist numlist bullist indent outdent | emoticons charmap | ' +
                     'removeformat | code preview fullscreen',
                   plugins: [
-                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'print',
-                    'preview', 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                    'insertdatetime', 'media', 'table', 'paste', 'help', 'wordcount',
-                    'directionality', 'fullscreen', 'undo', 'redo', 'lists'
+                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
+                    'preview', 'anchor', 'searchreplace', 'visualblocks', 'code', 
+                    'fullscreen', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
                   ],
                   block_formats:
                     'Paragraph=p; Heading 1=h1; Heading 2=h2; Heading 3=h3; Heading 4=h4; Blockquote=blockquote; Code=code',
                 }}
-                onEditorChange={(newContent) => setContent(newContent)}
+                onEditorChange={setContent}
               />
-              <div className="input-errors content"></div>
             </div>
 
             <div className="input-box">
               <button
-                id="new-article-btn"
-                className="btn btn-sm w-100"
-                name="submit"
                 type="submit"
+                className="btn btn-sm w-100"
                 style={{ display: loading ? 'none' : 'block' }}
               >
-                Publish
+                {i18n.t('publish')}
               </button>
-              <button 
-                className="btn btn-sm w-100 loading-btn" 
-                type="button" 
-                disabled 
+              <button
+                className="btn btn-sm w-100 loading-btn"
+                type="button"
+                disabled
                 style={{ display: loading ? 'block' : 'none' }}
               >
                 <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                <span>Publishing...</span>
+                <span>{i18n.t('publishing')}...</span>
               </button>
             </div>
 

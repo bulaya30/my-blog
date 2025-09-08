@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useTranslation } from "react-i18next";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import SignedIn from './SignedInLink';
@@ -6,10 +7,32 @@ import { useSidebar } from '../context/sidebarContext';
 import Logo from '../../img/logo/Logo.png';
 
 function NavBar({ auth }) {
+  const { t, i18n } = useTranslation();
+
   const { toggleSidebar } = useSidebar(); 
   const [menuOpen, setMenuOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
+  const langRef = useRef(null); // reference for dropdown
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
+  const toggleLang = () => setLangOpen(prev => !prev);
+
+  const changeLanguage = (lang) => {
+    i18n.changeLanguage(lang);
+    localStorage.setItem("lang", lang);
+    setLangOpen(false);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (langRef.current && !langRef.current.contains(e.target)) {
+        setLangOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <header className="navbar">
@@ -20,18 +43,18 @@ function NavBar({ auth }) {
         </Link>
       </div>
 
-      {/* Sidebar toggler (controls Profile sidebar via context) */}
+      {/* Sidebar toggler */}
       <button className="menu-toggle" id="sidebar-toggle" onClick={toggleSidebar}>
         <i className="bx bx-menu-alt-left"></i>
       </button>
 
-      {/* Main Nav links (header) */}
+      {/* Main Nav links */}
       <nav className={menuOpen ? "nav-open" : ""}>
         <ul className="nav-links">
-          <li><Link to="/" onClick={() => setMenuOpen(false)}>Home</Link></li>
-          <li><Link to="/blogs" onClick={() => setMenuOpen(false)}>Blogs</Link></li>
-          <li><Link to="/about" onClick={() => setMenuOpen(false)}>About</Link></li>
-          <li><Link to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link></li>
+          <li><Link to="/" onClick={() => setMenuOpen(false)}>{t('home')}</Link></li>
+          <li><Link to="/blogs" onClick={() => setMenuOpen(false)}>{t('blogs')}</Link></li>
+          <li><Link to="/about" onClick={() => setMenuOpen(false)}>{t('about')}</Link></li>
+          <li><Link to="/contact" onClick={() => setMenuOpen(false)}>{t('contact')}</Link></li>
           {auth ? (
             <SignedIn />
           ) : (
@@ -40,10 +63,23 @@ function NavBar({ auth }) {
               <li><Link to="/register" className="auth-btn" onClick={() => setMenuOpen(false)}>Register</Link></li>
             </>
           )}
+
+          {/* Language Dropdown */}
+          <li className="language-dropdown" ref={langRef}>
+            <button className="lang-btn" onClick={toggleLang}>
+              🌐 {i18n.language.toUpperCase()} ▼
+            </button>
+            {langOpen && (
+              <ul className="lang-menu">
+                <li onClick={() => changeLanguage("en")}>English</li>
+                <li onClick={() => changeLanguage("fr")}>Français</li>
+              </ul>
+            )}
+          </li>
         </ul>
       </nav>
 
-      {/* Nav dropdown toggler (for mobile nav links) */}
+      {/* Mobile nav toggle */}
       <button className="menu-toggle" onClick={toggleMenu}>
         <i className="bx bx-menu"></i>
       </button>
