@@ -1,7 +1,7 @@
 {
   "home": "Accueil",
   "blogs": "Articles",
-  "about": "Apropos",
+  "about": "À propos",
   "contact": "Contacte",
   "login": "Se connecter",
   "register": "S'enregistrer",
@@ -11,9 +11,11 @@
   "logout": "Se Déconnecter",
   "loadingBlogs": "Chargement des articles...",
   "subscribeSuccess": "Merci pour votre abonnement !",
+
   "heroTitle": "Libérez votre potentiel",
   "heroSubtitle": "Nous inspirons et équipons les jeunes à découvrir leur potentiel, développer un caractère fort, augmenter leur valeur et s'engager à atteindre leurs objectifs.",
   "exploreBlogs": "Explorer les articles",
+
   "focusAreas": "Nos Domaines d'Intervention",
   "personalGrowthTitle": "Croissance Personnelle",
   "personalGrowthDesc": "Découvrez-vous, développez votre caractère et réalisez votre potentiel.",
@@ -27,13 +29,65 @@
   "unknownDate": "Date inconnue",
   "readMore": "Lire plus",
   "viewAllBlogs": "Voir tous les articles",
-  "aboutTitle": "À propos de Norrechel",
-  "aboutText": "Norrechel se consacre à autonomiser les jeunes afin qu'ils découvrent leur potentiel, développent un caractère fort, augmentent leur valeur et prennent des mesures engagées pour atteindre leurs objectifs. Notre contenu inspire, motive et fournit des idées pratiques pour la croissance et le succès.",
-  "learnMore": "En savoir plus",
+
+  "aboutPage": {
+    "title": "À propos de Norrechel",
+    "subtitle": "Accompagner les jeunes à découvrir leur potentiel et atteindre leurs objectifs.",
+    "exploreBlogs": "Découvrir nos blogs",
+    "missionTitle": "Notre Mission",
+    "mission1": "Norrechel s'engage à aider les jeunes à découvrir leur potentiel, développer leur caractère, augmenter leur valeur et prendre des mesures engagées pour atteindre leurs objectifs.",
+    "mission2": "À travers des articles, guides et conseils, nous visons à inspirer la croissance, la confiance en soi et une mentalité tournée vers le succès.",
+    "join": "Rejoindre Norrechel",
+    "visionJourney": "Notre Parcours de Vision",
+    "timeline": {
+      "discover": {
+        "title": "Découvrir le potentiel",
+        "desc": "Encourager les jeunes à identifier leurs forces et leurs passions."
+      },
+      "character": {
+        "title": "Développer le caractère",
+        "desc": "Fournir des ressources pour cultiver l'intégrité, la résilience et le leadership."
+      },
+      "value": {
+        "title": "Augmenter la valeur",
+        "desc": "Permettre à notre audience d'accroître leur valeur personnelle et professionnelle."
+      },
+      "goals": {
+        "title": "S'engager pour des objectifs",
+        "desc": "Les motiver à entreprendre des actions cohérentes menant à de vraies réussites."
+      }
+    },
+    "ctaTitle": "Commencez votre parcours aujourd'hui",
+    "ctaDesc": "Nous croyons que chaque jeune a le potentiel d'accomplir de grandes choses. Faites le premier pas avec nous."
+  },
+  "contactPage": {
+  "title": "Contactez-nous",
+  "info": {
+    "heading": "Entrer en contact",
+    "address": "Kansanga, Kampala/Ouganda",
+    "phone": "+256 750274516",
+    "email": "norrechel@gmail.com"
+  },
+  "form": {
+    "name": "Nom complet",
+    "email": "Adresse e-mail",
+    "message": "Message",
+    "button": {
+      "sending": "Envoi...",
+      "send": "Envoyer le message"
+    }
+  },
+  "alerts": {
+    "success": "✅ Merci ! Votre message a été envoyé.",
+    "error": "❌ Une erreur s'est produite. Veuillez réessayer."
+  }
+},
+
   "newsletterTitle": "Restez informé !",
   "newsletterDesc": "Recevez les derniers articles directement dans votre boîte mail.",
   "emailPlaceholder": "Entrez votre email",
   "subscribeBtn": "S'abonner",
+
   "loadingBlog": "Chargement de l'article...",
   "category": "Catégorie",
   "deleteThisArticle": "Supprimer cet article",
@@ -41,4 +95,3 @@
   "writtenBy": "Écrit par",
   "publishedIn": "Publié le"
 }
-

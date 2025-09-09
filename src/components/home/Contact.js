@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { addContact } from '../store/actions/ContactModel';
 
 export default function Contact() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { loading, success, error } = useSelector((state) => state.contact);
 
@@ -25,15 +27,16 @@ export default function Contact() {
 
   return (
     <div id="main" className="container py-3">
-      <h1 className="text-center mb-2">Contact Us</h1>
+      <h1 className="text-center mb-2">{t('contactPage.title')}</h1>
       <div className="row">
+        
         {/* Contact Info */}
         <div className="col-lg-4 my-4">
           <div className="card shadow-sm border-0 p-4">
-            <h5>Get in Touch</h5>
-            <p><strong>Address:</strong> Kansanga, Kampala/Uganda</p>
-            <p><strong>Phone:</strong> +256 750274516</p>
-            <p><strong>Email:</strong> norrechel@gmail.com</p>
+            <h5>{t('contactPage.info.heading')}</h5>
+            <p><strong>Address:</strong> {t('contactPage.info.address')}</p>
+            <p><strong>Phone:</strong> {t('contactPage.info.phone')}</p>
+            <p><strong>Email:</strong> {t('contactPage.info.email')}</p>
           </div>
         </div>
 
@@ -43,15 +46,15 @@ export default function Contact() {
             <div className="card shadow-sm border-0 p-4">
               {success && (
                 <div className="alert alert-success" role="alert">
-                  ✅ Thank you! Your message has been sent.
+                  {t('contactPage.alerts.success')}
                 </div>
               )}
               {error && (
                 <div className="alert alert-danger" role="alert">
-                  ❌ {error}
+                  {t('contactPage.alerts.error')}
                 </div>
               )}
-              <form onSubmit={handleSubmit} autoComplete='off'>
+              <form onSubmit={handleSubmit} autoComplete="off">
                 <div className="input-box">
                   <input
                     type="text"
@@ -61,7 +64,7 @@ export default function Contact() {
                     onChange={handleChange}
                     disabled={loading}
                   />
-                  <label htmlFor="name" className="form-label">Full Name</label>
+                  <label htmlFor="name" className="form-label">{t('contactPage.form.name')}</label>
                 </div>
 
                 <div className="input-box">
@@ -73,7 +76,7 @@ export default function Contact() {
                     onChange={handleChange}
                     disabled={loading}
                   />
-                  <label htmlFor="email" className="form-label">Email Address</label>
+                  <label htmlFor="email" className="form-label">{t('contactPage.form.email')}</label>
                 </div>
 
                 <div className="input-box">
@@ -85,18 +88,19 @@ export default function Contact() {
                     onChange={handleChange}
                     disabled={loading}
                   ></textarea>
-                  <label htmlFor="message" className="form-label">Message</label>
+                  <label htmlFor="message" className="form-label">{t('contactPage.form.message')}</label>
                 </div>
-                <div className='input-box'>
+
+                <div className="input-box">
                   <button type="submit" className="btn btn-sm w-100" disabled={loading}>
-                    {loading ? 'Sending...' : 'Send Message'}
+                    {loading ? t('contactPage.form.button.sending') : t('contactPage.form.button.send')}
                   </button>
                 </div>
               </form>
             </div>
-
           </div>
         </div>
+        
       </div>
     </div>
   );

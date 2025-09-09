@@ -5,16 +5,16 @@ import { Editor } from '@tinymce/tinymce-react';
 import { useTranslation } from 'react-i18next';
 
 const CreateBlog = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth.user);
-  const { i18n } = useTranslation();
-
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState({ message: '', type: '' });
 
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('');
   const [content, setContent] = useState('');
+  const [blogLang, setBlogLang] = useState('en'); // default English
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,10 +22,8 @@ const CreateBlog = () => {
 
     setLoading(true);
 
-    // Determine the current language
-    const currentLang = localStorage.getItem('lang') || 'en';
-    const originalLang = currentLang; // author input language
-    const targetLang = originalLang === 'en' ? 'fr' : 'en'; // translate to the other language
+    // Determine the target language for translation
+    const targetLang = blogLang === 'en' ? 'fr' : 'en';
 
     const result = await dispatch(
       addBlog({
@@ -33,8 +31,8 @@ const CreateBlog = () => {
         content: content.trim(),
         category: category.trim(),
         authorId: auth.uid,
-        lang: originalLang, // pass original language to action if needed
-        targetLang // the language to auto-translate
+        lang: blogLang,        // Author's original language
+        targetLang             // Language to auto-translate to
       })
     );
 
@@ -46,6 +44,7 @@ const CreateBlog = () => {
       setTitle('');
       setCategory('');
       setContent('');
+      setBlogLang('en');
     } else {
       setToast({ message: result?.error || 'Failed to add blog', type: 'error' });
       setTimeout(() => setToast({ message: '', type: '' }), 5000);
@@ -57,7 +56,7 @@ const CreateBlog = () => {
   return (
     <div className="form-section">
       <div className="card border-0 shadow-sm">
-        <h2>{i18n.t('newBlog')}</h2>
+        <h2>{t('newBlog')}</h2>
         <div className="card-body">
 
           {toast.message && (
@@ -79,7 +78,7 @@ const CreateBlog = () => {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
-              <label htmlFor="title">{i18n.t('title')}</label>
+              <label htmlFor="title">{t('title')}</label>
             </div>
 
             <div className="input-box">
@@ -91,15 +90,31 @@ const CreateBlog = () => {
                 onChange={(e) => setCategory(e.target.value)}
               >
                 <option value=""></option>
-                <option value="Mentorship and advice">{i18n.t('mentorship')}</option>
-                <option value="Tips">{i18n.t('tips')}</option>
-                <option value="Business">{i18n.t('business')}</option>
+                <option value="Mentorship and advice">{t('mentorship')}</option>
+                <option value="Tips">{t('tips')}</option>
+                <option value="Business">{t('business')}</option>
               </select>
-              <label htmlFor="category">{i18n.t('category')}</label>
+              <label htmlFor="category">{t('category')}</label>
+            </div>
+
+            {/* Language Selection */}
+            <div className="input-box">              
+              <select
+                name="language"
+                id="language"
+                required
+                value={blogLang}
+                onChange={(e) => setBlogLang(e.target.value)}
+              >
+                <option value=""></option>
+                <option value="en">English</option>
+                <option value="fr">Français</option>
+              </select>
+              <label htmlFor="language">Language</label>
             </div>
 
             <div className="input-box">
-              <label htmlFor="content">{i18n.t('content')}</label>
+              <label htmlFor="content">{t('content')}</label>
               <Editor
                 apiKey="uw12u5jyw7fsvuxv9x7tp76nm2s5plzg8dqcwu60fz5jt28o"
                 id="content"
@@ -131,7 +146,7 @@ const CreateBlog = () => {
                 className="btn btn-sm w-100"
                 style={{ display: loading ? 'none' : 'block' }}
               >
-                {i18n.t('publish')}
+                {t('publish')}
               </button>
               <button
                 className="btn btn-sm w-100 loading-btn"
@@ -140,7 +155,7 @@ const CreateBlog = () => {
                 style={{ display: loading ? 'block' : 'none' }}
               >
                 <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                <span>{i18n.t('publishing')}...</span>
+                <span>{t('publishing')}...</span>
               </button>
             </div>
 

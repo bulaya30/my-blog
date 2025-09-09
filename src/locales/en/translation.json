@@ -11,33 +11,88 @@
   "logout": "Logout",
   "loadingBlogs": "Loading blogs...",
   "subscribeSuccess": "Thank you for subscribing!",
-  "heroTitle": "Empower Your Potential",
-  "heroSubtitle": "We inspire and equip young people to discover their potential, build strong character, raise their value, and commit to achieving their goals.",
+
+  "heroTitle": "Unlock Your Potential",
+  "heroSubtitle": "We inspire and equip young people to discover their potential, build strong character, increase their value, and commit to achieving their goals.",
   "exploreBlogs": "Explore Blogs",
+
   "focusAreas": "Our Focus Areas",
   "personalGrowthTitle": "Personal Growth",
-  "personalGrowthDesc": "Discover yourself, develop your character, and grow into your potential.",
+  "personalGrowthDesc": "Discover yourself, build character, and reach your full potential.",
   "valueImpactTitle": "Value & Impact",
-  "valueImpactDesc": "Learn how to raise your value, contribute to your community, and make a difference.",
+  "valueImpactDesc": "Learn to increase your value, contribute to your community, and make a difference.",
   "goalAchievementTitle": "Goal Achievement",
-  "goalAchievementDesc": "Commit to actions that push you forward and help you reach your dreams.",
+  "goalAchievementDesc": "Commit to actions that move you forward and help you reach your dreams.",
   "latestBlogs": "Latest Blogs",
   "by": "By",
   "unknownAuthor": "Unknown Author",
   "unknownDate": "Unknown Date",
   "readMore": "Read More",
   "viewAllBlogs": "View All Blogs",
-  "aboutTitle": "About Norrechel",
-  "aboutText": "Norrechel is dedicated to empowering young people to discover their potential, develop strong character, raise their value, and take committed action towards achieving their goals. Our content inspires, motivates, and provides actionable insights for growth and success.",
-  "learnMore": "Learn More",
+
+  "aboutPage": {
+    "title": "About Norrechel",
+    "subtitle": "Empowering young people to discover their potential and rise to their goals.",
+    "exploreBlogs": "Explore Our Blogs",
+    "missionTitle": "Our Mission",
+    "mission1": "Norrechel is dedicated to helping young people discover their potential, develop their character, raise their value, and commit to actions that move them closer to achieving their goals.",
+    "mission2": "Through thoughtful articles, guides, and mentorship insights, we aim to inspire growth, self-confidence, and a mindset focused on success.",
+    "join": "Join Norrechel",
+    "visionJourney": "Our Vision Journey",
+    "timeline": {
+      "discover": {
+        "title": "Discover Potential",
+        "desc": "Encourage young people to identify their strengths and passions."
+      },
+      "character": {
+        "title": "Develop Character",
+        "desc": "Provide resources to nurture integrity, resilience, and leadership skills."
+      },
+      "value": {
+        "title": "Raise Value",
+        "desc": "Empower our audience to increase their personal and professional value."
+      },
+      "goals": {
+        "title": "Commit to Goals",
+        "desc": "Motivate them to take consistent actions that lead to real achievements."
+      }
+    },
+    "ctaTitle": "Start Your Journey Today",
+    "ctaDesc": "We believe every young person has the potential to achieve greatness. Take the first step with us."
+  },
+  "contactPage": {
+  "title": "Contact Us",
+  "info": {
+    "heading": "Get in Touch",
+    "address": "Kansanga, Kampala/Uganda",
+    "phone": "+256 750274516",
+    "email": "norrechel@gmail.com"
+  },
+  "form": {
+    "name": "Full Name",
+    "email": "Email Address",
+    "message": "Message",
+    "button": {
+      "sending": "Sending...",
+      "send": "Send Message"
+    }
+  },
+  "alerts": {
+    "success": "✅ Thank you! Your message has been sent.",
+    "error": "❌ Something went wrong. Please try again."
+  }
+},
+
+  
   "newsletterTitle": "Stay Updated!",
-  "newsletterDesc": "Get the latest articles straight to your inbox.",
+  "newsletterDesc": "Get the latest articles delivered straight to your inbox.",
   "emailPlaceholder": "Enter your email",
   "subscribeBtn": "Subscribe",
+
   "loadingBlog": "Loading blog...",
   "category": "Category",
-  "deleteThisArticle": "Delete this Article",
-  "updateThisArticle": "Update this Article",
+  "deleteThisArticle": "Delete this article",
+  "updateThisArticle": "Update this article",
   "writtenBy": "Written by",
   "publishedIn": "Published in"
 }
