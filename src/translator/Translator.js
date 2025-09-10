@@ -1,4 +1,3 @@
-
 export async function translateText(text, targetLang) {
   if (!text) return "";
 
@@ -10,7 +9,9 @@ export async function translateText(text, targetLang) {
     });
 
     const data = await response.json();
-    return data.translatedText || text;
+
+    // Ensure it's a string
+    return typeof data.translatedText === "string" ? data.translatedText : text;
   } catch (err) {
     console.error("Translation error:", err);
     return text; // fallback

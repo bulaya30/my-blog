@@ -5,6 +5,7 @@ import { getBlog, deleteBlog } from '../store/actions/BlogModel';
 import DOMPurify from 'dompurify';
 import Footer from '../home/footer';
 import { useTranslation } from 'react-i18next';
+// import Footer from './footer';
 
 const Details = ({ admin, blog, auth, getBlog, deleteBlog }) => {
   const { id } = useParams();

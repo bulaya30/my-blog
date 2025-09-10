@@ -1,31 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { useTranslation } from "react-i18next"; // ✅ import i18next
+import { useTranslation } from "react-i18next";
 import { getBlog } from '../store/actions/BlogModel';
 import { addSubscriber } from '../store/actions/SubscriberModel';
 import Footer from './footer';
 
 function Acceuil() {
-  const { t, i18n } = useTranslation(); // ✅ use t()
+  const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const blogs = useSelector(state => state.blog.blogs);
-  const { error } = useSelector(state => state);
 
   useEffect(() => {
     dispatch(getBlog());
   }, [dispatch]);
 
   if (!blogs || blogs.length === 0) {
-    return <div>{t("loadingBlogs")}</div>; // ✅ translated
+    return <div>{t("loadingBlogs")}</div>;
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = await dispatch(addSubscriber(email));
     if (result.success) {
-      alert(t("subscribeSuccess")); // ✅ translated
+      alert(t("subscribeSuccess")); 
       setEmail('');
     } else {
       alert(result.message);
@@ -116,12 +115,13 @@ function Acceuil() {
 
           {/* About */}
           <section className="about home-section bg-white container mb-3 py-4 text-center">
-            <h2>{t("aboutTitle")}</h2>
-            <p className="lead">{t("aboutText")}</p>
+            <h2>{t("aboutSection.title")}</h2>
+            <p className="lead">{t("aboutSection.text")}</p>
             <NavLink to="/about" className="hero-btn btn mt-3">
-              {t("learnMore")}
+                {t("aboutSection.learnMore")}
             </NavLink>
           </section>
+
 
           {/* Newsletter */}
           <section className="newsletter container text-center my-5">
@@ -141,7 +141,6 @@ function Acceuil() {
               </button>
             </form>
 
-            {error && <p className="text-danger mt-2">{error}</p>}
           </section>
         </div>
       </div>

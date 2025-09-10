@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import Footer from './footer';
 
 export default function About() {
   const { t } = useTranslation();
@@ -14,6 +15,7 @@ export default function About() {
 
 
   return (
+    <>
     <main id="main" className="about-page">
       <div className="container">
 
@@ -69,5 +71,7 @@ export default function About() {
 
       </div>
     </main>
+    <Footer />
+    </>
   );
 }

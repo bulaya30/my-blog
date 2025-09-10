@@ -2,49 +2,43 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addBlog } from '../store/actions/BlogModel';
 import { Editor } from '@tinymce/tinymce-react';
-import { useTranslation } from 'react-i18next';
 
 const CreateBlog = () => {
-  const { t } = useTranslation();
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth.user);
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState({ message: '', type: '' });
 
+  // Blog fields
   const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('');
   const [content, setContent] = useState('');
-  const [blogLang, setBlogLang] = useState('en'); // default English
+  const [category, setCategory] = useState('');
+  const [language, setLanguage] = useState('en'); // default writing language
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // console.log(title, content)
     if (!title.trim() || !content.trim()) return;
 
     setLoading(true);
 
-    // Determine the target language for translation
-    const targetLang = blogLang === 'en' ? 'fr' : 'en';
-
-    const result = await dispatch(
-      addBlog({
-        title: title.trim(),
-        content: content.trim(),
-        category: category.trim(),
-        authorId: auth.uid,
-        lang: blogLang,        // Author's original language
-        targetLang             // Language to auto-translate to
-      })
-    );
-
+    const blogData = {
+      title: { [language]: title.trim() },       // { en: "Title" } or { fr: "Title" }
+      content: { [language]: content.trim() },   // same
+      category: category.trim(),
+      authorId: auth.uid,
+      language: language
+    };
+    const result = await dispatch(addBlog(blogData));
+    console.log( result)
     setLoading(false);
 
     if (result?.success) {
       setToast({ message: 'Blog added successfully!', type: 'success' });
       setTimeout(() => setToast({ message: '', type: '' }), 5000);
       setTitle('');
-      setCategory('');
       setContent('');
-      setBlogLang('en');
+      setCategory('');
     } else {
       setToast({ message: result?.error || 'Failed to add blog', type: 'error' });
       setTimeout(() => setToast({ message: '', type: '' }), 5000);
@@ -56,9 +50,10 @@ const CreateBlog = () => {
   return (
     <div className="form-section">
       <div className="card border-0 shadow-sm">
-        <h2>{t('newBlog')}</h2>
+        <h2>New Blog</h2>
         <div className="card-body">
 
+          {/* Toast message */}
           {toast.message && (
             <div
               className={`toast ${toast.type === 'error' ? 'bg-red-500' : 'bg-green-500'} text-white p-3 rounded mb-4`}
@@ -69,6 +64,21 @@ const CreateBlog = () => {
 
           <form onSubmit={handleSubmit} id="new-blog-form" autoComplete="off">
 
+            {/* Language Selector */}
+            <div className="input-box">
+              <select
+                id="language"
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+                
+              >
+                <option value="en">English</option>
+                <option value="fr">French</option>
+              </select>
+              <label htmlFor="language">Writing Language</label>
+            </div>
+
+            {/* Title */}
             <div className="input-box">
               <input
                 type="text"
@@ -78,9 +88,10 @@ const CreateBlog = () => {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
-              <label htmlFor="title">{t('title')}</label>
+              <label htmlFor="title">Title</label>
             </div>
 
+            {/* Category */}
             <div className="input-box">
               <select
                 name="category"
@@ -90,34 +101,20 @@ const CreateBlog = () => {
                 onChange={(e) => setCategory(e.target.value)}
               >
                 <option value=""></option>
-                <option value="Mentorship and advice">{t('mentorship')}</option>
-                <option value="Tips">{t('tips')}</option>
-                <option value="Business">{t('business')}</option>
+                <option value="Mentorship and advice">Mentorship and advice</option>
+                <option value="Tips">Tips</option>
+                <option value="Business">Business</option>
               </select>
-              <label htmlFor="category">{t('category')}</label>
+              <label htmlFor="category">Category</label>
             </div>
 
-            {/* Language Selection */}
-            <div className="input-box">              
-              <select
-                name="language"
-                id="language"
-                required
-                value={blogLang}
-                onChange={(e) => setBlogLang(e.target.value)}
-              >
-                <option value=""></option>
-                <option value="en">English</option>
-                <option value="fr">Français</option>
-              </select>
-              <label htmlFor="language">Language</label>
-            </div>
-
+            {/* Content */}
             <div className="input-box">
-              <label htmlFor="content">{t('content')}</label>
+              <label htmlFor="content">Content</label>
               <Editor
-                apiKey="uw12u5jyw7fsvuxv9x7tp76nm2s5plzg8dqcwu60fz5jt28o"
+                 apiKey='uw12u5jyw7fsvuxv9x7tp76nm2s5plzg8dqcwu60fz5jt28o'
                 id="content"
+                name="content"
                 value={content}
                 init={{
                   height: 300,
@@ -129,24 +126,25 @@ const CreateBlog = () => {
                     ' checklist numlist bullist indent outdent | emoticons charmap | ' +
                     'removeformat | code preview fullscreen',
                   plugins: [
-                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
-                    'preview', 'anchor', 'searchreplace', 'visualblocks', 'code', 
-                    'fullscreen', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
+                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'print',
+                    'preview', 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                    'insertdatetime', 'media', 'table', 'paste', 'help', 'wordcount',
                   ],
-                  block_formats:
-                    'Paragraph=p; Heading 1=h1; Heading 2=h2; Heading 3=h3; Heading 4=h4; Blockquote=blockquote; Code=code',
                 }}
-                onEditorChange={setContent}
+                onEditorChange={(newContent) => setContent(newContent)}
               />
             </div>
 
-            <div className="input-box">
+            {/* Submit */}
+            <div className="input-box mt-3">
               <button
-                type="submit"
+                id="new-article-btn"
                 className="btn btn-sm w-100"
+                name="submit"
+                type="submit"
                 style={{ display: loading ? 'none' : 'block' }}
               >
-                {t('publish')}
+                Publish
               </button>
               <button
                 className="btn btn-sm w-100 loading-btn"
@@ -155,7 +153,7 @@ const CreateBlog = () => {
                 style={{ display: loading ? 'block' : 'none' }}
               >
                 <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                <span>{t('publishing')}...</span>
+                <span>Publishing...</span>
               </button>
             </div>
 

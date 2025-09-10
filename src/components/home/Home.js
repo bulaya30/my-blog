@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import Category from '../category/List';
 import Blog from '../blog/List';
 import Footer from './footer';
+import { withTranslation } from 'react-i18next';
 
 class Home extends Component {
   render() {
+    const { t } = this.props;
+
     return (
       <>
         <div id="main">
@@ -12,7 +15,9 @@ class Home extends Component {
             <div className="row">
               <div className="container ps-3 g-0">
                 <div className="row">
-                  <h3 className='text-center fw-bold mb-3'>Articles</h3>
+                  <h3 className='text-center fw-bold mb-3'>
+                    {t('homePage.articlesTitle')}
+                  </h3>
                   <div className="col-4 mb-3">
                     <Category />
                   </div>
@@ -33,7 +38,7 @@ class Home extends Component {
         <Footer />
       </>
     );
-  };
+  }
 }
 
-export default Home;
+export default withTranslation()(Home);

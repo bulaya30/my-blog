@@ -82,7 +82,20 @@
     "error": "❌ Something went wrong. Please try again."
   }
 },
-
+"homePage": {
+  "articlesTitle": "Articles",
+  "categoriesTitle": "Categories",
+  "latestBlogs": "Latest Blogs"
+},
+"categoryPage": {
+  "title": "Categories",
+  "loading": "Loading categories..."
+},
+"aboutSection": {
+  "title": "About Norrechel",
+  "text": "Norrechel is dedicated to empowering young people to discover their potential, develop strong character, raise their value, and take committed action towards achieving their goals. Our content inspires, motivates, and provides actionable insights for growth and success.",
+  "learnMore": "Learn More"
+},
   
   "newsletterTitle": "Stay Updated!",
   "newsletterDesc": "Get the latest articles delivered straight to your inbox.",

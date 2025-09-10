@@ -82,6 +82,20 @@
     "error": "❌ Une erreur s'est produite. Veuillez réessayer."
   }
 },
+"homePage": {
+  "articlesTitle": "Articles",
+  "categoriesTitle": "Catégories",
+  "latestBlogs": "Derniers Articles"
+},
+"categoryPage": {
+  "title": "Catégories",
+  "loading": "Chargement des catégories..."
+},
+"aboutSection": {
+  "title": "À propos de Norrechel",
+  "text": "Norrechel se consacre à autonomiser les jeunes afin qu'ils découvrent leur potentiel, développent un caractère fort, augmentent leur valeur et prennent des mesures engagées pour atteindre leurs objectifs. Notre contenu inspire, motive et fournit des idées pratiques pour la croissance et le succès.",
+  "learnMore": "En savoir plus"
+},
 
   "newsletterTitle": "Restez informé !",
   "newsletterDesc": "Recevez les derniers articles directement dans votre boîte mail.",

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { addContact } from '../store/actions/ContactModel';
+import Footer from './footer';
 
 export default function Contact() {
   const { t } = useTranslation();
@@ -26,6 +27,7 @@ export default function Contact() {
   };
 
   return (
+    <>
     <div id="main" className="container py-3">
       <h1 className="text-center mb-2">{t('contactPage.title')}</h1>
       <div className="row">
@@ -103,5 +105,7 @@ export default function Contact() {
         
       </div>
     </div>
+    <Footer />
+  </>
   );
 }
