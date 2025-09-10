@@ -37,11 +37,13 @@ onAuthStateChanged(auth, async (user) => {
     const userData = user.toJSON();
     store.dispatch({ type: "LOGIN_AUTH", payload: userData });
     store.dispatch({ type: "LOGIN_SUCCESS", payload: userData });
+
     // Stop previous profile listener
     if (unsubscribeProfile) {
       unsubscribeProfile();
       unsubscribeProfile = null;
     }
+
     // Start listening to profile changes
     unsubscribeProfile = store.dispatch(listenToAuthChanges());
     // Load user profile and set admin role
@@ -51,7 +53,8 @@ onAuthStateChanged(auth, async (user) => {
         const profileData = { id: doc.id, ...doc.data() };
         store.dispatch({ type: "PROFILE_LOADED", payload: profileData });
         // Set isAdmin
-        const isAdmin = profileData.role
+        const isAdmin = profileData.role === 'admin';
+        store.dispatch({ type: "SET_ADMIN", payload: isAdmin });
       }
     } catch (err) {
       console.error("Error loading profile or role:", err);

@@ -21,8 +21,7 @@ export const listenToAuthChanges = () => {
             ...user.toJSON(),
             profile: doc.exists ? doc.data() : {}
           };
-          console.log(userData)
-            dispatch({ type: "LOGIN_AUTH", payload: userData });
+          dispatch({ type: "LOGIN_AUTH", payload: userData });
           });
       } else {
         dispatch({ type: "SIGNOUT_SUCCESS" });
