@@ -37,32 +37,21 @@ onAuthStateChanged(auth, async (user) => {
     const userData = user.toJSON();
     store.dispatch({ type: "LOGIN_AUTH", payload: userData });
     store.dispatch({ type: "LOGIN_SUCCESS", payload: userData });
-
     // Stop previous profile listener
     if (unsubscribeProfile) {
       unsubscribeProfile();
       unsubscribeProfile = null;
     }
-
     // Start listening to profile changes
     unsubscribeProfile = store.dispatch(listenToAuthChanges());
-
     // Load user profile and set admin role
     try {
       const doc = await firebase.firestore().collection("users").doc(user.uid).get();
       if (doc.exists) {
         const profileData = { id: doc.id, ...doc.data() };
         store.dispatch({ type: "PROFILE_LOADED", payload: profileData });
-
-        // Set isAdmin from roles collection or profile.role
-        const roleDoc = await firebase.firestore()
-          .collection("roles")
-          .doc(user.uid)
-          .get();
-        const isAdmin =
-          (roleDoc.exists && roleDoc.data().role === "admin") ||
-          profileData.role === "admin";
-        store.dispatch({ type: "SET_ADMIN", payload: isAdmin });
+        // Set isAdmin
+        const isAdmin = profileData.role
       }
     } catch (err) {
       console.error("Error loading profile or role:", err);

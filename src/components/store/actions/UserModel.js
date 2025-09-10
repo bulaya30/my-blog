@@ -10,18 +10,18 @@ export const listenToAuthChanges = () => {
         unsubscribeProfile();
         unsubscribeProfile = null;
       }
-
       if (user) {
         // Real-time listener on the user's Firestore profile
         unsubscribeProfile = firebase
-          .firestore()
-          .collection("users")
-          .doc(user.uid)
-          .onSnapshot((doc) => {
-            const userData = {
-              ...user.toJSON(),
-              profile: doc.exists ? doc.data() : {}
-            };
+        .firestore()
+        .collection("users")
+        .doc(user.uid)
+        .onSnapshot((doc) => {
+          const userData = {
+            ...user.toJSON(),
+            profile: doc.exists ? doc.data() : {}
+          };
+          console.log(userData)
             dispatch({ type: "LOGIN_AUTH", payload: userData });
           });
       } else {
