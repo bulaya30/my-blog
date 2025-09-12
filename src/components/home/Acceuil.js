@@ -9,22 +9,30 @@ import Footer from './footer';
 function Acceuil() {
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
+  const lang = i18n.language.startsWith("fr") ? "fr" : "en";
+
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(true);
+
   const blogs = useSelector(state => state.blog.blogs);
 
   useEffect(() => {
-    dispatch(getBlog());
+    const fetchBlogs = async () => {
+      setLoading(true);
+      await dispatch(getBlog());
+      setLoading(false);
+    };
+    fetchBlogs();
   }, [dispatch]);
+  // Ensure blogs is always an array
+  const safeBlogs = Array.isArray(blogs) ? blogs : blogs ? [blogs] : [];
 
-  if (!blogs || blogs.length === 0) {
-    return <div>{t("loadingBlogs")}</div>;
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = await dispatch(addSubscriber(email));
     if (result.success) {
-      alert(t("subscribeSuccess")); 
+      alert(t("subscribeSuccess"));
       setEmail('');
     } else {
       alert(result.message);
@@ -76,27 +84,35 @@ function Acceuil() {
           <section className="latest-blogs home-section my-5">
             <h2 className="mb-4 text-center">{t("latestBlogs")}</h2>
             <div className="row">
-              {Array.isArray(blogs) &&
-                blogs.slice(0, 3).map((blog) => (
+              {loading ? (
+                <div className="col-12 text-center">
+                  <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              ) : !blogs || blogs.length === 0 ? (
+                <div className="col-12">
+                  <div className="blog-card norrechel-card p-3 h-100 text-center fw-bold h3">
+                    {t("noBlogsYet")}
+                  </div>
+                </div>
+              ) : (
+                safeBlogs.slice(0, 3).map((blog) => (
                   <div key={blog.id} className="col-md-4 mb-4">
                     <div className="blog-card norrechel-card p-3 h-100">
-                      <h3>{blog.title}</h3>
+                      <h3>{blog.title[lang]}</h3>
                       <p>
                         {t("by")}{" "}
                         {blog.author
-                          ? `${blog.author.firstName || ""} ${
-                              blog.author.lastName || ""
-                            }`.trim()
+                          ? `${blog.author.firstName || ""} ${blog.author.lastName || ""}`.trim()
                           : t("unknownAuthor")}{" "}
                         •{" "}
                         {blog.createdAt?.toDate
-                          ? blog.createdAt
-                              .toDate()
-                              .toLocaleDateString(i18n.language, {
-                                month: "short",
-                                day: "numeric",
-                                year: "numeric",
-                              })
+                          ? blog.createdAt.toDate().toLocaleDateString(i18n.language, {
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric",
+                            })
                           : t("unknownDate")}
                       </p>
                       <NavLink to={`/blogs/${blog.id}`} className="read-more">
@@ -104,13 +120,17 @@ function Acceuil() {
                       </NavLink>
                     </div>
                   </div>
-                ))}
+                ))
+              )}
             </div>
-            <div className="text-center mt-3">
-              <NavLink to="/blogs" className="btn hero-btn">
-                {t("viewAllBlogs")}
-              </NavLink>
-            </div>
+            {blogs && blogs.length !== 0 && (
+              <div className="text-center mt-3">
+                <NavLink to="/blogs" className="btn hero-btn">
+                  {t("viewAllBlogs")}
+                </NavLink>
+              </div>
+
+            )}
           </section>
 
           {/* About */}
@@ -118,16 +138,14 @@ function Acceuil() {
             <h2>{t("aboutSection.title")}</h2>
             <p className="lead">{t("aboutSection.text")}</p>
             <NavLink to="/about" className="hero-btn btn mt-3">
-                {t("aboutSection.learnMore")}
+              {t("aboutSection.learnMore")}
             </NavLink>
           </section>
-
 
           {/* Newsletter */}
           <section className="newsletter container text-center my-5">
             <h2>{t("newsletterTitle")}</h2>
             <p>{t("newsletterDesc")}</p>
-
             <form className="d-flex justify-content-center" onSubmit={handleSubmit}>
               <input
                 type="email"
@@ -140,7 +158,6 @@ function Acceuil() {
                 {t("subscribeBtn")}
               </button>
             </form>
-
           </section>
         </div>
       </div>

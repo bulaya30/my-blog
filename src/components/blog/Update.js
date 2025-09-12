@@ -19,9 +19,11 @@ const UpdateBlog = () => {
       : null
   );
   const category = useSelector((state) => state.category.categories || []);
-  const [title, setTitle] = useState('');
+  const [title_en, setTitle_en] = useState('');
+  const [title_fr, setTitle_fr] = useState('');
   const [categoryValue, setCategoryValue] = useState('');
-  const [content, setContent] = useState('');
+  const [content_en, setContent_en] = useState('');
+  const [content_fr, setContent_fr] = useState('');
   const [loading, setLoading] = useState(false);
 
   // Fetch blog and categories on mount
@@ -33,9 +35,11 @@ const UpdateBlog = () => {
   // Populate form when blog data is available
   useEffect(() => {
     if (blog) {
-      setTitle(blog.title || '');
-      setCategoryValue(blog.category || '');
-      setContent(blog.content || '');
+      setTitle_en(blog.title.en);
+      setTitle_fr(blog.title.fr);
+      setCategoryValue(blog.category);
+      setContent_en(blog.content.en);
+      setContent_fr(blog.content.fr);
     }
   }, [blog]);
 
@@ -44,10 +48,10 @@ const UpdateBlog = () => {
     setLoading(true);
 
     const updatedBlog = {
-      title,
-      authorId: auth.uid,
-      category: categoryValue,
-      content
+      title: { en: title_en.trim(), fr: title_fr.trim() },
+      content: { en: content_en.trim(), fr: content_fr.trim() },
+      category: categoryValue.trim(),
+      authorId: auth.uid
     };
     dispatch(updateBlog(id, updatedBlog))
     .then(() => navigate(-1))
@@ -57,8 +61,6 @@ const UpdateBlog = () => {
   // Handle input changes
   const handleChange = (setter) => (e) => setter(e.target.value);
 
-  // Handle editor changes
-  const handleEditorChange = (newContent) => setContent(newContent);
 
   if (!auth) return <p>Loading user info...</p>;
   if (!blog) return <p>Loading blog...</p>;
@@ -81,13 +83,23 @@ const UpdateBlog = () => {
                     <input type="hidden" name="id" value={id} />
                     <input
                       type="text"
-                      id="title"
                       name="title"
                       required
-                      value={title}
-                      onChange={handleChange(setTitle)}
+                      value={title_en}
+                      onChange={handleChange(setTitle_en)}
                     />
-                    <label htmlFor="title">Title</label>
+                    <label htmlFor="title">Title (English)</label>
+                  </div>
+                  <div className="input-box">
+                    <input type="hidden" name="id" value={id} />
+                    <input
+                      type="text"
+                      name="title"
+                      required
+                      value={title_fr}
+                      onChange={handleChange(setTitle_fr)}
+                    />
+                    <label htmlFor="title">Title (French)</label>
                   </div>
 
                   <div className="input-box">
@@ -109,11 +121,10 @@ const UpdateBlog = () => {
                   </div>
 
                   <div className="input-box">
-                    <label htmlFor="content">Content</label>
+                    <p className='blog-content'>Content (English)</p>
                     <Editor
                       apiKey="uw12u5jyw7fsvuxv9x7tp76nm2s5plzg8dqcwu60fz5jt28o"
-                      id="content"
-                      value={content}
+                      value={content_en}
                       init={{
                         height: 500,
                         menubar: false,
@@ -131,7 +142,32 @@ const UpdateBlog = () => {
                         block_formats:
                           'Paragraph=p; Heading 1=h1; Heading 2=h2; Heading 3=h3; Heading 4=h4; Blockquote=blockquote; Code=code'
                       }}
-                      onEditorChange={handleEditorChange}
+                     onEditorChange={(newContent) => setContent_en(newContent)}
+                    />
+                  </div>
+                  <div className="input-box my-4">
+                    <p className='blog-content'>Content (French)</p>
+                    <Editor
+                      apiKey="uw12u5jyw7fsvuxv9x7tp76nm2s5plzg8dqcwu60fz5jt28o"
+                      value={content_fr}
+                      init={{
+                        height: 500,
+                        menubar: false,
+                        toolbar:
+                          'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | ' +
+                          'link media table mergetags | addcomment showcomments | ' +
+                          'spellcheckdialog a11ycheck typography uploadcare | align lineheight |' +
+                          ' checklist numlist bullist indent outdent | emoticons charmap | ' +
+                          'removeformat | code preview fullscreen',
+                        plugins: [
+                          'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
+                          'preview', 'anchor', 'searchreplace', 'visualblocks', 'code',
+                          'fullscreen', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
+                        ],
+                        block_formats:
+                          'Paragraph=p; Heading 1=h1; Heading 2=h2; Heading 3=h3; Heading 4=h4; Blockquote=blockquote; Code=code'
+                      }}
+                      onEditorChange={(newContent) => setContent_fr(newContent)}
                     />
                   </div>
 

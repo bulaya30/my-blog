@@ -353,6 +353,11 @@ body {
   padding: 10px;
   transition: .5s;
 }
+.input-box .blog-content{
+  color: #012970;
+  font-size: .95em;
+  font-weight: 500;
+}
 .input-box label:not([class="term"]){
   position: absolute;
   top: 45%;

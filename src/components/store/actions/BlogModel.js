@@ -1,6 +1,5 @@
-import { db, firebase, auth } from "../../../config/DB";
+import { db, firebase } from "../../../config/DB";
 import { addNotification } from "./NotificationsModel";
-import { translateText } from "../../../translator/Translator";
 
 /**
  * Fetch a single blog or a list of blogs
@@ -9,7 +8,6 @@ import { translateText } from "../../../translator/Translator";
 export const getBlog = (field, value) => {
   return (dispatch) => {
     const blogsRef = db.collection("blogs");
-    const lang = navigator.language.startsWith("fr") ? "fr" : "en";
 
     if (field === "id") {
       blogsRef.doc(value).onSnapshot(
@@ -17,12 +15,7 @@ export const getBlog = (field, value) => {
           if (doc.exists) {
             const data = doc.data();
             const blogData = {
-              id: doc.id,
-              title: data.title[lang] || data.title.en,
-              content: data.content[lang] || data.content.en,
-              authorId: data.authorId,
-              createdAt: data.createdAt,
-              updatedAt: data.updatedAt || null,
+              id: doc.id, ...data,
             };
             const author = await fetchAuthor(blogData.authorId);
             dispatch({ type: "GET_BLOG", payload: { ...blogData, author } });
@@ -41,12 +34,7 @@ export const getBlog = (field, value) => {
         const blogs = snapshot.docs.map((doc) => {
           const data = doc.data();
           return {
-            id: doc.id,
-            title: data.title[lang] || data.title.en,
-            content: data.content[lang] || data.content.en,
-            authorId: data.authorId,
-            createdAt: data.createdAt,
-            updatedAt: data.updatedAt || null,
+            id: doc.id, ...data,
           };
         });
 
@@ -68,45 +56,27 @@ export const getBlog = (field, value) => {
 };
 
 export const addBlog = (blog) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const admin = state.auth.isAdmin;
     try {
       // Determine the language of the original submission
-      const lang = blog.language || "en"; // default to English
 
       // Prevent duplicates: check title in the submitted language
-      const titleField = lang === "en" ? "title.en" : "title.fr";
+      const titleField = "title.en";
       const snapshot = await db
         .collection("blogs")
-        .where(titleField, "==", lang === "en" ? blog.title.en.trim() : blog.title.fr.trim())
+        .where(titleField, "==", blog.title.en.trim())
         .where("authorId", "==", blog.authorId.trim())
         .get();
-
       if (!snapshot.empty) {
         const msg = "A blog with this title and author already exists";
         dispatch({ type: "ERROR", payload: msg });
         return { success: false, error: msg };
       }
-
-      // Translate title & content
-      let title = {}, content = {};
-      if (lang === "en") {
-        title.en = blog.title.en.trim();
-        content.en = blog.content.en.trim();
-        title.fr = await translateText(title.en, "fr");
-        content.fr = await translateText(content.en, "fr");
-      } else {
-        title.fr = blog.title.fr.trim();
-        content.fr = blog.content.fr.trim();
-        title.en = await translateText(title.fr, "en");
-        content.en = await translateText(content.fr, "en");
-      }
-
       // Save to Firestore
       const docRef = await db.collection("blogs").add({
-        title,
-        content,
-        category: blog.category || "",
-        authorId: blog.authorId,
+        ...blog,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
       });
@@ -118,7 +88,7 @@ export const addBlog = (blog) => {
       await dispatch(
         addNotification({
           title: "New Article",
-          message: `${author?.firstName || ""} ${author?.lastName || ""} published a new article "${title[lang]}".`,
+          message: admin ? `You have published a new article "${blog.title.en}".` : `${author?.firstName} ${author?.lastName} published a new article "${blog.title.en}".`,
           type: "Publish",
         })
       );
@@ -126,10 +96,10 @@ export const addBlog = (blog) => {
       // Dispatch success
       dispatch({
         type: "ADD_BLOG_SUCCESS",
-        payload: { id: docRef.id, title, content, category: blog.category, authorId: blog.authorId },
+        payload: { id: docRef.id, ...blog },
       });
 
-      return { success: true, blog: { id: docRef.id, title, content }, error: null };
+      return { success: true, ...blog, error: null };
     } catch (error) {
       dispatch({ type: "ERROR", payload: error.message });
       return { success: false, error: error.message };
@@ -145,40 +115,14 @@ export const addBlog = (blog) => {
 export const updateBlog = (id, blog) => {
   return async (dispatch) => {
     try {
-      const title = {};
-      const content = {};
-
-      try {
-        if (blog.language === 'en') {
-          title.en = blog.title.en;
-          content.en = blog.content.en;
-          title.fr = await translateText(blog.title.en, 'fr');
-          content.fr = await translateText(blog.content.en, 'fr');
-        } else {
-          title.fr = blog.title.fr;
-          content.fr = blog.content.fr;
-          title.en = await translateText(blog.title.fr, 'en');
-          content.en = await translateText(blog.content.fr, 'en');
-        }
-      } catch (translationError) {
-        console.error('Translation failed:', translationError);
-        if (!title.en) title.en = blog.title.en || '';
-        if (!title.fr) title.fr = blog.title.fr || '';
-        if (!content.en) content.en = blog.content.en || '';
-        if (!content.fr) content.fr = blog.content.fr || '';
-      }
-
       await db.collection('blogs').doc(id).update({
-        title,
-        content,
-        category: blog.category,
-        authorId: auth.currentUser.uid,
+        ...blog,
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
       });
 
       dispatch({
         type: 'UPDATE_BLOG',
-        payload: { id, title, content, category: blog.category, authorId: auth.currentUser.uid },
+        payload: { id, ...blog },
       });
 
       return { success: true };

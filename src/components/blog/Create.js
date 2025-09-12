@@ -11,27 +11,29 @@ const CreateBlog = () => {
   const [toast, setToast] = useState({ message: '', type: '' });
 
   // Blog fields
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [title_en, setTitle_en] = useState('');
+  const [title_fr, setTitle_fr] = useState('');
+  const [content_en, setContent_en] = useState('');
+  const [content_fr, setContent_fr] = useState('');
   const [category, setCategory] = useState('');
-  const [language, setLanguage] = useState('en');
 
   // ----- Toast helper -----
   const showToast = (message, type = 'error') => {
     setToast({ message, type });
-    console.log(toast)
     setTimeout(() => setToast({ message: '', type: '' }), 5000);
   };
 
   // ----- Validation rules -----
   const validateBlog = () => {
-    if (!title.trim()) return "Title is required.";
-    if (title.trim().length < 5) return "Title must be at least 5 characters long.";
+    if (!title_en.trim()) return "Title is required.";
+    if (title_en.trim().length < 5) return "Title must be at least 5 characters long.";
+    if (!title_fr.trim()) return "Title is required.";
+    if (title_fr.trim().length < 5) return "Title must be at least 5 characters long.";
 
-    if (!content.trim()) return "Content is required.";
-    if (content.replace(/<[^>]+>/g, '').trim().length < 50) {
-      return "Content must be at least 50 characters long.";
-    }
+    if (!content_en.trim()) return "Content is required.";
+    if (!content_fr.trim()) return "Content is required.";
+    if (content_en.replace(/<[^>]+>/g, '').trim().length < 50) { return "Content must be at least 50 characters long."; }
+    if (content_fr.replace(/<[^>]+>/g, '').trim().length < 50) { return "Content must be at least 50 characters long."; }
 
     if (!category.trim()) return "Category is required.";
     return null;
@@ -49,11 +51,10 @@ const CreateBlog = () => {
     setLoading(true);
 
     const blogData = {
-      title: { [language]: title.trim() },
-      content: { [language]: content.trim() },
+      title: { en: title_en.trim(), fr: title_fr.trim() },
+      content: { en: content_en.trim(), fr: content_fr.trim() },
       category: category.trim(),
-      authorId: auth.uid,
-      language: language,
+      authorId: auth.uid
     };
 
     try {
@@ -62,10 +63,11 @@ const CreateBlog = () => {
         showToast("Blog added successfully!", "success");
 
         // Reset form
-        setTitle('');
-        setContent('');
+        setTitle_en('');
+        setTitle_fr('');
+        setContent_en('');
+        setContent_fr('');
         setCategory('');
-        setLanguage('en');
       } else {
         showToast(result?.error || "Failed to add blog", "error");
       }
@@ -97,29 +99,27 @@ const CreateBlog = () => {
 
           <form onSubmit={handleSubmit} id="new-blog-form" autoComplete="off">
 
-            {/* Language Selector */}
-            <div className="input-box">
-              <select
-                id="language"
-                value={language}
-                onChange={(e) => setLanguage(e.target.value)}
-              >
-                <option value="en">English</option>
-                <option value="fr">French</option>
-              </select>
-              <label htmlFor="language">Writing Language</label>
-            </div>
-
-            {/* Title */}
+            {/* Title en*/}
             <div className="input-box">
               <input
                 type="text"
                 name="title"
                 required
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                value={title_en}
+                onChange={(e) => setTitle_en(e.target.value)}
               />
-              <label htmlFor="title">Title</label>
+              <label htmlFor="title">Title (English)</label>
+            </div>
+            {/* Title fr*/}
+            <div className="input-box">
+              <input
+                type="text"
+                name="title"
+                required
+                value={title_fr}
+                onChange={(e) => setTitle_fr(e.target.value)}
+              />
+              <label htmlFor="title">Title (Frenche)</label>
             </div>
 
             {/* Category */}
@@ -140,13 +140,13 @@ const CreateBlog = () => {
             </div>
 
             {/* Content */}
-            <div className="input-box">
-              <label htmlFor="content">Content</label>
+            <div className="input-box my-4">
+              <p className="blog-content mb-3">Content (English)</p>
               <Editor
                 apiKey='uw12u5jyw7fsvuxv9x7tp76nm2s5plzg8dqcwu60fz5jt28o'
-                id="content"
+                id="content_en"
                 name="content"
-                value={content}
+                value={content_en}
                 init={{
                   height: 300,
                   menubar: false,
@@ -162,7 +162,33 @@ const CreateBlog = () => {
                     'insertdatetime', 'media', 'table', 'paste', 'help', 'wordcount',
                   ],
                 }}
-                onEditorChange={(newContent) => setContent(newContent)}
+                onEditorChange={(newContent) => setContent_en(newContent)}
+              />
+            </div>
+            {/* Content */}
+            <div className="input-box my-4">
+              <p className='blog-content'>Content (French)</p>
+              <Editor
+                apiKey='uw12u5jyw7fsvuxv9x7tp76nm2s5plzg8dqcwu60fz5jt28o'
+                id="content_fr"
+                name="content"
+                value={content_fr}
+                init={{
+                  height: 300,
+                  menubar: false,
+                  toolbar:
+                    'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | ' +
+                    'link media table mergetags | addcomment showcomments | ' +
+                    'spellcheckdialog a11ycheck typography uploadcare | align lineheight |' +
+                    ' checklist numlist bullist indent outdent | emoticons charmap | ' +
+                    'removeformat | code preview fullscreen',
+                  plugins: [
+                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'print',
+                    'preview', 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                    'insertdatetime', 'media', 'table', 'paste', 'help', 'wordcount',
+                  ],
+                }}
+                onEditorChange={(newContent) => setContent_fr(newContent)}
               />
             </div>
 

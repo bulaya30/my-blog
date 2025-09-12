@@ -11,6 +11,7 @@ const Details = ({ admin, blog, auth, getBlog, deleteBlog }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const lang = i18n.language.startsWith("fr") ? "fr" : "en";
 
   // Fetch blog
   useEffect(() => {
@@ -23,32 +24,23 @@ const Details = ({ admin, blog, auth, getBlog, deleteBlog }) => {
   };
 
   if (!blog) return <p>{t('loadingBlog')}</p>;
-
-  // ✅ If you have bilingual fields in Firestore (recommended)
-  const blogTitle =
-    i18n.language === 'fr' ? blog.title_fr || blog.title : blog.title;
-  const blogCategory =
-    i18n.language === 'fr' ? blog.category_fr || blog.category : blog.category;
-  const blogContent =
-    i18n.language === 'fr' ? blog.content_fr || blog.content : blog.content;
-
   return (
     <>
       <div className="container p-5 mt-5 bg-white">
         <h2 className="text-center">
-          <strong>{blogTitle}</strong>
+          <strong>{blog.title[lang]}</strong>
         </h2>
 
         <div className="row">
           <div className="col-12">
             <p className="ms-4">
-              {t('category')}: <strong>{blogCategory}</strong>
+              {t('category')}: <strong>{blog.category}</strong>
             </p>
             <div className="blog-details-content">
               <div
                 className="blog-div-content"
                 dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(blogContent),
+                  __html: DOMPurify.sanitize(blog.content[lang]),
                 }}
               />
 

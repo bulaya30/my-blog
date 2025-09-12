@@ -4,7 +4,8 @@ import DOMPurify from 'dompurify';
 import { useTranslation } from 'react-i18next';
 
 const Summary = ({ blog }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language.startsWith("fr") ? "fr" : "en";
   return (
     <div className="accordion-item">
       <h2 className="accordion-header">
@@ -16,7 +17,7 @@ const Summary = ({ blog }) => {
           aria-expanded="false"
           aria-controls={`collapse${blog.id}`}
         >
-          {blog.title}
+          {blog.title[lang]}
         </button>
       </h2>
       <div
@@ -28,7 +29,7 @@ const Summary = ({ blog }) => {
           <div
             className="blog-content-preview mb-2"
             dangerouslySetInnerHTML={{
-              __html: DOMPurify.sanitize(blog.content.slice(0, 700) + '...'),
+              __html: DOMPurify.sanitize(blog.content[lang].slice(0, 700) + '...'),
             }}
           />
           <Link to={`/blogs/${blog.id}`}>{t("readMore")}</Link>
