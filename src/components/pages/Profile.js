@@ -9,7 +9,7 @@ import CreateBlog from '../blog/Create';
 import { getCategory, deleteCategory } from '../store/actions/categoryModel';
 import { useSidebar } from '../context/sidebarContext';
 
-const Profile = ({ auth, categories, getCategory, deleteCategory }) => {
+const Profile = ({ auth, admin, categories, getCategory, deleteCategory }) => {
   const { sidebarOpen, closeSidebar } = useSidebar();
 
   useEffect(() => {
@@ -106,7 +106,7 @@ const Profile = ({ auth, categories, getCategory, deleteCategory }) => {
                           <li key={category.id }>
                             <i className="bx bx-chevron-right"></i>
                             <NavLink to={`/categories/${category.id}`}>{category.name}</NavLink>
-                            {auth && (
+                            {admin && (
                               <>
                                 <NavLink to={`/categories/${category.id}/edit`} className="edit-category text-right">
                                   <i className="text-right bx bx-edit"></i>
@@ -143,7 +143,7 @@ const Profile = ({ auth, categories, getCategory, deleteCategory }) => {
                 </nav>
               </div>
               <div className="row">
-                <div className="col-12 col-lg-4"><CreateCategory /></div>
+                {admin && (<div className="col-12 col-lg-4"><CreateCategory /></div>)}
                 <div className="col-12 col-lg-8"><CreateBlog /></div>
               </div>
             </div>
@@ -171,6 +171,7 @@ const Profile = ({ auth, categories, getCategory, deleteCategory }) => {
 }
 
 const mapStateToProps = (state) => ({
+  admin : state.auth.isAdmin,
   auth: state.auth.user,
   categories: state.category.categories,
 });

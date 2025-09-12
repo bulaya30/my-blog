@@ -9,25 +9,36 @@ const CreateCategory = () => {
   const [toast, setToast] = useState({ message: '', type: '' });
   const [loading, setLoading] = useState(false);
 
+  const showToast = (message, type = 'error') => {
+    setToast({ message, type });
+    setTimeout(() => setToast({ message: '', type: '' }), 5000);
+  };
+
   const handleChange = (e) => {
     setName(e.target.value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (name.trim() === '') return;
+
+    if (!name.trim()) {
+      return showToast('Category name is required.', 'error');
+    }
 
     setLoading(true);
-     const result = await dispatch(addCategory({ name: name.trim() }));
-    setLoading(false);
-    // If no error, show success
-    if (!result.error) {
-      setToast({ message: 'Category added successfully!', type: 'success' });
-      setTimeout(() => setToast({ message: '', type: '' }), 5000);
-      setName(''); // reset input
-    } else {
-      setToast({ message: result.error, type: 'error' });      
-      setTimeout(() => setToast({ message: '', type: '' }), 5000);
+
+    try {
+      const result = await dispatch(addCategory({ name: name.trim() }));
+      if (!result.error) {
+        showToast('Category added successfully!', 'success');
+        setName(''); // reset input
+      } else {
+        showToast(result.error || 'Failed to add category', 'error');
+      }
+    } catch (err) {
+      showToast(err.message || 'An error occurred', 'error');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -37,11 +48,6 @@ const CreateCategory = () => {
         <h2>New Category</h2>
         <div className="card-body">
           <form id="new-category-form" autoComplete="off" onSubmit={handleSubmit}>
-            <div className="row mb-3">
-              <div className="errors hide"></div>
-              <div className="success-container"></div>
-            </div>
-
             <div className="input-box">
               <input
                 type="text"
@@ -52,7 +58,6 @@ const CreateCategory = () => {
                 onChange={handleChange}
               />
               <label htmlFor="name">Name</label>
-              <div className="input-errors name">Category name required</div>
             </div>
 
             <div className="input-box">
@@ -71,7 +76,10 @@ const CreateCategory = () => {
 
       {/* Toast Notification */}
       {toast.message && (
-        <div className={`toast-notification ${toast.type}`}>
+        <div
+          className={`toast-notification ${toast.type === 'error' ? 'bg-red-500' : 'bg-green-500'} text-white p-3 rounded mt-3`}
+          role="alert"
+        >
           {toast.message}
         </div>
       )}

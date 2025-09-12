@@ -5,7 +5,8 @@ import { Editor } from '@tinymce/tinymce-react';
 
 const CreateBlog = () => {
   const dispatch = useDispatch();
-  const auth = useSelector(state => state.auth.user);
+  const auth = useSelector((state) => state.auth.user);
+
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState({ message: '', type: '' });
 
@@ -13,35 +14,65 @@ const CreateBlog = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('');
-  const [language, setLanguage] = useState('en'); // default writing language
+  const [language, setLanguage] = useState('en');
+
+  // ----- Toast helper -----
+  const showToast = (message, type = 'error') => {
+    setToast({ message, type });
+    console.log(toast)
+    setTimeout(() => setToast({ message: '', type: '' }), 5000);
+  };
+
+  // ----- Validation rules -----
+  const validateBlog = () => {
+    if (!title.trim()) return "Title is required.";
+    if (title.trim().length < 5) return "Title must be at least 5 characters long.";
+
+    if (!content.trim()) return "Content is required.";
+    if (content.replace(/<[^>]+>/g, '').trim().length < 50) {
+      return "Content must be at least 50 characters long.";
+    }
+
+    if (!category.trim()) return "Category is required.";
+    return null;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log(title, content)
-    if (!title.trim() || !content.trim()) return;
+
+    if (!auth) return showToast("User info not loaded. Please wait.");
+
+    // Run validations
+    const errorMsg = validateBlog();
+    if (errorMsg) return showToast(errorMsg, 'error');
 
     setLoading(true);
 
     const blogData = {
-      title: { [language]: title.trim() },       // { en: "Title" } or { fr: "Title" }
-      content: { [language]: content.trim() },   // same
+      title: { [language]: title.trim() },
+      content: { [language]: content.trim() },
       category: category.trim(),
       authorId: auth.uid,
-      language: language
+      language: language,
     };
-    const result = await dispatch(addBlog(blogData));
-    console.log( result)
-    setLoading(false);
 
-    if (result?.success) {
-      setToast({ message: 'Blog added successfully!', type: 'success' });
-      setTimeout(() => setToast({ message: '', type: '' }), 5000);
-      setTitle('');
-      setContent('');
-      setCategory('');
-    } else {
-      setToast({ message: result?.error || 'Failed to add blog', type: 'error' });
-      setTimeout(() => setToast({ message: '', type: '' }), 5000);
+    try {
+      const result = await dispatch(addBlog(blogData));
+      if (result?.success) {
+        showToast("Blog added successfully!", "success");
+
+        // Reset form
+        setTitle('');
+        setContent('');
+        setCategory('');
+        setLanguage('en');
+      } else {
+        showToast(result?.error || "Failed to add blog", "error");
+      }
+    } catch (err) {
+      showToast(err.message || "An error occurred", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -57,8 +88,10 @@ const CreateBlog = () => {
           {toast.message && (
             <div
               className={`toast ${toast.type === 'error' ? 'bg-red-500' : 'bg-green-500'} text-white p-3 rounded mb-4`}
+              role="alert"
             >
               {toast.message}
+              {console.log(toast)}
             </div>
           )}
 
@@ -70,7 +103,6 @@ const CreateBlog = () => {
                 id="language"
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
-                
               >
                 <option value="en">English</option>
                 <option value="fr">French</option>
@@ -82,7 +114,6 @@ const CreateBlog = () => {
             <div className="input-box">
               <input
                 type="text"
-                id="title"
                 name="title"
                 required
                 value={title}
@@ -112,7 +143,7 @@ const CreateBlog = () => {
             <div className="input-box">
               <label htmlFor="content">Content</label>
               <Editor
-                 apiKey='uw12u5jyw7fsvuxv9x7tp76nm2s5plzg8dqcwu60fz5jt28o'
+                apiKey='uw12u5jyw7fsvuxv9x7tp76nm2s5plzg8dqcwu60fz5jt28o'
                 id="content"
                 name="content"
                 value={content}

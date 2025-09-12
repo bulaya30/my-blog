@@ -2,18 +2,26 @@ export async function translateText(text, targetLang) {
   if (!text) return "";
 
   try {
-    const response = await fetch("/.netlify/functions/translate", {
+    const response = await fetch("https://libretranslate.com/translate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text, target: targetLang }),
+      body: JSON.stringify({
+        q: text,
+        source: "auto",       
+        target: targetLang,   
+        format: "text"
+      }),
     });
+
+    if (!response.ok) {
+      throw new Error(`Translation API error: ${response.status}`);
+    }
 
     const data = await response.json();
 
-    // Ensure it's a string
-    return typeof data.translatedText === "string" ? data.translatedText : text;
+    return data.translatedText || text;
   } catch (err) {
     console.error("Translation error:", err);
-    return text; // fallback
+    return text; 
   }
 }
