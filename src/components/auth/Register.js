@@ -3,7 +3,6 @@ import { NavLink, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signUp } from "../store/actions/AuthModel";
 import { useTranslation } from "react-i18next";
-import firebase from "../../config/DB"; // your Firebase config
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -85,15 +84,7 @@ const Register = () => {
 
       if (!result.error) {
         // Send verification email
-        showToast(t("A link has been set to verify your email"), "success");
-        // showToast(t("registrationPage.verificationSent"), "success");
-      //   const user = firebase.auth().currentUser;
-      //   if (user) {
-      //     const em = await user.sendEmailVerification();
-      //     console.log(em)
-      //   }
-      // } else {
-      //   showToast(t("registrationPage.error"), "error");
+        showToast(t("A link has been set to verify your email"), "success");;
       }
     } catch (err) {
       showToast(t("registrationPage.error"), "error");

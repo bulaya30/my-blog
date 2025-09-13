@@ -36,7 +36,6 @@ export const signOut = () => {
   };
 };
 export const signUp = (newUser) => {
-  console.log(newUser)
   return async (dispatch) => {
     try {
       // 1️⃣ Create user with email & password
@@ -91,7 +90,6 @@ export const signUp = (newUser) => {
       return { success: true };
 
     } catch (err) {
-      console.log(err.message)
       dispatch({ type: 'SIGNUP_ERROR', err });
       return { success: false, error: err.message };
     }
