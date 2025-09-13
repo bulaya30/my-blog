@@ -8,16 +8,13 @@ const UserReducer = (state = initState, action) => {
     case "SET_PROFILE":
       return {
         ...state,
-        profile: action.payload,  
+        user: action.payload,  
       };
 
     case "UPDATE_PROFILE_SUCCESS":
       return {
         ...state,
-        user: {
-          ...state.profile,       // keep existing profile data
-          ...action.payload,      // merge updates
-        },
+        user : action.payload,
       };
 
     case "UPDATE_PROFILE_ERROR":

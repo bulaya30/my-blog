@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { signOut } from '../store/actions/AuthModel';
 
 const SignedIn = ({ auth, signOut }) => {
+  console.log(auth.user)
   const displayName = auth ? auth.firstName[0]+'. '+auth.lastName : '';
     const { t } = useTranslation();
 
@@ -49,7 +50,7 @@ const SignedIn = ({ auth, signOut }) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log('NavBar state: ', state) 
+  // console.log('NavBar state: ', state) 
   return{
     auth: state.auth.user.profile,
   }

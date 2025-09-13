@@ -35,16 +35,22 @@ export const signOut = () => {
     }
   };
 };
-
 export const signUp = (newUser) => {
+  console.log(newUser)
   return async (dispatch) => {
     try {
+      // 1️⃣ Create user with email & password
       const res = await firebase.auth().createUserWithEmailAndPassword(newUser.email, newUser.password);
       const createdUser = res.user;
-      const uid = createdUser.uid;
+
+      // 2️⃣ Send email verification
+      await createdUser.sendEmailVerification();  // 🔹 verification email sent here
+
+      // 3️⃣ Determine role
       const role = ADMIN_EMAILS.includes(newUser.email.toLowerCase()) ? 'admin' : 'user';
 
-      const userDocRef = firebase.firestore().collection('users').doc(uid);
+      // 4️⃣ Save user profile in Firestore
+      const userDocRef = firebase.firestore().collection('users').doc(createdUser.uid);
       await userDocRef.set({
         firstName: newUser.fname,
         lastName: newUser.lname,
@@ -63,10 +69,10 @@ export const signUp = (newUser) => {
         role,
       });
 
-      // 4️⃣ Fetch the created document
+      // 5️⃣ Fetch the created document
       const doc = await userDocRef.get();
 
-      // 5️⃣ Update Redux state
+      // 6️⃣ Update Redux state
       if (doc.exists) {
         const profileData = { id: doc.id, ...doc.data() };
         dispatch({ type: 'PROFILE_LOADED', payload: profileData });
@@ -75,14 +81,17 @@ export const signUp = (newUser) => {
         dispatch({ type: 'SIGNUP_SUCCESS', payload: { ...createdUser.toJSON(), profile: profileData } });
       }
 
-      // 6️⃣ Send admin notification
+      // 7️⃣ Send admin notification
       await dispatch(addNotification({
         title: "New User",
         message: `A new user ${newUser.email} created an account.`,
         type: "Registration",
       }));
+
       return { success: true };
+
     } catch (err) {
+      console.log(err.message)
       dispatch({ type: 'SIGNUP_ERROR', err });
       return { success: false, error: err.message };
     }
