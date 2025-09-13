@@ -16,9 +16,10 @@ export const signIn = (credentials) => {
       dispatch({ type: 'LOGIN_SUCCESS', payload: { ...res.user.toJSON(), profile: profileData } });
       dispatch({ type: 'PROFILE_LOADED', payload: profileData });
       dispatch({ type: 'SET_ADMIN', payload: profileData.role === 'admin' });
-
+      return { success: true };
     } catch (err) {
       dispatch({ type: 'LOGIN_ERROR', err });
+      return { success: false, error: err.message };
     }
   };
 };
@@ -80,9 +81,10 @@ export const signUp = (newUser) => {
         message: `A new user ${newUser.email} created an account.`,
         type: "Registration",
       }));
-
+      return { success: true };
     } catch (err) {
       dispatch({ type: 'SIGNUP_ERROR', err });
+      return { success: false, error: err.message };
     }
   };
 };

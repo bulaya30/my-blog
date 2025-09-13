@@ -39,10 +39,10 @@ const CreateCategory = () => {
         showToast('Category added successfully!', 'success');
         setName(''); // reset input
       } else {
-        showToast(result.error || 'Failed to add category', 'error');
+        showToast('Failed to add category', 'error');
       }
     } catch (err) {
-      showToast(err.message || 'An error occurred', 'error');
+      showToast('An error occurred', 'error');
     } finally {
       setLoading(false);
     }

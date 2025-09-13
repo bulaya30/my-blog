@@ -32,7 +32,7 @@ const Category = ({ categories, getCategory, auth, deleteCategory }) => {
       <h2>{t('categoryPage.title')}</h2>
       <ul>
         {safeCategories.map((category) => (
-          <li key={category.id || category.key || Math.random()}>
+          <li key={category.id}>
             <i className="bx bx-chevron-right"></i>
             <NavLink to={`/categories/${category.id}`}>{category.name}</NavLink>
           </li>

@@ -49,7 +49,7 @@ const SignedIn = ({ auth, signOut }) => {
 };
 
 const mapStateToProps = (state) => {
-  // console.log('NavBar state: ', state) 
+  console.log('NavBar state: ', state) 
   return{
     auth: state.auth.user.profile,
   }

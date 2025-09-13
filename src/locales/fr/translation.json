@@ -96,6 +96,43 @@
   "text": "Norrechel se consacre à autonomiser les jeunes afin qu'ils découvrent leur potentiel, développent un caractère fort, augmentent leur valeur et prennent des mesures engagées pour atteindre leurs objectifs. Notre contenu inspire, motive et fournit des idées pratiques pour la croissance et le succès.",
   "learnMore": "En savoir plus"
 },
+"loginPage": {
+  "welcome": "Bienvenue",
+  "signInInfo": "Connectez-vous à votre compte",
+  "emailLabel": "Adresse email",
+  "emailRequired": "Adresse électronique requise",
+  "passwordLabel": "Mot de passe",
+  "passwordRequired": "Mot de passe requis",
+  "loginBtn": "Connexion",
+  "loggingInBtn": "Connexion...",
+  "noAccount": "Ne pas de compte?",
+  "registerLink": "S'enregistre",
+  "notAllowed": "Non autorisé",
+  "error": "Adresse électronique ou mot de passe erroné."
+},
+"registrationPage": {
+  "createAccount": "Créer un compte",
+  "joinUs": "Rejoignez-nous",
+  "fillDetails": "Remplissez vos coordonnées pour commencer à utiliser votre nouveau compte.",
+  "lasstName": "Prénom",
+  "firstName": "Nom",
+  "email": "Adresse email",
+  "password": "Mot de passe",
+  "confirmPassword": "Confirmer le mot de passe",
+  "agree": "J'accepte les",
+  "terms": "conditions générales",
+  "registerBtn": "S'enregistrer",
+  "registeringBtn": "Enregistrement...",
+  "haveAccount": "Vous avez déjà un compte?",
+  "loginLink": "Connexion",
+  "lasstNameRequired": "Prénom obligatoire",
+  "firstNameRequired": "Nom de famille obligatoire",
+  "emailRequired": "Courriel valide requis",
+  "passwordRequired": "Mot de passe requis",
+  "passwordsMismatch": "Les mots de passe doivent correspondre",
+  "error" : "L'adresse email est déjà utilisée"
+},
+
 
   "newsletterTitle": "Restez informé !",
   "newsletterDesc": "Recevez les derniers articles directement dans votre boîte mail.",

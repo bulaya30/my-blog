@@ -93,4 +93,18 @@
     flex-wrap: wrap;
     font-size: 0.85rem;
   }
+  .category-content{
+    padding: 3px;
+  }
+  .category-content ul {
+    padding: 0;
+  }
+  /* .category-content ul li{
+    margin: 0;
+    padding: 0;
+    background: cyan;
+  }
+  .category-content a {
+    padding-left: 0;
+  } */
 }
