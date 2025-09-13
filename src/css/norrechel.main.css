@@ -418,29 +418,29 @@ body {
   background: red;
   color: #fff;
 }
-.errors{
-  background: rgba(255, 0, 0, 0.212);
-  margin: -20px 0 20px;
-  padding: 5px;
-  border-radius: 5px;
-  text-align: center;
-  font-size: .95em;
-  font-weight: 500;
-  color: red;
-  /* display: none; */
-}
-.input-errors{
+.input-error{
   margin: -15px 5px 20px 5px;
   font-size: .85em;
   font-weight: 500;
   color: red;
-  display: none;
+  /* display: none; */
 }
-.loading-btn{
-  display: none;
-}
+
 .auth-link p a{
   color: #012970;
+}
+.input-error-border label,
+.input-error-border p {
+  color: red !important;
+}
+.input-error-border input,
+.input-error-border select{
+  color: rgba(255, 0, 0, 0.767) !important;
+  border-bottom: 2px solid red !important;
+}
+.input-error-border .tox-tinymce {
+  border: 2px solid red !important;
+  border-radius: 4px;
 }
 
 /*------------------------------------------------------------- 

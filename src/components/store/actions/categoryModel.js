@@ -71,20 +71,21 @@ export const getCategory = (field, value) => {
 };
 
 
+
 export const updateCategory = (category) => {
-  return (dispatch, getState) => {
-    firebase.firestore().collection('categories')
-      .doc(category.id)
+  return async  (dispatch) => {
+    try {
+      await firebase.firestore().collection('categories').doc(category.id)
       .update({
         name: category.name,
-        updatedAt: new Date()
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
       })
-      .then(() => {
-        dispatch({ type: 'UPDATE_CATEGORY', payload: category });
-      })
-      .catch((err) => {
-        dispatch({ type: 'UPDATE_CATEGORY_ERROR', err });
-      });
+      dispatch({ type: 'UPDATE_CATEGORY', payload: category });
+       return { success: true };
+    } catch (error) {
+       dispatch({ type: 'UPDATE_CATEGORY_ERROR', error })
+       return {success: false, error: error.message}
+    }
   };
 };
 export const deleteCategory = (id) => {

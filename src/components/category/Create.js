@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addCategory } from '../store/actions/categoryModel';
 
 const CreateCategory = () => {
@@ -8,22 +8,28 @@ const CreateCategory = () => {
   const [name, setName] = useState('');
   const [toast, setToast] = useState({ message: '', type: '' });
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
+   const admin = useSelector((state) => state.auth.isAdmin);
 
   const showToast = (message, type = 'error') => {
     setToast({ message, type });
-    setTimeout(() => setToast({ message: '', type: '' }), 5000);
+    setTimeout(() => setToast({ message: '', type: '' }), 8000);
   };
+  // ----- Validation rules -----
+  const validateBlog = () => {
+    const newErrors = {};
+    if (!name.trim()) newErrors.name = "Category name is required.";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  }
 
-  const handleChange = (e) => {
-    setName(e.target.value);
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!name.trim()) {
-      return showToast('Category name is required.', 'error');
-    }
+    if (!admin) return showToast("Not allowed");
+
+    if (!validateBlog()) return showToast("Invalid category name\nPlease fix the errors before submitting.", 'error');
 
     setLoading(true);
 
@@ -42,33 +48,38 @@ const CreateCategory = () => {
     }
   };
 
+  const errorClass = (field) => (errors[field] ? "input-error-border" : "");
+
   return (
     <div className="form-section">
       <div className="card border-0 shadow-sm">
         <h2>New Category</h2>
         <div className="card-body">
           <form id="new-category-form" autoComplete="off" onSubmit={handleSubmit}>
-            <div className="input-box">
+             <div className={`input-box ${errorClass('name')}`}>
               <input
                 type="text"
                 id="name"
                 name="name"
                 value={name}
                 required
-                onChange={handleChange}
+                onChange={(e) => setName(e.target.value)}
               />
               <label htmlFor="name">Name</label>
+              {errors.name && <p className="input-error">{errors.name}</p>}
             </div>
 
             <div className="input-box">
-              <button
-                id="new-category-btn"
-                className="btn btn-sm w-100"
-                type="submit"
-                disabled={loading}
-              >
-                {loading ? 'Adding...' : 'Add'}
-              </button>
+              {!loading ? (
+                <button id="new-article-btn" className="btn btn-sm w-100" type="submit">
+                  Add
+                </button>
+              ) : (
+                <button className="btn btn-sm w-100 loading-btn" type="button" disabled>
+                  <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  <span>Adding...</span>
+                </button>
+              )}
             </div>
           </form>
         </div>
@@ -77,7 +88,7 @@ const CreateCategory = () => {
       {/* Toast Notification */}
       {toast.message && (
         <div
-          className={`toast-notification ${toast.type === 'error' ? 'bg-red-500' : 'bg-green-500'} text-white p-3 rounded mt-3`}
+          className={`toast-notification ${toast.type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white p-3 rounded mt-3`}
           role="alert"
         >
           {toast.message}

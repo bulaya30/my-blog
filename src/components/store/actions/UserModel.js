@@ -72,8 +72,10 @@ export const updateProfile = (profile) => {
         .update(cleanedProfile);
 
       dispatch({ type: "UPDATE_PROFILE_SUCCESS", payload: cleanedProfile });
+      return { success: true };
     } catch (err) {
       dispatch({ type: "UPDATE_PROFILE_ERROR", err });
+      return { success: false, error: err.message };
     }
   };
 };

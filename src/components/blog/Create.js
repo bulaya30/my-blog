@@ -17,26 +17,38 @@ const CreateBlog = () => {
   const [content_fr, setContent_fr] = useState('');
   const [category, setCategory] = useState('');
 
+  // Inline errors
+  const [errors, setErrors] = useState({});
+
   // ----- Toast helper -----
   const showToast = (message, type = 'error') => {
     setToast({ message, type });
-    setTimeout(() => setToast({ message: '', type: '' }), 5000);
+    setTimeout(() => setToast({ message: '', type: '' }), 8000);
   };
+  
 
   // ----- Validation rules -----
   const validateBlog = () => {
-    if (!title_en.trim()) return "Title is required.";
-    if (title_en.trim().length < 5) return "Title must be at least 5 characters long.";
-    if (!title_fr.trim()) return "Title is required.";
-    if (title_fr.trim().length < 5) return "Title must be at least 5 characters long.";
+    const newErrors = {};
 
-    if (!content_en.trim()) return "Content is required.";
-    if (!content_fr.trim()) return "Content is required.";
-    if (content_en.replace(/<[^>]+>/g, '').trim().length < 50) { return "Content must be at least 50 characters long."; }
-    if (content_fr.replace(/<[^>]+>/g, '').trim().length < 50) { return "Content must be at least 50 characters long."; }
+    if (!title_en.trim()) newErrors.title_en = "Title (English) is required.";
+    else if (title_en.trim().length < 5) newErrors.title_en = "Title (English) must be at least 5 characters long.";
 
-    if (!category.trim()) return "Category is required.";
-    return null;
+    if (!title_fr.trim()) newErrors.title_fr = "Title (French) is required.";
+    else if (title_fr.trim().length < 5) newErrors.title_fr = "Title (French) must be at least 5 characters long.";
+
+    if (!content_en.replace(/<[^>]+>/g, '').trim()) newErrors.content_en = "Content (English) is required.";
+    else if (content_en.replace(/<[^>]+>/g, '').trim().length < 50) 
+      newErrors.content_en = "Content (English) must be at least 50 characters long.";
+
+    if (!content_fr.replace(/<[^>]+>/g, '').trim()) newErrors.content_fr = "Content (French) is required.";
+    else if (content_fr.replace(/<[^>]+>/g, '').trim().length < 50) 
+      newErrors.content_fr = "Content (French) must be at least 50 characters long.";
+
+    if (!category.trim()) newErrors.category = "Category is required.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
@@ -44,9 +56,7 @@ const CreateBlog = () => {
 
     if (!auth) return showToast("User info not loaded. Please wait.");
 
-    // Run validations
-    const errorMsg = validateBlog();
-    if (errorMsg) return showToast(errorMsg, 'error');
+    if (!validateBlog()) return showToast("Please fix the errors before submitting.", "error");
 
     setLoading(true);
 
@@ -68,6 +78,7 @@ const CreateBlog = () => {
         setContent_en('');
         setContent_fr('');
         setCategory('');
+        setErrors({});
       } else {
         showToast(result?.error || "Failed to add blog", "error");
       }
@@ -80,50 +91,45 @@ const CreateBlog = () => {
 
   if (!auth) return <p>Loading user info...</p>;
 
+  // Helper to apply red border if field has an error
+  const errorClass = (field) => errors[field] ? 'input-error-border' : '';
+
   return (
     <div className="form-section">
       <div className="card border-0 shadow-sm">
         <h2>New Blog</h2>
         <div className="card-body">
 
-          {/* Toast message */}
-          {toast.message && (
-            <div
-              className={`toast ${toast.type === 'error' ? 'bg-red-500' : 'bg-green-500'} text-white p-3 rounded mb-4`}
-              role="alert"
-            >
-              {toast.message}
-              {console.log(toast)}
-            </div>
-          )}
-
           <form onSubmit={handleSubmit} id="new-blog-form" autoComplete="off">
 
-            {/* Title en*/}
-            <div className="input-box">
+            {/* Title English */}
+            <div className={`input-box ${errorClass('title_en')}`}>
               <input
                 type="text"
-                name="title"
-                required
+                name="title_en"
                 value={title_en}
+                required
                 onChange={(e) => setTitle_en(e.target.value)}
               />
-              <label htmlFor="title">Title (English)</label>
+              <label htmlFor="title_en">Title (English)</label>
+              {errors.title_en && <p className="input-error">{errors.title_en}</p>}
             </div>
-            {/* Title fr*/}
-            <div className="input-box">
+
+            {/* Title French */}
+            <div className={`input-box ${errorClass('title_fr')}`}>
               <input
                 type="text"
-                name="title"
-                required
+                name="title_fr"
                 value={title_fr}
+                required
                 onChange={(e) => setTitle_fr(e.target.value)}
               />
-              <label htmlFor="title">Title (Frenche)</label>
+              <label htmlFor="title_fr">Title (French)</label>
+              {errors.title_fr && <p className="input-error">{errors.title_fr}</p>}
             </div>
 
             {/* Category */}
-            <div className="input-box">
+            <div className={`input-box ${errorClass('category')}`}>
               <select
                 name="category"
                 id="category"
@@ -137,15 +143,16 @@ const CreateBlog = () => {
                 <option value="Business">Business</option>
               </select>
               <label htmlFor="category">Category</label>
+              {errors.category && <p className="input-error">{errors.category}</p>}
             </div>
 
-            {/* Content */}
-            <div className="input-box my-4">
+            {/* Content English */}
+            <div className={`input-box my-4 ${errorClass('content_en')}`}>
               <p className="blog-content mb-3">Content (English)</p>
               <Editor
                 apiKey='uw12u5jyw7fsvuxv9x7tp76nm2s5plzg8dqcwu60fz5jt28o'
                 id="content_en"
-                name="content"
+                name="content_en"
                 value={content_en}
                 init={{
                   height: 300,
@@ -164,14 +171,16 @@ const CreateBlog = () => {
                 }}
                 onEditorChange={(newContent) => setContent_en(newContent)}
               />
+              {errors.content_en && <p className="input-error">{errors.content_en}</p>}
             </div>
-            {/* Content */}
-            <div className="input-box my-4">
-              <p className='blog-content'>Content (French)</p>
+
+            {/* Content French */}
+            <div className={`input-box my-4 ${errorClass('content_fr')}`}>
+              <p className="blog-content mb-3">Content (French)</p>
               <Editor
                 apiKey='uw12u5jyw7fsvuxv9x7tp76nm2s5plzg8dqcwu60fz5jt28o'
                 id="content_fr"
-                name="content"
+                name="content_fr"
                 value={content_fr}
                 init={{
                   height: 300,
@@ -190,6 +199,7 @@ const CreateBlog = () => {
                 }}
                 onEditorChange={(newContent) => setContent_fr(newContent)}
               />
+              {errors.content_fr && <p className="input-error">{errors.content_fr}</p>}
             </div>
 
             {/* Submit */}
@@ -216,6 +226,15 @@ const CreateBlog = () => {
 
           </form>
         </div>
+        {/* Toast Notification */}
+        {toast.message && (
+          <div
+            className={`toast-notification ${toast.type === 'error' ? 'bg-red-500' : 'bg-green-500'} text-white p-3 rounded mt-3`}
+              role="alert"
+            >
+            {toast.message}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,46 +1,73 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { updateCategory, getCategory } from '../store/actions/categoryModel'; 
 
-const EditCategory = ({ singleCategory, updateCategory, getCategory }) => {
+const EditCategory = () => {
   const { id } = useParams();
-  const [formData, setFormData] = useState({
-    name: '',
-    id: ''
-  });
+  const dispatch = useDispatch()
+  const [toast, setToast] = useState({ message: '', type: '' });
+  const admin = useSelector((state) => state.auth.isAdmin);
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [name, setName] = useState('');
+  const category = useSelector((state) =>
+      Array.isArray(state.category.categories)
+        ? state.category.categories.find((b) => b.id === id)
+        : state.category.categories?.id === id
+        ? state.category.categories
+        : null
+    );
 
   // Fetch category by ID
+useEffect(() => {
+    dispatch(getCategory('id', id));
+  }, [dispatch, id]);
   useEffect(() => {
-    getCategory('id', id);
-    setFormData(prev => ({ ...prev, id }));
-  }, [id, getCategory]);
-  useEffect(() => {
-    if (singleCategory) {
-      setFormData({
-        name: singleCategory.name || '',
-        id: singleCategory.id || id
-      });
+    if (category) {
+     setName(category.name)
     }
-  }, [singleCategory, id]);
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value
-    });
+  }, [category]);
+
+  const showToast = (message, type = 'error') => {
+    setToast({ message, type });
+    setTimeout(() => setToast({ message: '', type: '' }), 20000);
   };
+  // ----- Validation rules -----
+  const validateBlog = () => {
+    const newErrors = {};
+    if (!name.trim()) newErrors.name = "Category name is required.";
+    else if (name.trim().length < 5) newErrors.name = "Category name must be at least 5 characters long.";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateCategory(formData); // dispatch redux action
-  };
+     if (!admin) return showToast("Not allowed");
+
+    if (!validateBlog()) return showToast("Invalid category name\nPlease fix the errors before submitting.");
+    setLoading(true);
+    try {
+      const result = dispatch(updateCategory({id, name}));
+      if (!result.error) {
+        showToast('Category name updated successfully!', 'success');
+      } else {
+        showToast(result.error || 'Failed to update category name', 'error');
+      }
+    } catch (err) {
+      showToast(err.message || 'An error occurred', 'error');
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div id="main">
       <div className="container">
         <div className="row">
           <div className="form-section">
-            <div className="card mt-3">
+            <div className="card border-0 shadow-sm mt-3">
               <h2>Update Category</h2>
               <div className="card-body">
                 <form onSubmit={handleSubmit} id="new-category-form" autoComplete="off">
@@ -53,36 +80,37 @@ const EditCategory = ({ singleCategory, updateCategory, getCategory }) => {
                       type="text" 
                       id="name" 
                       name="name" 
-                      value={formData.name}
+                      value={name}
                       required 
-                      onChange={handleChange}  
+                      onChange={(e) => setName(e.target.value)}
                     /> 
-                    <input 
-                      type="hidden" 
-                      name="id" 
-                      id="id" 
-                      value={formData.id} 
-                      readOnly
-                    />
                     <label htmlFor="name">Name</label>
-                    <div className="input-errors name">Category name required</div>
+                     {errors.name && <p className="input-error">{errors.name}</p>}
                   </div>
                   <div className="input-box">
-                    <button 
-                      id="new-category-btn" 
-                      className="btn btn-sm w-100" 
-                      type="submit"
-                    >
-                      Update
-                    </button>
-                    <button className="btn btn-sm w-100 loading-btn" type="button" disabled>
-                      <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                      <span>Updating...</span>
-                    </button>
+                    {!loading ? (
+                      <button id="new-article-btn" className="btn btn-sm w-100" type="submit">
+                        Save changes
+                      </button>
+                    ) : (
+                      <button className="btn btn-sm w-100 loading-btn" type="button" disabled>
+                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span>Saving...</span>
+                      </button>
+                    )}
                   </div>
                 </form>
               </div>
             </div>
+            {/* Toast Notification */}
+            {toast.message && (
+              <div
+                className={`toast-notification ${toast.type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white p-3 rounded mt-3`}
+                role="alert"
+              >
+                {toast.message}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -90,15 +118,5 @@ const EditCategory = ({ singleCategory, updateCategory, getCategory }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return{
-  singleCategory: state.category.categories || null
-  };
-}
 
-const mapDispatchToProps = {
-  updateCategory,
-  getCategory,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(EditCategory);
+export default EditCategory;
