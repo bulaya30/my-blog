@@ -57,7 +57,7 @@ onAuthStateChanged(auth, async (user) => {
         store.dispatch({ type: "SET_ADMIN", payload: isAdmin });
       }
     } catch (err) {
-      console.error("Error loading profile or role:", err);
+      throw(err);
     }
   } else {
     // User signed out

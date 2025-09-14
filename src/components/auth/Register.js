@@ -93,8 +93,8 @@ const Register = () => {
     }
   };
 
-  // Only redirect if email is verified
-  if (auth && auth.emailVerified) return <Navigate to="/profile" replace />;
+  // Only redirect if authentificated
+  if (auth) return <Navigate to="/profile" replace />;
 
   const errorClass = (field) => (errors[field] ? "input-error-border" : "");
 

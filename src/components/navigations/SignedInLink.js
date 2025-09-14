@@ -4,9 +4,12 @@ import { connect } from 'react-redux';
 import { useTranslation } from "react-i18next";
 import { signOut } from '../store/actions/AuthModel';
 
-const SignedIn = ({ auth, signOut }) => {
-  console.log(auth.user)
-  const displayName = auth ? auth.firstName[0]+'. '+auth.lastName : '';
+const SignedIn = ({ auth, profile, signOut }) => {
+  const displayName = auth ? 
+  auth.firstName[0]+'. '+auth.lastName 
+  : profile 
+  ?  profile.firstName[0]+'. '+profile.lastName 
+  : '';
     const { t } = useTranslation();
 
   return (
@@ -50,9 +53,10 @@ const SignedIn = ({ auth, signOut }) => {
 };
 
 const mapStateToProps = (state) => {
-  // console.log('NavBar state: ', state) 
+  console.log('NavBar state: ', state) 
   return{
-    auth: state.auth.user.profile,
+    profile: state.auth.user.profile,
+    // auth: state.auth.user,
   }
 };
 

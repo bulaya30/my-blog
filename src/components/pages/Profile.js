@@ -11,7 +11,7 @@ import { useSidebar } from '../context/sidebarContext';
 
 const Profile = ({ auth, admin, categories, getCategory, deleteCategory }) => {
   const { sidebarOpen, closeSidebar } = useSidebar();
-
+  // console.log(auth)
   useEffect(() => {
     getCategory();
   }, [getCategory]);
@@ -170,11 +170,13 @@ const Profile = ({ auth, admin, categories, getCategory, deleteCategory }) => {
   );
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => {
+  console.log(state)
+  return {
   admin : state.auth.isAdmin,
   auth: state.auth.user,
   categories: state.category.categories,
-});
+}}
 
 const mapDispatchToProps = {
   getCategory,
