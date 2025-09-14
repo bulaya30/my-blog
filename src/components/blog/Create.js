@@ -158,7 +158,7 @@ const CreateBlog = () => {
             <div className={`input-box my-4 ${errorClass('content_en')}`}>
               <p className="blog-content mb-3">{t("createBlogPage.Content (English)")}</p>
               <Editor
-                apiKey='uw12u5jyw7fsvuxv9x7tp76nm2s5plzg8dqcwu60fz5jt28o'
+                apiKey='de4f4a016a0bfea158f3512257b02b0927792f2045bc7014968b65d6fdca10a2'
                 id="content_en"
                 name="content_en"
                 value={content_en}
@@ -186,7 +186,7 @@ const CreateBlog = () => {
             <div className={`input-box my-4 ${errorClass('content_fr')}`}>
               <p className="blog-content mb-3">{t("createBlogPage.Content (French)")}</p>
               <Editor
-                apiKey='uw12u5jyw7fsvuxv9x7tp76nm2s5plzg8dqcwu60fz5jt28o'
+                apiKey='de4f4a016a0bfea158f3512257b02b0927792f2045bc7014968b65d6fdca10a2'
                 id="content_fr"
                 name="content_fr"
                 value={content_fr}

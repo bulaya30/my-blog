@@ -197,7 +197,8 @@
       "profile": "Profile",
       "dashboard": "Dashboard",
       "blogs": "Blogs",
-      "newArticle": "New Article"
+      "newArticle": "New Article",
+      "subscribers": "Subscribers"
     },
     "categories": {
       "title": "Categories",
@@ -259,5 +260,9 @@
   "deleteThisArticle": "Delete this article",
   "updateThisArticle": "Update this article",
   "writtenBy": "Written by",
-  "publishedIn": "Published in"
+  "publishedIn": "Published in",
+  "subscriberDeleted": "Subscriber deleted successfully!",
+  "subscriberDeleteFailed": "Failed to delete subscriber.",
+  "confirmDeleteSubscriber": "Do you really want delete this subscriber?",
+  "dateSubscribed": "Date subscribed"
 }

@@ -171,7 +171,7 @@ const UpdateBlog = () => {
                   <div className={`input-box my-4 ${errorClass('content_en')}`}>
                     <p className='blog-content'>Content (English)</p>
                     <Editor
-                      apiKey="uw12u5jyw7fsvuxv9x7tp76nm2s5plzg8dqcwu60fz5jt28o"
+                      apiKey="ude4f4a016a0bfea158f3512257b02b0927792f2045bc7014968b65d6fdca10a2"
                       value={content_en}
                       init={{
                         height: 500,
@@ -197,7 +197,7 @@ const UpdateBlog = () => {
                   <div className={`input-box my-4 ${errorClass('content_fr')}`}>
                     <p className='blog-content'>Content (French)</p>
                     <Editor
-                      apiKey="uw12u5jyw7fsvuxv9x7tp76nm2s5plzg8dqcwu60fz5jt28o"
+                      apiKey="de4f4a016a0bfea158f3512257b02b0927792f2045bc7014968b65d6fdca10a2"
                       value={content_fr}
                       init={{
                         height: 500,

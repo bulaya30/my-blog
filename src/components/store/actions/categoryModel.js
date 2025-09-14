@@ -88,6 +88,7 @@ export const updateCategory = (category) => {
     }
   };
 };
+
 export const deleteCategory = (id) => {
   return (dispatch) => {
     firebase.firestore().collection('categories').doc(id)

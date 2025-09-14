@@ -12,6 +12,17 @@ const subscriberReducer = (state = initialState, action) => {
         subscribers: [...state.subscribers, action.payload],
         error: null,
       };
+      case 'GET_SUBSCRIBER':
+      return { 
+        ...state, 
+        subscribers: action.payload,
+      };
+
+    case 'DELETE_SUBSCRIBER': 
+      return {
+        ...state
+      };
+
     case 'SUBSCRIBE_ERROR':
       return {
         ...state,

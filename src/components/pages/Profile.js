@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Blog from '../blog/List';
 import Dashboard from '../pages/Dashboard';
 import Account from '../pages/UserAccount';
+import Subscribers from './Subscribers';
 import CreateCategory from '../category/Create';
 import CreateBlog from '../blog/Create';
 import { getCategory, deleteCategory } from '../store/actions/categoryModel';
@@ -93,8 +94,8 @@ const Profile = () => {
           <li className="nav-item">
             <Link
               to="#"
-              className={`nav-link ${activeTab === "subcribers" ? "active" : ""}`}
-              onClick={() => setActiveTab("subcribers")}
+              className={`nav-link ${activeTab === "subscribers" ? "active" : ""}`}
+              onClick={() => setActiveTab("subscribers")}
             >
               <i className="bi bi-people"></i><span>{t('profilePage.sidebar.subscribers')}</span>
             </Link>
@@ -198,6 +199,21 @@ const Profile = () => {
                   <div className="col-12"><CreateBlog /></div>
                 )}
               </div>
+            </div>
+
+            {/* Subscribers Profile */}
+            <div className={`tab-pane tabContents fade ${activeTab === "subscribers" ? "show active" : ""}`} id="profile" role="tabpanel">
+              <div className="pagetitle">
+                <nav>
+                  <ol className="breadcrumb">
+                    <li className="breadcrumb-item"><Link to="/profile">{t('profilePage.breadcrumb.profile')}</Link></li>
+                    <li className="breadcrumb-item active">{t('profilePage.breadcrumb.subscribers')}</li>
+                  </ol>
+                </nav>
+              </div>
+              <section className="section profile">
+                <Subscribers />
+              </section>
             </div>
 
             {/* Account Profile */}

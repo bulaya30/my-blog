@@ -187,7 +187,8 @@
       "profile": "Profil",
       "dashboard": "Tableau de bord",
       "blogs": "Blogs",
-      "newArticle": "Nouvel article"
+      "newArticle": "Nouvel article",
+      "subscribers": "Abonnés"
     },
     "categories": {
       "title": "Catégories",
@@ -248,5 +249,9 @@
   "deleteThisArticle": "Supprimer cet article",
   "updateThisArticle": "Mettre à jour cet article",
   "writtenBy": "Écrit par",
-  "publishedIn": "Publié le"
+  "publishedIn": "Publié le",
+  "subscriberDeleted": "Abonné supprimé avec succès !",
+  "subscriberDeleteFailed": "Échec de la suppression de l'abonné.",
+  "confirmDeleteSubscriber": "Voulez-vous vraiment supprimer cet abonné?",
+  "dateSubscribed": "Date de souscription"
 }
