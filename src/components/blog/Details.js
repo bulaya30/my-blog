@@ -1,29 +1,39 @@
-import React, { useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { getBlog, deleteBlog } from '../store/actions/BlogModel';
-import DOMPurify from 'dompurify';
-import Footer from '../home/footer';
-import { useTranslation } from 'react-i18next';
-// import Footer from './footer';
+import React, { useEffect } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { getBlog, deleteBlog } from "../store/actions/BlogModel";
+import DOMPurify from "dompurify";
+import Footer from "../home/footer";
+import { useTranslation } from "react-i18next";
 
-const Details = ({ admin, blog, auth, getBlog, deleteBlog }) => {
+const Details = () => {
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const blog = useSelector((state) =>
+    Array.isArray(state.blog.blogs)
+      ? state.blog.blogs.find((b) => b.id === id)
+      : state.blog.blogs?.id === id
+      ? state.blog.blogs
+      : null
+  );
+  const auth = useSelector((state) => state.auth.user);
+  const admin = useSelector((state) => state.auth.isAdmin);
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const lang = i18n.language.startsWith("fr") ? "fr" : "en";
 
-  // Fetch blog
+  // Fetch blog on mount
   useEffect(() => {
-    getBlog('id', id);
-  }, [id, getBlog]);
+    dispatch(getBlog("id", id));
+  }, [dispatch, id]);
 
   const handleDelete = async () => {
-    await deleteBlog(id);
+    await dispatch(deleteBlog(id));
     navigate(-1);
   };
 
-  if (!blog) return <p>{t('loadingBlog')}</p>;
+  if (!blog) return <p>{t("loadingBlog")}</p>;
+
   return (
     <>
       <div className="container p-5 mt-5 bg-white">
@@ -34,7 +44,7 @@ const Details = ({ admin, blog, auth, getBlog, deleteBlog }) => {
         <div className="row">
           <div className="col-12">
             <p className="ms-4">
-              {t('category')}: <strong>{blog.category}</strong>
+              {t("category")}: <strong>{blog.category}</strong>
             </p>
             <div className="blog-details-content">
               <div
@@ -44,20 +54,20 @@ const Details = ({ admin, blog, auth, getBlog, deleteBlog }) => {
                 }}
               />
 
-              {/* Show Edit/Delete only if user is blog owner */}
+              {/* Show Edit/Delete buttons */}
               {auth && blog.authorId === auth.uid ? (
                 <>
                   <button
                     className="btn btn-danger mt-3"
                     onClick={handleDelete}
-                    title={t('deleteThisArticle')}
+                    title={t("deleteThisArticle")}
                   >
                     <i className="bi bi-trash"></i>
                   </button>
                   <Link
                     className="btn btn-primary mt-3 ms-2"
                     to={`/blogs/${id}/edit`}
-                    title={t('updateThisArticle')}
+                    title={t("updateThisArticle")}
                   >
                     <i className="bi bi-pencil-square"></i>
                   </Link>
@@ -67,33 +77,33 @@ const Details = ({ admin, blog, auth, getBlog, deleteBlog }) => {
                   <button
                     className="btn btn-danger mt-3"
                     onClick={handleDelete}
-                    title={t('deleteThisArticle')}
+                    title={t("deleteThisArticle")}
                   >
                     <i className="bi bi-trash"></i>
                   </button>
                 )
               )}
 
-              {/* CreatedAt safe render */}
+              {/* Author and Date */}
               <p className="mt-4 text-end">
-                {t('writtenBy')}{' '}
+                {t("writtenBy")}{" "}
                 {blog.author ? (
                   <Link to={`author/${blog.author.id}`}>
-                    {blog.author.firstName.trim() || ''}{' '}
-                    {blog.author.lastName.trim() || ''}
+                    {blog.author.firstName.trim() || ""}{" "}
+                    {blog.author.lastName.trim() || ""}
                   </Link>
                 ) : (
-                  t('unknownAuthor')
-                )}{' '}
+                  t("unknownAuthor")
+                )}
                 <br />
-                {t('publishedIn')}{' '}
+                {t("publishedIn")}{" "}
                 {blog.createdAt?.toDate
                   ? blog.createdAt.toDate().toLocaleDateString(i18n.language, {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
                     })
-                  : t('unknownDate')}
+                  : t("unknownDate")}
               </p>
             </div>
           </div>
@@ -104,15 +114,4 @@ const Details = ({ admin, blog, auth, getBlog, deleteBlog }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  blog: state.blog.blogs,
-  auth: state.auth.user,
-  admin: state.auth.isAdmin,
-});
-
-const mapDispatchToProps = {
-  getBlog,
-  deleteBlog,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Details);
+export default Details;

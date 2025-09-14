@@ -1,13 +1,20 @@
-import React, { useEffect } from 'react';
-import Summary from './Summary';
-import { connect } from 'react-redux';
-import { getBlog } from '../store/actions/BlogModel';
+import React, { useEffect } from "react";
+import Summary from "./Summary";
+import { useSelector, useDispatch } from "react-redux";
+import { getBlog } from "../store/actions/BlogModel";
+import { useTranslation } from "react-i18next";
 
-const Blog = ({ blogs = [], auth, loading, getBlog }) => {
-  // Fetch blogs only once on component mount
+const Blog = () => {
+  const dispatch = useDispatch();
+  const { t } = useTranslation();
+
+  const blogs = useSelector((state) => state.blog.blogs || []);
+  const loading = useSelector((state) => state.blog.loading || false);
+
+  // Fetch blogs on mount
   useEffect(() => {
-    getBlog();
-  }, [getBlog]);
+    dispatch(getBlog());
+  }, [dispatch]);
 
   // Ensure blogs is always an array
   const safeBlogs = Array.isArray(blogs) ? blogs : blogs ? [blogs] : [];
@@ -15,7 +22,7 @@ const Blog = ({ blogs = [], auth, loading, getBlog }) => {
   if (loading) {
     return (
       <div className="accordion accordion-flush" id="accordionFlushExample">
-        <p>Loading blogs...</p>
+        <p>{t("Loading blogs...")}</p>
       </div>
     );
   }
@@ -23,7 +30,7 @@ const Blog = ({ blogs = [], auth, loading, getBlog }) => {
   if (safeBlogs.length === 0) {
     return (
       <div className="accordion accordion-flush" id="accordionFlushExample">
-        <p>No blogs available.</p>
+        <p>{t("No blogs available.")}</p>
       </div>
     );
   }
@@ -37,14 +44,4 @@ const Blog = ({ blogs = [], auth, loading, getBlog }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  blogs: state.blog.blogs || [],
-  auth: state.auth.user || null,
-  loading: state.blog.loading || false, // Assumes you track loading in Redux
-});
-
-const mapDispatchToProps = {
-  getBlog,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Blog);
+export default Blog;

@@ -3,6 +3,7 @@ import { NavLink, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signUp } from "../store/actions/AuthModel";
 import { useTranslation } from "react-i18next";
+import { checkName, checkMail, checkPassword } from '../../validation/validate'
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -28,37 +29,37 @@ const Register = () => {
     setToast({ message, type });
     setTimeout(() => setToast({ message: "", type: "" }), 8000);
   };
-
   // ----- Validation rules -----
   const validate = () => {
     const newErrors = {};
-    if (!formData.fname.trim())
-      newErrors.firstName = t("registrationPage.firstNameRequired");
-    else if (formData.fname.trim().length < 3)
-      newErrors.firstName = t("registrationPage.firstNameLength");
-
-    if (!formData.lname.trim())
-      newErrors.lastName = t("registrationPage.lastNameRequired");
-    else if (formData.lname.trim().length < 3)
-      newErrors.lastName = t("registrationPage.lastNameLength");
-
-    if (!formData.email.trim())
-      newErrors.email = t("registrationPage.emailRequired");
-
-    if (!formData.password.trim())
-      newErrors.password = t("registrationPage.passwordRequired");
-    else if (formData.password.trim().length < 8)
-      newErrors.password = t("registrationPage.passwordLength");
-
-    if (!formData.confirmPassword.trim())
-      newErrors.confirmPassword = t("registrationPage.passwordRequired");
-    else if (formData.confirmPassword !== formData.password)
+    // First Name
+    if (!checkName(formData.fname)) {
+      newErrors.firstName = t("registrationPage.firstNameInvalid");
+    }
+    // Last Name
+    if (!checkName(formData.lname)) {
+      newErrors.lastName = t("registrationPage.lastNameInvalid");
+    }
+    // Email
+    if (!checkMail(formData.email)) {
+      newErrors.email = t("registrationPage.emailInvalid");
+    }
+    // Password
+    if (!checkPassword(formData.password)) {
+      newErrors.password = t("registrationPage.passwordInvalid");
+    }
+    // Confirm Password
+    if (formData.confirmPassword !== formData.password) {
       newErrors.confirmPassword = t("registrationPage.passwordsMismatch");
-
+    }
+    // Terms Agreement
+    if (!formData.agree) {
+      newErrors.agree = t("registrationPage.agreeRequired");
+    }
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
 
+    return Object.keys(newErrors).length === 0;
+  }
   const handleChange = (e) => {
     const { id, value, type, checked } = e.target;
     setFormData((prev) => ({

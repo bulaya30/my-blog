@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addBlog } from '../store/actions/BlogModel';
 import { Editor } from '@tinymce/tinymce-react';
+import { checkName, checkString } from '../../validation/validate';
+import { useTranslation } from 'react-i18next';
 
 const CreateBlog = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth.user);
+  const { t } = useTranslation();
 
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState({ message: '', type: '' });
@@ -25,27 +28,32 @@ const CreateBlog = () => {
     setToast({ message, type });
     setTimeout(() => setToast({ message: '', type: '' }), 8000);
   };
-  
 
   // ----- Validation rules -----
   const validateBlog = () => {
     const newErrors = {};
 
-    if (!title_en.trim()) newErrors.title_en = "Title (English) is required.";
-    else if (title_en.trim().length < 5) newErrors.title_en = "Title (English) must be at least 5 characters long.";
+    if (!title_en.trim()) newErrors.title_en = t("createBlogPage.Title (English) is required.");
+    else if (title_en.trim().length < 5) newErrors.title_en = t("createBlogPage.Title (English) must be at least 5 characters long.");
+    else if (!checkName(title_en.trim())) newErrors.title_en = t("createBlogPage.Invalid name.");
 
-    if (!title_fr.trim()) newErrors.title_fr = "Title (French) is required.";
-    else if (title_fr.trim().length < 5) newErrors.title_fr = "Title (French) must be at least 5 characters long.";
+    if (!title_fr.trim()) newErrors.title_fr = t("createBlogPage.Title (French) is required.");
+    else if (title_fr.trim().length < 5) newErrors.title_fr = t("createBlogPage.Title (French) must be at least 5 characters long.");
+    else if (!checkName(title_fr.trim())) newErrors.title_fr = t("createBlogPage.Invalid name.");
 
-    if (!content_en.replace(/<[^>]+>/g, '').trim()) newErrors.content_en = "Content (English) is required.";
+    if (!content_en.replace(/<[^>]+>/g, '').trim()) newErrors.content_en = t("createBlogPage.Content (English) is required.");
     else if (content_en.replace(/<[^>]+>/g, '').trim().length < 50) 
-      newErrors.content_en = "Content (English) must be at least 50 characters long.";
+      newErrors.content_en = t("createBlogPage.Content (English) must be at least 50 characters long.");
+    else if (!checkString(content_en.replace(/<[^>]+>/g, '').trim())) 
+      newErrors.content_en = t("createBlogPage.Invalid content.");
 
-    if (!content_fr.replace(/<[^>]+>/g, '').trim()) newErrors.content_fr = "Content (French) is required.";
+    if (!content_fr.replace(/<[^>]+>/g, '').trim()) newErrors.content_fr = t("createBlogPage.Content (French) is required.");
     else if (content_fr.replace(/<[^>]+>/g, '').trim().length < 50) 
-      newErrors.content_fr = "Content (French) must be at least 50 characters long.";
+      newErrors.content_fr = t("createBlogPage.Content (French) must be at least 50 characters long.");
+    else if (!checkString(content_fr.replace(/<[^>]+>/g, '').trim())) 
+      newErrors.content_fr = t("createBlogPage.Invalid content.");
 
-    if (!category.trim()) newErrors.category = "Category is required.";
+    if (!category.trim()) newErrors.category = t("createBlogPage.Category is required.");
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -54,9 +62,9 @@ const CreateBlog = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!auth) return showToast("User info not loaded. Please wait.");
+    if (!auth) return showToast(t("createBlogPage.User info not loaded. Please wait."));
 
-    if (!validateBlog()) return showToast("Please fix the errors before submitting.", "error");
+    if (!validateBlog()) return showToast(t("createBlogPage.Please fix the errors before submitting."), "error");
 
     setLoading(true);
 
@@ -70,7 +78,7 @@ const CreateBlog = () => {
     try {
       const result = await dispatch(addBlog(blogData));
       if (result?.success) {
-        showToast("Blog added successfully!", "success");
+        showToast(t("createBlogPage.Blog added successfully!"), "success");
 
         // Reset form
         setTitle_en('');
@@ -80,16 +88,16 @@ const CreateBlog = () => {
         setCategory('');
         setErrors({});
       } else {
-        showToast(result?.error || "Failed to add blog", "error");
+        showToast(result?.error || t("createBlogPage.Failed to add blog"), "error");
       }
     } catch (err) {
-      showToast(err.message || "An error occurred", "error");
+      showToast(err.message || t("createBlogPage.An error occurred"), "error");
     } finally {
       setLoading(false);
     }
   };
 
-  if (!auth) return <p>Loading user info...</p>;
+  if (!auth) return <p>{t("createBlogPage.Loading user info...")}</p>;
 
   // Helper to apply red border if field has an error
   const errorClass = (field) => errors[field] ? 'input-error-border' : '';
@@ -97,7 +105,7 @@ const CreateBlog = () => {
   return (
     <div className="form-section">
       <div className="card border-0 shadow-sm">
-        <h2>New Blog</h2>
+        <h2>{t("createBlogPage.New Blog")}</h2>
         <div className="card-body">
 
           <form onSubmit={handleSubmit} id="new-blog-form" autoComplete="off">
@@ -111,7 +119,7 @@ const CreateBlog = () => {
                 required
                 onChange={(e) => setTitle_en(e.target.value)}
               />
-              <label htmlFor="title_en">Title (English)</label>
+              <label htmlFor="title_en">{t("createBlogPage.Title (English)")}</label>
               {errors.title_en && <p className="input-error">{errors.title_en}</p>}
             </div>
 
@@ -124,7 +132,7 @@ const CreateBlog = () => {
                 required
                 onChange={(e) => setTitle_fr(e.target.value)}
               />
-              <label htmlFor="title_fr">Title (French)</label>
+              <label htmlFor="title_fr">{t("createBlogPage.Title (French)")}</label>
               {errors.title_fr && <p className="input-error">{errors.title_fr}</p>}
             </div>
 
@@ -138,17 +146,17 @@ const CreateBlog = () => {
                 onChange={(e) => setCategory(e.target.value)}
               >
                 <option value=""></option>
-                <option value="Mentorship and advice">Mentorship and advice</option>
-                <option value="Tips">Tips</option>
-                <option value="Business">Business</option>
+                <option value="Mentorship and advice">{t("createBlogPage.Mentorship and advice")}</option>
+                <option value="Tips">{t("createBlogPage.Tips")}</option>
+                <option value="Business">{t("createBlogPage.Business")}</option>
               </select>
-              <label htmlFor="category">Category</label>
+              <label htmlFor="category">{t("createBlogPage.Category")}</label>
               {errors.category && <p className="input-error">{errors.category}</p>}
             </div>
 
             {/* Content English */}
             <div className={`input-box my-4 ${errorClass('content_en')}`}>
-              <p className="blog-content mb-3">Content (English)</p>
+              <p className="blog-content mb-3">{t("createBlogPage.Content (English)")}</p>
               <Editor
                 apiKey='uw12u5jyw7fsvuxv9x7tp76nm2s5plzg8dqcwu60fz5jt28o'
                 id="content_en"
@@ -176,7 +184,7 @@ const CreateBlog = () => {
 
             {/* Content French */}
             <div className={`input-box my-4 ${errorClass('content_fr')}`}>
-              <p className="blog-content mb-3">Content (French)</p>
+              <p className="blog-content mb-3">{t("createBlogPage.Content (French)")}</p>
               <Editor
                 apiKey='uw12u5jyw7fsvuxv9x7tp76nm2s5plzg8dqcwu60fz5jt28o'
                 id="content_fr"
@@ -205,13 +213,12 @@ const CreateBlog = () => {
             {/* Submit */}
             <div className="input-box mt-3">
               <button
-                id="new-article-btn"
                 className="btn btn-sm w-100"
                 name="submit"
                 type="submit"
                 style={{ display: loading ? 'none' : 'block' }}
               >
-                Publish
+                {t("createBlogPage.Publish")}
               </button>
               <button
                 className="btn btn-sm w-100 loading-btn"
@@ -220,7 +227,7 @@ const CreateBlog = () => {
                 style={{ display: loading ? 'block' : 'none' }}
               >
                 <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                <span>Publishing...</span>
+                <span>{t("createBlogPage.Publishing...")}</span>
               </button>
             </div>
 

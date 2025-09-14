@@ -1,11 +1,16 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import DOMPurify from 'dompurify';
-import { useTranslation } from 'react-i18next';
+import React from "react";
+import { Link } from "react-router-dom";
+import DOMPurify from "dompurify";
+import { useTranslation } from "react-i18next";
 
 const Summary = ({ blog }) => {
   const { t, i18n } = useTranslation();
   const lang = i18n.language.startsWith("fr") ? "fr" : "en";
+
+  // fallback to English if selected language content is missing
+  const title = blog?.title?.[lang] || blog?.title?.en || "";
+  const content = blog?.content?.[lang] || blog?.content?.en || "";
+
   return (
     <div className="accordion-item">
       <h2 className="accordion-header">
@@ -17,7 +22,7 @@ const Summary = ({ blog }) => {
           aria-expanded="false"
           aria-controls={`collapse${blog.id}`}
         >
-          {blog.title[lang]}
+          {title}
         </button>
       </h2>
       <div
@@ -29,7 +34,7 @@ const Summary = ({ blog }) => {
           <div
             className="blog-content-preview mb-2"
             dangerouslySetInnerHTML={{
-              __html: DOMPurify.sanitize(blog.content[lang].slice(0, 700) + '...'),
+              __html: DOMPurify.sanitize(content.slice(0, 700) + "..."),
             }}
           />
           <Link to={`/blogs/${blog.id}`}>{t("readMore")}</Link>

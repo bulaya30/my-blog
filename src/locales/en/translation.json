@@ -61,26 +61,39 @@
     "ctaDesc": "We believe every young person has the potential to achieve greatness. Take the first step with us."
   },
   "contactPage": {
-  "title": "Contact Us",
-  "info": {
-    "heading": "Get in Touch",
-    "address": "Kansanga, Kampala/Uganda",
-    "phone": "+256 750274516",
-    "email": "norrechel@gmail.com"
-  },
-  "form": {
-    "name": "Full Name",
-    "email": "Email Address",
-    "message": "Message",
-    "button": {
-      "sending": "Sending...",
-      "send": "Send Message"
+    "title": "Contact Us",
+    "info": {
+      "heading": "Our Info",
+      "labels": {
+        "address": "Address",
+        "phone": "Phone",
+        "email": "Email"
+      }
+    },
+    "form": {
+      "name": "Full Name",
+      "email": "Email Address",
+      "message": "Message",
+      "button": {
+        "sending": "Sending...",
+        "send": "Send Message"
+      }
+    },
+    "validation": {
+      "nameRequired": "Name is required.",
+      "nameLength": "Name must be at least 3 characters long.",
+      "nameInvalid": "Invalid name.",
+      "emailRequired": "Email is required.",
+      "emailInvalid": "Invalid email.",
+      "messageRequired": "Message is required.",
+      "messageInvalid": "Invalid message.",
+      "generalError": "Please fix the errors before submitting."
+    },
+    "success": "Thank you! Your message has been sent.",
+    "error": {
+      "failed": "Failed to send your message.",
+      "general": "An error occurred."
     }
-  },
-  "alerts": {
-    "success": "✅ Thank you! Your message has been sent.",
-    "error": "❌ Something went wrong. Please try again."
-  }
 },
 "homePage": {
   "articlesTitle": "Articles",
@@ -144,7 +157,98 @@
   "passwordsMismatch": "Passwords must match",
   "error" : "The email address is already used"
 },
+"dashboard":{
+  "today": "Today",
+  "thisMonth": "This Month",
+  "thisYear": "This Year",
+  "filter": "Filter",
+  "visits": "Visits",
+  "comments": "Comments",
+  "increase": "increase",
+  "recentViewed": "Recent Viewed",
+  "visitor": "Visitor",
+  "article": "Article",
+  "date": "Date",
+  "time": "Time"
+},
+"notifications": {
+    "title": "Recent Notifications",
+    "filterTitle": "Filter",
+    "filters": {
+      "Today": "Today",
+      "This Month": "This Month",
+      "This Year": "This Year"
+    },
+    "noResults": "No notifications found for {{filter}}.",
+    "toast": {
+      "newVisitor": "New visitor read: {{blogTitle}}"
+    }
+  },
+"profilePage": {
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "blogs": "Blogs",
+      "newBlog": "New Blog",
+      "subscribers": "Subscribers",
+      "accountHeading": "Account",
+      "profile": "Profile"
+    },
+    "breadcrumb": {
+      "profile": "Profile",
+      "dashboard": "Dashboard",
+      "blogs": "Blogs",
+      "newArticle": "New Article"
+    },
+    "categories": {
+      "title": "Categories",
+      "loading": "Loading categories..."
+    },
+    "confirm": {
+      "deleteCategory": "Are you sure you want to delete this category?"
+    }
+  },
+  "createBlogPage":{
+  "New Blog": "New Blog",
+  "Title (English)": "Title (English)",
+  "Title (French)": "Title (French)",
+  "Category": "Category",
+  "Mentorship and advice": "Mentorship and advice",
+  "Tips": "Tips",
+  "Business": "Business",
+  "Content (English)": "Content (English)",
+  "Content (French)": "Content (French)",
+  "Publish": "Publish",
+  "Publishing...": "Publishing...",
+  "Loading user info...": "Loading user info...",
 
+  "Title (English) is required.": "Title (English) is required.",
+  "Title (English) must be at least 5 characters long.": "Title (English) must be at least 5 characters long.",
+  "Invalid name.": "Invalid name.",
+  "Title (French) is required.": "Title (French) is required.",
+  "Title (French) must be at least 5 characters long.": "Title (French) must be at least 5 characters long.",
+
+  "Content (English) is required.": "Content (English) is required.",
+  "Content (English) must be at least 50 characters long.": "Content (English) must be at least 50 characters long.",
+  "Invalid content.": "Invalid content.",
+  "Content (French) is required.": "Content (French) is required.",
+  "Content (French) must be at least 50 characters long.": "Content (French) must be at least 50 characters long.",
+
+  "Category is required.": "Category is required.",
+
+  "User info not loaded. Please wait.": "User info not loaded. Please wait.",
+  "Please fix the errors before submitting.": "Please fix the errors before submitting.",
+  "Blog added successfully!": "Blog added successfully!",
+  "Failed to add blog": "Failed to add blog",
+  "An error occurred": "An error occurred"
+},
+
+
+
+  "Loading blogs...": "Loading blogs...",
+  "No blogs available.": "No blogs available.",
+  "Loading category...": "Loading category...",
+  "No Blog found in this Category": "No Blog found in this Category",
+  "Category": "Category",
   "newsletterTitle": "Stay Updated!",
   "newsletterDesc": "Get the latest articles delivered straight to your inbox.",
   "emailPlaceholder": "Enter your email",

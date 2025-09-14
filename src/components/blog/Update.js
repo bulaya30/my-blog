@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getBlog, updateBlog } from '../store/actions/BlogModel';
 import { getCategory } from '../store/actions/categoryModel';
 import { Editor } from '@tinymce/tinymce-react';
+import { checkName, checkString } from '../../validation/validate';
 
 const UpdateBlog = () => {
   const { id } = useParams();
@@ -59,17 +60,23 @@ const UpdateBlog = () => {
 
     if (!title_en.trim()) newErrors.title_en = "Title (English) is required.";
     else if (title_en.trim().length < 5) newErrors.title_en = "Title (English) must be at least 5 characters long.";
-
+    else if (!checkName(title_en.trim())) newErrors.title_en = "Invalid name.";
+    
     if (!title_fr.trim()) newErrors.title_fr = "Title (French) is required.";
     else if (title_fr.trim().length < 5) newErrors.title_fr = "Title (French) must be at least 5 characters long.";
-
+    else if (!checkName(title_fr.trim())) newErrors.title_fr = "Invalid name.";
+    
     if (!content_en.replace(/<[^>]+>/g, '').trim()) newErrors.content_en = "Content (English) is required.";
     else if (content_en.replace(/<[^>]+>/g, '').trim().length < 50) 
       newErrors.content_en = "Content (English) must be at least 50 characters long.";
-
+    else if (!checkString(content_en.replace(/<[^>]+>/g, '').trim())) 
+      newErrors.content_en = "Invalid content.";
+    
     if (!content_fr.replace(/<[^>]+>/g, '').trim()) newErrors.content_fr = "Content (French) is required.";
     else if (content_fr.replace(/<[^>]+>/g, '').trim().length < 50) 
       newErrors.content_fr = "Content (French) must be at least 50 characters long.";
+    else if (!checkString(content_fr.replace(/<[^>]+>/g, '').trim())) 
+      newErrors.content_fr = "Invalid content.";
 
     if (!categoryValue.trim()) newErrors.category = "Category is required.";
 
@@ -214,7 +221,7 @@ const UpdateBlog = () => {
 
                   <div className="input-box">
                     {!loading ? (
-                      <button id="new-article-btn" className="btn btn-sm w-100" type="submit">
+                      <button className="btn btn-sm w-100" type="submit">
                         Save changes
                       </button>
                     ) : (

@@ -8,7 +8,6 @@ import { addNotification } from "./NotificationsModel";
 export const getBlog = (field, value) => {
   return (dispatch) => {
     const blogsRef = db.collection("blogs");
-
     if (field === "id") {
       blogsRef.doc(value).onSnapshot(
         async (doc) => {

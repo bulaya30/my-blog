@@ -84,6 +84,13 @@ body {
 .nav-links .auth-btn:hover {background: #012970; color: #fff;}
 .menu-toggle { cursor: pointer; background: none; border: none; font-size: 2.5rem; color: #012970; display: none;}
 /* Dropdown menus */
+.notification-dropdown-menu-end{
+  position: absolute;
+  top: 100%;
+  right: 0;
+  display: block;
+  min-width: 150px;
+}
 .navbar .dropdown-menu,
 .lang-menu {
   border-radius: 4px;
@@ -97,6 +104,7 @@ body {
   font-size: 13px;
   font-weight: 600;
   transition: 0.3s;
+  /* display: block; */
 }
 .navbar .dropdown-header h6,
 .nav-profile{
@@ -358,7 +366,7 @@ body {
   font-size: .95em;
   font-weight: 500;
 }
-.input-box label:not([class="term"]){
+.input-box label:not([class="term"]) {
   position: absolute;
   top: 45%;
   left: 0;
@@ -377,6 +385,9 @@ body {
   top: 3px;
   font-weight: 500;
   font-size: .9em;
+}
+.input-box .user-bio{
+  top: 0 !important;
 }
 .input-term .term {
   font-size: 0.9rem;
@@ -434,7 +445,8 @@ body {
   color: red !important;
 }
 .input-error-border input,
-.input-error-border select{
+.input-error-border select,
+.input-error-border textarea{
   color: rgba(255, 0, 0, 0.767) !important;
   border-bottom: 2px solid red !important;
 }
@@ -605,9 +617,68 @@ body {
   box-shadow: 0 6px 15px rgba(0,0,0,0.15);
 }
 
+/*------------------------------------------- 
+# Models
+--------------------------------------------*/
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
 
-
-
+.modal-dialog {
+  background-color: #fff;
+  max-width: 400px;
+  width: 100%;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.modal-dialog p{
+  margin: 1rem auto;
+  color: #012970;
+}
+.modal-dialog .modal-btn-container{
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+.modal-dialog .modal-btn-container button{
+  cursor: pointer;
+  transition: .5s;
+  border: none;
+  width: 80px;
+  font-size: .9em;
+  border-radius: 5px;
+  text-align: center;
+  justify-content: center;
+}
+.modal-dialog .modal-btn-container .cancel-btn{
+  background: #555555d2 !important;
+  color: #fff !important;
+  padding: 5px ;
+}
+.modal-dialog .modal-btn-container .confirm-btn{
+  background: rgb(211, 1, 1) !important;
+  color: #fff !important;
+  padding: 5px ;
+}
+.modal-dialog .modal-btn-container .confirm-btn:hover{
+  background: red;
+}
+.modal-dialog .modal-btn-container .cancel-btn:hover{
+  background: #555;
+}
+/*-----------------------------------------
+# Footer
+------------------------------------------*/
 .footer {
   background: linear-gradient(to right, #01163be5, #012a708f);
   color: #ddd;

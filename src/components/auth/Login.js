@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { signIn } from '../store/actions/AuthModel';
 import firebase from '../../config/DB';
 import { useTranslation } from 'react-i18next';
+import { checkMail, checkPassword } from '../../validation/validate';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -35,8 +36,9 @@ const Login = () => {
   const validate = () => {
     const newErrors = {};
     if (!email.trim()) newErrors.email =` {t('loginPage.emailRequired')}`;
+    else if (!checkMail(email.trim())) newErrors.email =` {t('loginPage.invalidEmail')}`;
     if (!password.trim()) newErrors.password =` {t('loginPage.passwordRequired')}`;
-    else if (password.trim().length < 8) newErrors.password = "Password must be at least 5 characters long.";
+    else if (!checkPassword(password.trim())) newErrors.password = "Password must be at least 8 characters, 1 uppercase, 1 lowercase, 1 number.";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }

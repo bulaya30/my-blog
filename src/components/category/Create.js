@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCategory } from '../store/actions/categoryModel';
+import { checkName } from '../../validation/validate';
 
 const CreateCategory = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const CreateCategory = () => {
   const validateBlog = () => {
     const newErrors = {};
     if (!name.trim()) newErrors.name = "Category name is required.";
+    if (!checkName(name.trim())) newErrors.name = "Invalid category name.";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }
@@ -56,10 +58,9 @@ const CreateCategory = () => {
         <h2>New Category</h2>
         <div className="card-body">
           <form id="new-category-form" autoComplete="off" onSubmit={handleSubmit}>
-             <div className={`input-box ${errorClass('name')}`}>
+            <div className={`input-box ${errorClass('name')}`}>
               <input
                 type="text"
-                id="name"
                 name="name"
                 value={name}
                 required

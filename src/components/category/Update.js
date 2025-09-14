@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { updateCategory, getCategory } from '../store/actions/categoryModel'; 
+import { checkName } from '../../validation/validate';
 
 const EditCategory = () => {
   const { id } = useParams();
@@ -12,11 +13,11 @@ const EditCategory = () => {
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState('');
   const category = useSelector((state) =>
-      Array.isArray(state.category.categories)
-        ? state.category.categories.find((b) => b.id === id)
-        : state.category.categories?.id === id
-        ? state.category.categories
-        : null
+    Array.isArray(state.category.categories)
+    ? state.category.categories.find((b) => b.id === id)
+    : state.category.categories?.id === id
+    ? state.category.categories
+    : null
     );
 
   // Fetch category by ID
@@ -34,10 +35,11 @@ useEffect(() => {
     setTimeout(() => setToast({ message: '', type: '' }), 20000);
   };
   // ----- Validation rules -----
-  const validateBlog = () => {
+  const validate = () => {
     const newErrors = {};
     if (!name.trim()) newErrors.name = "Category name is required.";
     else if (name.trim().length < 5) newErrors.name = "Category name must be at least 5 characters long.";
+    else if (!checkName(name.trim())) newErrors.name = "Invalid category name.";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }
@@ -46,22 +48,22 @@ useEffect(() => {
     e.preventDefault();
      if (!admin) return showToast("Not allowed");
 
-    if (!validateBlog()) return showToast("Invalid category name\nPlease fix the errors before submitting.");
+    if (!validate()) return showToast("Invalid category name\nPlease fix the errors before submitting.");
     setLoading(true);
     try {
       const result = dispatch(updateCategory({id, name}));
       if (!result.error) {
         showToast('Category name updated successfully!', 'success');
       } else {
-        showToast(result.error || 'Failed to update category name', 'error');
+        showToast('Failed to update category name', 'error');
       }
     } catch (err) {
-      showToast(err.message || 'An error occurred', 'error');
+      showToast('An error occurred', 'error');
     } finally {
       setLoading(false);
     }
   }
-
+  const errorClass = (field) => (errors[field] ? "input-error-border" : "");
   return (
     <div id="main">
       <div className="container">
@@ -75,7 +77,7 @@ useEffect(() => {
                     <div className="errors hide">error</div>
                     <div className="success-container">success</div>
                   </div>
-                  <div className="input-box">
+                  <div className={`input-box ${errorClass('name')}`}>
                     <input 
                       type="text" 
                       id="name" 
@@ -89,7 +91,7 @@ useEffect(() => {
                   </div>
                   <div className="input-box">
                     {!loading ? (
-                      <button id="new-article-btn" className="btn btn-sm w-100" type="submit">
+                      <button className="btn btn-sm w-100" type="submit">
                         Save changes
                       </button>
                     ) : (

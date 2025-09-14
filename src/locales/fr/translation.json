@@ -61,26 +61,39 @@
     "ctaDesc": "Nous croyons que chaque jeune a le potentiel d'accomplir de grandes choses. Faites le premier pas avec nous."
   },
   "contactPage": {
-  "title": "Contactez-nous",
-  "info": {
-    "heading": "Entrer en contact",
-    "address": "Kansanga, Kampala/Ouganda",
-    "phone": "+256 750274516",
-    "email": "norrechel@gmail.com"
-  },
-  "form": {
-    "name": "Nom complet",
-    "email": "Adresse e-mail",
-    "message": "Message",
-    "button": {
-      "sending": "Envoi...",
-      "send": "Envoyer le message"
+    "title": "Nous contacter",
+    "info": {
+      "heading": "Nos informations",
+      "labels": {
+        "address": "Adresse",
+        "phone": "Téléphone",
+        "email": "Courriel"
+      }
+    },
+    "form": {
+      "name": "Nom complet",
+      "email": "Adresse e-mail",
+      "message": "Message",
+      "button": {
+        "sending": "Envoi...",
+        "send": "Envoyer le message"
+      }
+    },
+    "validation": {
+      "nameRequired": "Le nom est obligatoire.",
+      "nameLength": "Le nom doit comporter au moins 3 caractères.",
+      "nameInvalid": "Nom invalide.",
+      "emailRequired": "L'adresse e-mail est requise.",
+      "emailInvalid": "Adresse e-mail invalide.",
+      "messageRequired": "Le message est obligatoire.",
+      "messageInvalid": "Message non valide.",
+      "generalError": "Veuillez corriger les erreurs avant de soumettre votre demande."
+    },
+    "success": "Merci d'avoir répondu à cette question. Votre message a été envoyé.",
+    "error": {
+      "failed": "L'envoi de votre message a échoué.",
+      "general": "Une erreur s'est produite."
     }
-  },
-  "alerts": {
-    "success": "✅ Merci ! Votre message a été envoyé.",
-    "error": "❌ Une erreur s'est produite. Veuillez réessayer."
-  }
 },
 "homePage": {
   "articlesTitle": "Articles",
@@ -132,8 +145,99 @@
   "passwordsMismatch": "Les mots de passe doivent correspondre",
   "error" : "L'adresse email est déjà utilisée"
 },
+"dashboard":{
+  "today": "Aujourd'hui",
+  "thisMonth": "Ce mois-ci",
+  "thisYear": "Cette année",
+  "filter": "Filtre",
+  "visits": "Visites",
+  "comments": "Commentaires",
+  "increase": "augmenter",
+  "recentViewed": "Récemment consultés",
+  "visitor": "Visiteur",
+  "article": "Article",
+  "date": "Date",
+  "time": "Heure"
+},
+
+"notifications": {
+    "title": "Notifications récentes",
+    "filterTitle": "Filtre",
+    "filters": {
+      "Today": "Aujourd'hui",
+      "This Month": "Ce mois-ci",
+      "This Year": "Cette année"
+    },
+    "noResults": "Aucune notification n'a été trouvée pour {{filter}}.",
+    "toast": {
+      "newVisitor": "Nouveau visiteur lu : {{blogTitle}}"
+    }
+  },
+
+"profilePage": {
+    "sidebar": {
+      "dashboard": "Tableau de bord",
+      "blogs": "Blogs",
+      "newBlog": "Nouveau blog",
+      "subscribers": "Abonnés",
+      "accountHeading": "Compte",
+      "profile": "Profil"
+    },
+    "breadcrumb": {
+      "profile": "Profil",
+      "dashboard": "Tableau de bord",
+      "blogs": "Blogs",
+      "newArticle": "Nouvel article"
+    },
+    "categories": {
+      "title": "Catégories",
+      "loading": "Chargement des catégories..."
+    },
+    "confirm": {
+      "deleteCategory": "Êtes-vous sûr de vouloir supprimer cette catégorie?"
+    }
+  },
+  "createBlogPage" : {
+  "New Blog": "Nouveau blog",
+  "Title (English)": "Titre (Anglais)",
+  "Title (French)": "Titre (Français)",
+  "Category": "Catégorie",
+  "Mentorship and advice": "Mentorat et conseils",
+  "Tips": "Astuces",
+  "Business": "Affaires",
+  "Content (English)": "Contenu (Anglais)",
+  "Content (French)": "Contenu (Français)",
+  "Publish": "Publier",
+  "Publishing...": "Publication...",
+  "Loading user info...": "Chargement des informations de l'utilisateur...",
+
+  "Title (English) is required.": "Le titre (Anglais) est requis.",
+  "Title (English) must be at least 5 characters long.": "Le titre (Anglais) doit contenir au moins 5 caractères.",
+  "Invalid name.": "Nom invalide.",
+  "Title (French) is required.": "Le titre (Français) est requis.",
+  "Title (French) must be at least 5 characters long.": "Le titre (Français) doit contenir au moins 5 caractères.",
+
+  "Content (English) is required.": "Le contenu (Anglais) est requis.",
+  "Content (English) must be at least 50 characters long.": "Le contenu (Anglais) doit contenir au moins 50 caractères.",
+  "Invalid content.": "Contenu invalide.",
+  "Content (French) is required.": "Le contenu (Français) est requis.",
+  "Content (French) must be at least 50 characters long.": "Le contenu (Français) doit contenir au moins 50 caractères.",
+
+  "Category is required.": "La catégorie est requise.",
+
+  "User info not loaded. Please wait.": "Les informations utilisateur ne sont pas chargées. Veuillez patienter.",
+  "Please fix the errors before submitting.": "Veuillez corriger les erreurs avant de soumettre.",
+  "Blog added successfully!": "Blog ajouté avec succès !",
+  "Failed to add blog": "Échec de l'ajout du blog",
+  "An error occurred": "Une erreur est survenue"
+},
 
 
+  "Loading blogs...": "Chargement des blogs...",
+  "No blogs available.": "Aucun blog disponible.",
+  "Loading category...": "Chargement de la catégorie...",
+  "No Blog found in this Category": "Aucun blog trouvé dans cette catégorie",
+  "Category": "Catégorie",
   "newsletterTitle": "Restez informé !",
   "newsletterDesc": "Recevez les derniers articles directement dans votre boîte mail.",
   "emailPlaceholder": "Entrez votre email",

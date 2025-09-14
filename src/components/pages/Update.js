@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateProfile } from '../store/actions/UserModel';
+import { checkName, checkString, checkPhone, checkURL } from '../../validation/validate';
 
 const UpdateProfile = () => {
   const dispatch = useDispatch();
@@ -9,7 +10,6 @@ const UpdateProfile = () => {
   const [toast, setToast] = useState({ message: '', type: '' });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
-  // const [success, setSuccess] = useState(false);
 
   // All fields in one state (instead of many)
   const [formData, setFormData] = useState({
@@ -43,29 +43,41 @@ const UpdateProfile = () => {
     const newErrors = {};
     if (!formData.firstName?.trim()) newErrors.firstName = "Firstname is required.";
     else if (formData.firstName.trim().length < 3) newErrors.firstName = "Firstname must be at least 3 characters long.";
+    else if (!checkName(formData.firstName.trim())) newErrors.firstName = "Invalid name.";
 
     if (!formData.lastName?.trim()) newErrors.lastName = "Lastname is required.";
     else if (formData.lastName.trim().length < 3) newErrors.lastName = "Lastname must be at least 3 characters long.";
+    else if (!checkName(formData.lastName.trim())) newErrors.lastName = "Invalid name.";
 
     if (!formData.company?.trim()) newErrors.company = "Company is required.";
+    if (!checkName(formData.company?.trim())) newErrors.company = "Invalid name.";
 
     if (!formData.country?.trim()) newErrors.country = "Country is required.";
+    if (!checkName(formData.country?.trim())) newErrors.country = "Invalid name.";
 
     if (!formData.address?.trim()) newErrors.address = "Address is required.";
+    if (!checkString(formData.address?.trim())) newErrors.address = "Invalid name.";
 
     if (!formData.phone?.trim()) newErrors.phone = "Phone is required.";
+    if (!checkPhone(formData.phone?.trim())) newErrors.phone = "Invalid phone number.";
 
     if (!formData.title?.trim()) newErrors.title = "Title is required.";
+    if (!checkName(formData.title?.trim())) newErrors.title = "Invalid name.";
 
     if (!formData.facebook?.trim()) newErrors.facebook = "Facebook is required.";
+    if (!checkURL(formData.facebook?.trim())) newErrors.facebook = "Invalid URL address.";
 
     if (!formData.twitter?.trim()) newErrors.twitter = "Twitter is required.";
+    if (!checkURL(formData.twitter?.trim())) newErrors.twitter = "Invalid URL address.";
 
     if (!formData.instagram?.trim()) newErrors.instagram = "Instagram is required.";
+    if (!checkURL(formData.instagram?.trim())) newErrors.instagram = "Invalid URL address.";
 
     if (!formData.linkedin?.trim()) newErrors.linkedin = "Linkedin is required.";
+    if (!checkURL(formData.linkedin?.trim())) newErrors.linkedin = "Invalid URL address.";
 
     if (!formData.about?.trim()) newErrors.about = "About is required.";
+    if (!checkString(formData.about?.trim())) newErrors.about = "Invalid name.";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -125,12 +137,13 @@ const UpdateProfile = () => {
         {/* Text inputs */}
         {['firstName','lastName','about','company','title','country','address','phone','twitter','facebook','instagram','linkedin'].map(field => (
           <div className="row mb-3" key={field}>
-            <div className={`input-box ${errorClass('name')}`}>
+            <div className={`input-box ${errorClass(field)}`}>
               {field === 'about' ? (
                 <>
-                  <label htmlFor={field}>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
+                  <label className='user-bio' htmlFor={field}>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
                   <textarea
                     id={field}
+                    required
                     value={formData[field] || ""}
                     onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
                   />
@@ -140,6 +153,7 @@ const UpdateProfile = () => {
                   <input
                     type="text"
                     id={field}
+                    required
                     value={formData[field] || ""}
                     onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
                   />
@@ -153,11 +167,11 @@ const UpdateProfile = () => {
 
         <div className="input-box">
           {!loading ? (
-            <button id="new-article-btn" className="btn btn-sm w-25" type="submit">
+            <button id="new-article-btn" className="btn btn-sm w-50" type="submit">
               Save changes
             </button>
           ) : (
-            <button className="btn btn-sm w-25" type="button" disabled>
+            <button className="btn btn-sm w-50" type="button" disabled>
               <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
               <span>Saving...</span>
             </button>
