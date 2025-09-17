@@ -196,7 +196,7 @@ const UpdateBlog = () => {
                       value={categoryValue}
                       onChange={(e) => setCategoryValue(e.target.value)}
                     >
-                      <option value="">Select a category</option>
+                      {/* <option value=""></option> */}
                       {category.map((cat) => (
                         <option key={cat.id || cat} value={cat.name || cat}>
                           {cat.name || cat}

@@ -4,9 +4,12 @@ export function checkPhone(val) {
 }
 
 export function checkName(val) {
-  let pattern = /^[a-zA-Z][a-zA-Z0-9_.-\s]*$/;
+  // Covers A-Z, a-z, 0-9, and accented ranges like À-ÿ (Latin-1 Supplement)
+  const pattern = /^[A-Za-z0-9À-ÖØ-öø-ÿ][A-Za-z0-9À-ÖØ-öø-ÿ_.-\s]*$/;
   return pattern.test(val);
 }
+
+
 
 export function checkString(val) {
   return val && val.trim().length > 0;

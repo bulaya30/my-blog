@@ -99,3 +99,27 @@
 .ql-snow .ql-picker.ql-header .ql-picker-label::before {
   content: "Headings" !important;
 }
+
+/* Line Height Picker Labels */
+.ql-snow .ql-picker.ql-lineHeight .ql-picker-label::before {
+  content: "Line Height" !important;
+}
+
+.ql-snow .ql-picker.ql-lineHeight .ql-picker-item[data-value="1"]::before {
+  content: "1" !important;
+}
+.ql-snow .ql-picker.ql-lineHeight .ql-picker-item[data-value="1.15"]::before {
+  content: "1.15" !important;
+}
+.ql-snow .ql-picker.ql-lineHeight .ql-picker-item[data-value="1.5"]::before {
+  content: "1.5" !important;
+}
+.ql-snow .ql-picker.ql-lineHeight .ql-picker-item[data-value="2"]::before {
+  content: "2" !important;
+}
+.ql-snow .ql-picker.ql-lineHeight .ql-picker-item[data-value="2.5"]::before {
+  content: "2.5" !important;
+}
+.ql-snow .ql-picker.ql-lineHeight .ql-picker-item[data-value="3"]::before {
+  content: "3" !important;
+}

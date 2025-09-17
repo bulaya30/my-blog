@@ -92,7 +92,8 @@ const CreateBlog = () => {
     '18px', '20px', '22px',
     '24px', '26px', '28px'
   ];
-  Quill.register(Size, true);
+
+
 
   // ====== Quill Modules & Formats ======
   const modules = {
