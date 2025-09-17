@@ -22,7 +22,7 @@ import 'boxicons/css/boxicons.min.css';
 import './css/norrechel.main.css';
 import './css/norrechel.profile.css';
 import './css/norrechel.mobile.css';
-
+import './css/norrechel.editor.css'
 export class App extends Component {
   render() {
     return (

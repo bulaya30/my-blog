@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import ReactQuill, { Quill } from 'react-quill-new';
 import { getBlog, updateBlog } from '../store/actions/BlogModel';
 import { getCategory } from '../store/actions/categoryModel';
-import { Editor } from '@tinymce/tinymce-react';
+// import { Editor } from '@tinymce/tinymce-react';
 import { checkName, checkString } from '../../validation/validate';
 
 const UpdateBlog = () => {
@@ -110,6 +111,45 @@ const UpdateBlog = () => {
   if (!blog) return <p>Loading blog...</p>;
 
   const errorClass = (field) => (errors[field] ? "input-error-border" : "");
+  // ====== Quill Fonts & Sizes ======
+    const Font = Quill.import('formats/font');
+    Font.whitelist = ['arial', 'roboto', 'raleway', 'montserrat', 'lato', 'rubik'];
+    Quill.register(Font, true);
+  
+    const Size = Quill.import('attributors/style/size');
+    Size.whitelist = [
+      '9px', '10px', '11px',
+      '12px', '14px', '16px',
+      '18px', '20px', '22px',
+      '24px', '26px', '28px'
+    ];
+    Quill.register(Size, true);
+  
+    // ====== Quill Modules & Formats ======
+    const modules = {
+      toolbar: [
+        [{ font: [] }, { size: Size.whitelist }],
+        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+        [{ script: 'sub' }, { script: 'super' }],
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ color: [] }, { background: [] }],
+        [{ list: 'ordered' }, { list: 'bullet' }, { list: 'check' }],
+        [{ indent: '-1' }, { indent: '+1' }, { direction: 'rtl' }],
+        [{ align: [] }],
+        ['blockquote', 'code-block'],
+        ['link', 'image', 'video', 'formula'],
+        ['clean']
+      ]
+    };
+  
+    const formats = [
+      'font', 'size', 'header',
+      'bold', 'italic', 'underline', 'strike', 'blockquote',
+      'color', 'background',
+      'script', 'list', 'bullet', 'check', 'indent',
+      'direction', 'align',
+      'link', 'image', 'video', 'formula'
+    ];
 
   return (
     <div id="main">
@@ -170,52 +210,32 @@ const UpdateBlog = () => {
                   {/* Content EN */}
                   <div className={`input-box my-4 ${errorClass('content_en')}`}>
                     <p className='blog-content'>Content (English)</p>
-                    <Editor
-                      apiKey="ude4f4a016a0bfea158f3512257b02b0927792f2045bc7014968b65d6fdca10a2"
-                      value={content_en}
-                      init={{
-                        height: 500,
-                        menubar: false,
-                        toolbar:
-                          'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | ' +
-                          'link media table mergetags | addcomment showcomments | ' +
-                          'spellcheckdialog a11ycheck typography uploadcare | align lineheight |' +
-                          ' checklist numlist bullist indent outdent | emoticons charmap | ' +
-                          'removeformat | code preview fullscreen',
-                        plugins: [
-                          'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
-                          'preview', 'anchor', 'searchreplace', 'visualblocks', 'code',
-                          'fullscreen', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
-                        ],
-                      }}
-                      onEditorChange={(newContent) => setContent_en(newContent)}
-                    />
+                    {
+                      <ReactQuill
+                        theme="snow"
+                        value={content_en}
+                        onChange={setContent_en}
+                        modules={modules}
+                        formats={formats}
+                        readOnly={loading}
+                      />
+                    }
                     {errors.content_en && <p className="input-error">{errors.content_en}</p>}
                   </div>
 
                   {/* Content FR */}
                   <div className={`input-box my-4 ${errorClass('content_fr')}`}>
                     <p className='blog-content'>Content (French)</p>
-                    <Editor
-                      apiKey="de4f4a016a0bfea158f3512257b02b0927792f2045bc7014968b65d6fdca10a2"
-                      value={content_fr}
-                      init={{
-                        height: 500,
-                        menubar: false,
-                        toolbar:
-                          'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | ' +
-                          'link media table mergetags | addcomment showcomments | ' +
-                          'spellcheckdialog a11ycheck typography uploadcare | align lineheight |' +
-                          ' checklist numlist bullist indent outdent | emoticons charmap | ' +
-                          'removeformat | code preview fullscreen',
-                        plugins: [
-                          'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
-                          'preview', 'anchor', 'searchreplace', 'visualblocks', 'code',
-                          'fullscreen', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
-                        ],
-                      }}
-                      onEditorChange={(newContent) => setContent_fr(newContent)}
-                    />
+                    {
+                      <ReactQuill
+                        theme="snow"
+                        value={content_fr}
+                        onChange={setContent_fr}
+                        modules={modules}
+                        formats={formats}
+                        readOnly={loading}
+                      />
+                    }
                     {errors.content_fr && <p className="input-error">{errors.content_fr}</p>}
                   </div>
 
