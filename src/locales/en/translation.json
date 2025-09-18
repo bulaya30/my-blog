@@ -243,7 +243,13 @@
   "An error occurred": "An error occurred"
 },
 
-
+"loadingAuthor": "Loading author...",
+"email": "Email",
+"bio": "Biography",
+"noBio": "No biography available",
+"joined": "Joined",
+"articlesByAuthor": "Articles by this author",
+"noArticlesYet": "No articles published yet",
 
   "Loading blogs...": "Loading blogs...",
   "No blogs available.": "No blogs available.",

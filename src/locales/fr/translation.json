@@ -233,6 +233,13 @@
   "An error occurred": "Une erreur est survenue"
 },
 
+"loadingAuthor": "Chargement de l'auteur...",
+"email": "E-mail",
+"bio": "Biographie",
+"noBio": "Pas de biographie disponible",
+"joined": "Rejoint",
+"articlesByAuthor": "Articles de cet auteur",
+"noArticlesYet": "Aucun article n'a encore été publié",
 
   "Loading blogs...": "Chargement des blogs...",
   "No blogs available.": "Aucun blog disponible.",

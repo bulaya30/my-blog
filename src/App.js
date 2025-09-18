@@ -13,6 +13,7 @@ import BlogByCategory from './components/blog/ListByCategory';
 import EditCategory from './components/category/Update';
 import UpdateBlog from './components/blog/Update';
 import { SidebarProvider } from './components/context/sidebarContext';
+import Author from './components/home/Author';
 
 // Import Bootstrap & CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -42,6 +43,7 @@ export class App extends Component {
               <Route path='/login' element={<Login />} />
               <Route path='/register' element={<Register />} />
               <Route path='/profile' element={<Profile />} />
+              <Route path="/author/:authorId" element={<Author />} />
             </Routes>
           </div>
         </SidebarProvider>

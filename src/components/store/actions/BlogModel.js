@@ -164,7 +164,7 @@ export const deleteBlog = (id) => {
 /**
  * Helper functions
  */
-async function fetchAuthor(authorId) {
+export async function fetchAuthor(authorId) {
   if (!authorId) return null;
   try {
     const snap = await db.collection("users").doc(authorId).get();

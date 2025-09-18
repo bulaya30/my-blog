@@ -616,7 +616,43 @@ body {
   transform: translateY(-5px);
   box-shadow: 0 6px 15px rgba(0,0,0,0.15);
 }
-
+/*---------------------------------------------
+# Author
+----------------------------------------------*/
+.author-info h2{
+  font-size: 1.4em;
+  font-weight: 600;
+  color: #012970;
+}
+.author-info div p{
+  font-size: .9em;
+  color: #012970;
+}
+.social-links a {
+  font-size: 20px;
+  display: inline-block;
+  color: rgba(1, 41, 112, 0.6);
+  line-height: 0;
+  margin-right: 10px;
+  transition: 0.3s;
+}
+.social-links a:hover {
+  color: #012970;
+}
+.author-articles h3{
+  color: #012970;
+  font-weight: 600;
+  font-size: 1.2em;
+  margin-left: 10px;
+}
+.list-group a{
+  color: #012970 !important;
+  font-weight: 500;
+  transition: .5s;
+}
+.list-group a:hover{
+  color: #ff3a1c !important;
+}
 /*------------------------------------------- 
 # Models
 --------------------------------------------*/

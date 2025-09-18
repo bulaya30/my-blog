@@ -88,10 +88,12 @@ const Details = () => {
               <p className="mt-4 text-end">
                 {t("writtenBy")}{" "}
                 {blog.author ? (
-                  <Link to={`author/${blog.author.id}`}>
-                    {blog.author.firstName.trim() || ""}{" "}
-                    {blog.author.lastName.trim() || ""}
-                  </Link>
+                  <button
+                    onClick={() => navigate(`/author/${blog.author.id}`)}
+                    className="btn btn-link m-0 p-0"
+                  >
+                    {blog.author.lastName} {blog.author.firstName}
+                  </button>
                 ) : (
                   t("unknownAuthor")
                 )}
