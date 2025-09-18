@@ -29,37 +29,70 @@
   "unknownDate": "Date inconnue",
   "readMore": "Lire plus",
   "viewAllBlogs": "Voir tous les articles",
+  "acceuilPage" : {
+    "heroTitle": "Transformer les idées en technologie, données et inspiration",
+    "heroSubtitle": "Je crée des sites web, des applications de bureau et des solutions basées sur les données — et j’écris des articles pour vous inspirer à réussir durablement.",
+    "exploreBlogs": "Découvrir mes articles",
 
-  "aboutPage": {
-    "title": "À propos de Norrechel",
-    "subtitle": "Accompagner les jeunes à découvrir leur potentiel et atteindre leurs objectifs.",
-    "exploreBlogs": "Découvrir nos blogs",
-    "missionTitle": "Notre Mission",
-    "mission1": "Norrechel s'engage à aider les jeunes à découvrir leur potentiel, développer leur caractère, augmenter leur valeur et prendre des mesures engagées pour atteindre leurs objectifs.",
-    "mission2": "À travers des articles, guides et conseils, nous visons à inspirer la croissance, la confiance en soi et une mentalité tournée vers le succès.",
-    "join": "Rejoindre Norrechel",
-    "visionJourney": "Notre Parcours de Vision",
-    "timeline": {
-      "discover": {
-        "title": "Découvrir le potentiel",
-        "desc": "Encourager les jeunes à identifier leurs forces et leurs passions."
-      },
-      "character": {
-        "title": "Développer le caractère",
-        "desc": "Fournir des ressources pour cultiver l'intégrité, la résilience et le leadership."
-      },
-      "value": {
-        "title": "Augmenter la valeur",
-        "desc": "Permettre à notre audience d'accroître leur valeur personnelle et professionnelle."
-      },
-      "goals": {
-        "title": "S'engager pour des objectifs",
-        "desc": "Les motiver à entreprendre des actions cohérentes menant à de vraies réussites."
-      }
+    "focusAreas": "Ce que je fais",
+    "personalGrowthTitle": "Articles inspirants",
+    "personalGrowthDesc": "Je partage des idées issues de mes expériences personnelles et de mes lectures, pour aider chacun à rester motivé et à développer des habitudes solides pour réussir.",
+    "dataProjectsTitle": "Projets en analyse de données",
+    "dataProjectsDesc": "J’utilise les données pour révéler des histoires, des modèles et des solutions. Mes projets montrent comment l’analyse peut résoudre des problèmes concrets.",
+    "techSolutionsTitle": "Technologie & solutions",
+    "techSolutionsDesc": "Des sites web aux applications de bureau, je crée des outils qui ont un impact et démontrent comment la technologie améliore la vie.",
+
+    "latestBlogs": "Derniers articles",
+    "noBlogsYet": "Aucun article publié pour le moment",
+    "by": "Par",
+    "unknownAuthor": "Auteur inconnu",
+    "unknownDate": "Date inconnue",
+    "readMore": "Lire plus",
+    "viewAllBlogs": "Voir tous les articles",
+
+    "aboutSection": {
+      "title": "À propos de moi",
+      "text": "Je suis créateur, développeur et analyste de données, passionné par la résolution de problèmes concrets grâce à la technologie. J’écris pour inspirer les autres à travers mon parcours personnel et les connaissances acquises dans mes lectures. Ce site est mon espace pour présenter mes projets et partager des idées pour vous aider à réussir durablement.",
+      "learnMore": "En savoir plus"
     },
-    "ctaTitle": "Commencez votre parcours aujourd'hui",
-    "ctaDesc": "Nous croyons que chaque jeune a le potentiel d'accomplir de grandes choses. Faites le premier pas avec nous."
+
+    "newsletterTitle": "Restez inspiré",
+    "newsletterDesc": "Abonnez-vous pour recevoir mes derniers articles et mises à jour sur mes projets directement dans votre boîte mail.",
+    "emailPlaceholder": "Entrez votre email",
+    "subscribeBtn": "S’abonner",
+    "subscribeSuccess": "Abonnement réussi !"
   },
+  "aboutPage": {
+  "title": "À propos de moi",
+  "subtitle": "Je suis créateur, développeur et analyste de données, passionné par la résolution de problèmes réels grâce à la technologie.",
+  "exploreBlogs": "Découvrir mes articles",
+
+  "whoAmITitle": "Qui je suis",
+  "whoAmIText": "J'aime créer des sites web, des applications de bureau et des solutions basées sur les données. J'écris pour inspirer les autres grâce aux leçons que j'ai tirées de ma vie et des livres que je lis.",
+
+  "missionTitle": "Ma mission",
+  "missionText": "Ma mission est d'aider les autres à réussir durablement en partageant des idées tirées de mon parcours, de mes projets et des connaissances que j'acquiers dans les livres.",
+
+  "whatIDoTitle": "Ce que je fais",
+  "articlesTitle": "Articles inspirants",
+  "articlesDesc": "Je partage des idées issues de mon expérience personnelle et de mes lectures pour aider les gens à développer des habitudes et des compétences pour réussir.",
+  "dataProjectsTitle": "Projets d'analyse de données",
+  "dataProjectsDesc": "J'utilise les données pour révéler des informations et créer des solutions aux problèmes réels.",
+  "techSolutionsTitle": "Technologie & Solutions",
+  "techSolutionsDesc": "Je crée des sites web et des applications de bureau qui ont un impact et améliorent la vie.",
+
+  "timelineTitle": "Mon approche",
+  "timeline": {
+    "whoAmI": { "title": "Parcours", "desc": "Apprendre, créer et progresser grâce à la technologie." },
+    "mission": { "title": "Mission", "desc": "Inspirer les autres à travers les projets, les écrits et des solutions concrètes." },
+    "whatIDo": { "title": "Ce que je fais", "desc": "Articles, projets de données et solutions technologiques pour résoudre des problèmes." },
+    "approach": { "title": "Approche", "desc": "Allier créativité et analyse pour maximiser l'impact." }
+  },
+
+  "ctaTitle": "Entrons en contact",
+  "ctaDesc": "Découvrez mon travail, suivez mon parcours et rejoignez-moi pour créer des solutions significatives.",
+  "ctaBtn": "Me contacter"
+},
   "contactPage": {
     "title": "Nous contacter",
     "info": {
@@ -231,6 +264,14 @@
   "Blog added successfully!": "Blog ajouté avec succès !",
   "Failed to add blog": "Échec de l'ajout du blog",
   "An error occurred": "Une erreur est survenue"
+},
+
+"dataProjectsPage": {
+  "title": "Projets d'analyse de données",
+  "subtitle": "Explorer des insights du monde réel grâce aux données",
+  "noProjects": "Aucun projet publié pour le moment",
+  "viewProject": "Voir le projet →",
+  "learnMore": "En savoir plus sur le projet"
 },
 
 "loadingAuthor": "Chargement de l'auteur...",

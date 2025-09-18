@@ -29,37 +29,71 @@
   "unknownDate": "Unknown Date",
   "readMore": "Read More",
   "viewAllBlogs": "View All Blogs",
+  "acceuilPage" : {
+    "heroTitle": "Turning ideas into technology, data, and inspiration",
+    "heroSubtitle": "I build websites, desktop applications, and data-driven solutions — and I write articles to inspire lasting success.",
+    "exploreBlogs": "Explore my articles",
+
+    "focusAreas": "What I Do",
+    "personalGrowthTitle": "Inspiring Articles",
+    "personalGrowthDesc": "I share insights from personal experiences and books I read to help people stay motivated and build lasting habits for success.",
+    "dataProjectsTitle": "Data Analysis Projects",
+    "dataProjectsDesc": "I use data to uncover stories, patterns, and solutions. My projects showcase how analysis can solve real-world problems.",
+    "techSolutionsTitle": "Technology & Solutions",
+    "techSolutionsDesc": "From websites to desktop apps, I create tools that make an impact and show how technology improves life.",
+
+    "latestBlogs": "Latest Articles",
+    "noBlogsYet": "No articles published yet",
+    "by": "By",
+    "unknownAuthor": "Unknown author",
+    "unknownDate": "Unknown date",
+    "readMore": "Read more",
+    "viewAllBlogs": "View all articles",
+
+    "aboutSection": {
+      "title": "About Me",
+      "text": "I am a creator, developer, and data analyst passionate about solving real-life problems with technology. I write to inspire others through my personal journey and the knowledge I gain from books. This site is my space to showcase projects and share ideas that help people achieve lasting success.",
+      "learnMore": "Learn more"
+    },
+
+    "newsletterTitle": "Stay Inspired",
+    "newsletterDesc": "Subscribe to get my latest articles and updates on projects delivered straight to your inbox.",
+    "emailPlaceholder": "Enter your email",
+    "subscribeBtn": "Subscribe",
+    "subscribeSuccess": "Successfully subscribed!"
+   },
 
   "aboutPage": {
-    "title": "About Norrechel",
-    "subtitle": "Empowering young people to discover their potential and rise to their goals.",
-    "exploreBlogs": "Explore Our Blogs",
-    "missionTitle": "Our Mission",
-    "mission1": "Norrechel is dedicated to helping young people discover their potential, develop their character, raise their value, and commit to actions that move them closer to achieving their goals.",
-    "mission2": "Through thoughtful articles, guides, and mentorship insights, we aim to inspire growth, self-confidence, and a mindset focused on success.",
-    "join": "Join Norrechel",
-    "visionJourney": "Our Vision Journey",
-    "timeline": {
-      "discover": {
-        "title": "Discover Potential",
-        "desc": "Encourage young people to identify their strengths and passions."
-      },
-      "character": {
-        "title": "Develop Character",
-        "desc": "Provide resources to nurture integrity, resilience, and leadership skills."
-      },
-      "value": {
-        "title": "Raise Value",
-        "desc": "Empower our audience to increase their personal and professional value."
-      },
-      "goals": {
-        "title": "Commit to Goals",
-        "desc": "Motivate them to take consistent actions that lead to real achievements."
-      }
-    },
-    "ctaTitle": "Start Your Journey Today",
-    "ctaDesc": "We believe every young person has the potential to achieve greatness. Take the first step with us."
+  "title": "About Me",
+  "subtitle": "I am a creator, developer, and data analyst passionate about solving real-life problems with technology.",
+  "exploreBlogs": "Explore my articles",
+
+  "whoAmITitle": "Who I Am",
+  "whoAmIText": "I love building websites, desktop applications, and data-driven solutions. I write to inspire others through lessons I’ve learned from life and books I read.",
+
+  "missionTitle": "My Mission",
+  "missionText": "My mission is to help others achieve lasting success by sharing insights from my journey, projects, and the knowledge I gain from books.",
+
+  "whatIDoTitle": "What I Do",
+  "articlesTitle": "Inspiring Articles",
+  "articlesDesc": "I share insights from personal experiences and books to help people develop habits and skills for success.",
+  "dataProjectsTitle": "Data Analysis Projects",
+  "dataProjectsDesc": "I use data to uncover insights and create solutions to real-world problems.",
+  "techSolutionsTitle": "Technology & Solutions",
+  "techSolutionsDesc": "I create websites and desktop apps that make an impact and improve life.",
+
+  "timelineTitle": "My Approach",
+  "timeline": {
+    "whoAmI": { "title": "Background", "desc": "Learning, creating, and growing with technology." },
+    "mission": { "title": "Mission", "desc": "Inspire others through projects, writing, and practical solutions." },
+    "whatIDo": { "title": "What I Do", "desc": "Articles, data projects, and technology solutions to solve problems." },
+    "approach": { "title": "Approach", "desc": "Combining creativity with analysis to maximize impact." }
   },
+
+  "ctaTitle": "Let's Connect",
+  "ctaDesc": "Explore my work, follow my journey, and join me in creating meaningful solutions.",
+  "ctaBtn": "Contact Me"
+},
   "contactPage": {
     "title": "Contact Us",
     "info": {
@@ -241,6 +275,13 @@
   "Blog added successfully!": "Blog added successfully!",
   "Failed to add blog": "Failed to add blog",
   "An error occurred": "An error occurred"
+},
+"dataProjectsPage": {
+  "title": "Data Analysis Projects",
+  "subtitle": "Exploring real-world insights through data",
+  "noProjects": "No projects published yet",
+  "viewProject": "View project →",
+  "learnMore": "Learn more about the project"
 },
 
 "loadingAuthor": "Loading author...",

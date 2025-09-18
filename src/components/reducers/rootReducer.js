@@ -5,6 +5,7 @@ import CategoryReducer from "./categoryReducer";
 import ContactReducer from "./contactReducer";
 import NotifcationReducer from "./notificationReducer";
 import SubscriberReducer from "./subscriberReducer";
+import DataAnalysisReducer from "./dataAnalysisReducer";
 import { combineReducers} from 'redux'
 
 
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
     subscriber: SubscriberReducer,
     contact: ContactReducer,
     user: UserReducer,
+    dataAnalysis: DataAnalysisReducer,
 })
 
 
