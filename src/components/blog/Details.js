@@ -36,7 +36,7 @@ const Details = () => {
 
   return (
     <>
-      <div className="container p-5 mt-5 bg-white">
+      <div className="container pt-5 mt-5 bg-white">
         <h2 className="text-center">
           <strong>{blog.title[lang]}</strong>
         </h2>

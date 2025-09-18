@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 import { updateCategory, getCategory } from '../store/actions/categoryModel'; 
 import { checkName } from '../../validation/validate';
 
@@ -19,7 +19,6 @@ const EditCategory = () => {
     ? state.category.categories
     : null
     );
-
   // Fetch category by ID
 useEffect(() => {
     dispatch(getCategory('id', id));
@@ -63,6 +62,8 @@ useEffect(() => {
       setLoading(false);
     }
   }
+  
+  if(!admin) return <Navigate to="/" replace />;;
   const errorClass = (field) => (errors[field] ? "input-error-border" : "");
   return (
     <div id="main">

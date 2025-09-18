@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import { addCategory } from '../store/actions/categoryModel';
 import { checkName } from '../../validation/validate';
 
@@ -11,6 +12,7 @@ const CreateCategory = () => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
    const admin = useSelector((state) => state.auth.isAdmin);
+   const auth = useSelector((state) => state.auth.user);
 
   const showToast = (message, type = 'error') => {
     setToast({ message, type });
@@ -49,7 +51,7 @@ const CreateCategory = () => {
       setLoading(false);
     }
   };
-
+   if(!auth) return <Navigate to="/" replace />;
   const errorClass = (field) => (errors[field] ? "input-error-border" : "");
 
   return (

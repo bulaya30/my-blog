@@ -99,12 +99,9 @@
   .category-content ul {
     padding: 0;
   }
-  /* .category-content ul li{
-    margin: 0;
-    padding: 0;
-    background: cyan;
+    .blog-details-content{
+    padding: 10px;
+    
   }
-  .category-content a {
-    padding-left: 0;
-  } */
+
 }

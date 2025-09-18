@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import { addBlog } from '../store/actions/BlogModel';
+import { getCategory } from '../store/actions/categoryModel';
 import ReactQuill, { Quill } from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +11,7 @@ import { checkName, checkString } from '../../validation/validate';
 const CreateBlog = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth.user);
+  const categories = useSelector((state) => state.category.categories)
   const { t } = useTranslation();
 
   const [title_en, setTitle_en] = useState('');
@@ -45,6 +48,15 @@ const CreateBlog = () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+  useEffect(() => {
+    dispatch(getCategory);
+  }, [dispatch]);
+  // Ensure categories is always an array
+  const safeCategories = Array.isArray(categories)
+    ? categories
+    : categories
+    ? [categories] // single object case
+    : []; // null/undefined case
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -120,7 +132,8 @@ const CreateBlog = () => {
     'direction', 'align',
     'link', 'image', 'video', 'formula'
   ];
-
+  if(!auth) return <Navigate to="/" replace />;
+    const errorClass = (field) => (errors[field] ? "input-error-border" : "");
   return (
     <div className="form-section">
       <div className="card border-0 shadow-sm">
@@ -129,7 +142,7 @@ const CreateBlog = () => {
           <form onSubmit={handleSubmit} autoComplete="off">
 
             {/* Title English */}
-            <div className="input-box">
+             <div className={`input-box ${errorClass('title_en')}`}>
               <input
                 type="text"
                 value={title_en}
@@ -141,7 +154,7 @@ const CreateBlog = () => {
             </div>
 
             {/* Title French */}
-            <div className="input-box">
+             <div className={`input-box ${errorClass('title_fr')}`}>
               <input
                 type="text"
                 value={title_fr}
@@ -153,12 +166,12 @@ const CreateBlog = () => {
             </div>
 
             {/* Category */}
-            <div className="input-box">
+             <div className={`input-box ${errorClass('category')}`}>
               <select value={category} onChange={(e) => setCategory(e.target.value)} disabled={loading}>
-                <option value="">{t("Select category")}</option>
-                <option value="Mentorship">{t("Mentorship and advice")}</option>
-                <option value="Tips">{t("Tips")}</option>
-                <option value="Business">{t("Business")}</option>
+                <option value="">{""}</option>
+                {safeCategories.map((category) => (
+                  <option value={category.name}>{category.name}</option>
+                ))}
               </select>
               {errors.category && <p className="input-error">{errors.category}</p>}
             </div>
