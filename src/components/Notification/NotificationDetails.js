@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 import { getNotification, deleteNotification } from "../store/actions/NotificationsModel";
 import { useTranslation } from "react-i18next";
 
@@ -8,6 +9,7 @@ const NotificationDetails = () => {
   const { t, i18n } = useTranslation();
   const notifications = useSelector((state) => state.notification.notifications || []);
   const isAdmin = useSelector((state) => state.auth.isAdmin);
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     dispatch(getNotification());
@@ -29,17 +31,17 @@ const NotificationDetails = () => {
 
   const formatDate = (date) =>
     date?.toDate
-      ? date.toDate().toLocaleString(i18n.language, {
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-        })
-      : "";
+    ? date.toDate().toLocaleString(i18n.language, {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+    : "";
 
 
-
+  if (!user) return <Navigate to="/login" replace />;
   return (
     <>
       <div className="notifications-page container">

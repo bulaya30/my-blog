@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import { updateProfile } from '../store/actions/UserModel';
 import { checkName, checkString, checkPhone, checkURL } from '../../validation/validate';
 
 const UpdateProfile = () => {
   const dispatch = useDispatch();
-  const profile = useSelector(state => state.auth.user?.profile);
+  const profile = useSelector(state => state.auth.user);
 
   const [toast, setToast] = useState({ message: '', type: '' });
   const [loading, setLoading] = useState(false);
@@ -102,7 +103,7 @@ const UpdateProfile = () => {
     }
   };
 
-  if (!profile) return <div>Loading...</div>;
+   if (!profile) return <Navigate to="/login" replace />;
   const errorClass = (field) => (errors[field] ? "input-error-border" : "");
 
   return (

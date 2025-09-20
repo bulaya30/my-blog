@@ -132,8 +132,8 @@ const CreateBlog = () => {
     'direction', 'align',
     'link', 'image', 'video', 'formula'
   ];
-  if(!auth) return <Navigate to="/" replace />;
-    const errorClass = (field) => (errors[field] ? "input-error-border" : "");
+  if(!auth) return <Navigate to="/login" replace />;
+  const errorClass = (field) => (errors[field] ? "input-error-border" : "");
   return (
     <div className="form-section">
       <div className="card border-0 shadow-sm">

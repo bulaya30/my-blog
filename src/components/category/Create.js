@@ -51,7 +51,7 @@ const CreateCategory = () => {
       setLoading(false);
     }
   };
-   if(!auth) return <Navigate to="/" replace />;
+   if(!auth) return <Navigate to="/login" replace />;
   const errorClass = (field) => (errors[field] ? "input-error-border" : "");
 
   return (

@@ -107,8 +107,6 @@ const UpdateBlog = () => {
       .finally(() => setLoading(false));
   };
 
-  if (!auth) return <p>Loading user info...</p>;
-  if (!blog) return <p>Loading blog...</p>;
 
   const errorClass = (field) => (errors[field] ? "input-error-border" : "");
   // ====== Quill Fonts & Sizes ======
@@ -150,7 +148,9 @@ const UpdateBlog = () => {
       'direction', 'align',
       'link', 'image', 'video', 'formula'
     ];
-
+    
+  if (!auth) return <p>Loading user info...</p>;
+  if (!blog) return <p>Loading blog...</p>;
   return (
     <div id="main">
       <div className="container">

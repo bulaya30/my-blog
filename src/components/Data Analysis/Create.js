@@ -69,7 +69,7 @@ const CreateProject = () => {
         setLoading(false);
         }
     };
-    if(!user) return <Navigate to="/" replace />;
+    if(!user) return <Navigate to="/login" replace />;
     const errorClass = (field) => (errors[field] ? "input-error-border" : "");
 
   return (

@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { NavLink, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Notifications from '../Notification/Notifications';
 
 const Dashboard = () => {
   const { t } = useTranslation();
+  const user = useSelector((state) => state.auth.user);
   const [visitsFilter, setVisitsFilter] = useState('Today');
   const [commentsFilter, setCommentsFilter] = useState('Today');
   const [recentFilter, setRecentFilter] = useState('Today');
 
   // Translated periods
   const periods = [t('dashboard.today'), t('dashboard.thisMonth'), t('thisYear')];
-
+  if (!user) return <Navigate to="/login" replace />;
   return (
     <article className="dashboard">
       <div className="row">

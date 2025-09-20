@@ -63,7 +63,7 @@ useEffect(() => {
     }
   }
   
-  if(!admin) return <Navigate to="/" replace />;;
+   if(!admin) return <Navigate to="/login" replace />;
   const errorClass = (field) => (errors[field] ? "input-error-border" : "");
   return (
     <div id="main">

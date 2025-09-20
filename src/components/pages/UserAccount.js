@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import UpdateProfile from './Update';
 import Password from '../auth/Password';
 
 const Account = () => {
-  const user = useSelector((state) => state.auth.user.profile);
+  const user = useSelector((state) => state.auth.user);
   const [activeTab, setActiveTab] = useState('overview');
 
-  if (!user) return <div>Loading...</div>;
+   if (!user) return <Navigate to="/login" replace />;
 
   return (
     <div className="row">

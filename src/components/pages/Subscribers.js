@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 import { getSubscribers, deleteSubscribers } from "../store/actions/SubscriberModel";
 import ConfirmModal from "../models/confirmModel";
 import { useTranslation } from "react-i18next";
@@ -7,7 +8,7 @@ import { useTranslation } from "react-i18next";
 const Subscribers = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-
+  const user = useSelector((state) => state.auth.user);
   const subscribersFromState = useSelector((state) => state.subscriber.subscribers);
   const loading = useSelector((state) => state.subscriber.loading);
 
@@ -77,22 +78,21 @@ const Subscribers = () => {
   // Apply filter only if not "All"
   const filteredSubscribers =
     filter === "All"
-      ? subscribers
-      : subscribers.filter((sub) => {
-          if (!sub.createdAt) return false;
-          const createdAt = new Date(sub.createdAt.seconds * 1000);
-          const now = new Date();
-
-          if (filter === "Today") return createdAt.toDateString() === now.toDateString();
-          if (filter === "This Month")
-            return (
-              createdAt.getMonth() === now.getMonth() &&
-              createdAt.getFullYear() === now.getFullYear()
-            );
-          if (filter === "This Year") return createdAt.getFullYear() === now.getFullYear();
-          return true;
-        });
-
+    ? subscribers
+    : subscribers.filter((sub) => {
+    if (!sub.createdAt) return false;
+    const createdAt = new Date(sub.createdAt.seconds * 1000);
+    const now = new Date();
+    if (filter === "Today") return createdAt.toDateString() === now.toDateString();
+      if (filter === "This Month")
+        return (
+        createdAt.getMonth() === now.getMonth() &&
+        createdAt.getFullYear() === now.getFullYear()
+      );
+    if (filter === "This Year") return createdAt.getFullYear() === now.getFullYear();
+    return true;
+  });
+  if (!user) return <Navigate to="/login" replace />;
   return (
     <div className="row p-3">
       <div className="col-12">

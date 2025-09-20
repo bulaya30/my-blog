@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import { getNotification } from '../store/actions/NotificationsModel';
 import moment from 'moment';
 import { ToastContainer, toast } from 'react-toastify';
@@ -10,6 +11,7 @@ const Notifications = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const notifications = useSelector(state => state.notification.notifications || []);
+  const user = useSelector((state) => state.auth.user);
   
   const [filter, setFilter] = useState('Today');
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -63,7 +65,7 @@ const Notifications = () => {
     if (filter === 'This Year') return createdAt.getFullYear() === now.getFullYear();
     return true;
   });
-
+  if (!user) return <Navigate to="/login" replace />;
   return (
     <div className='row p-3'>
       <ToastContainer position="top-right" autoClose={5000} />
