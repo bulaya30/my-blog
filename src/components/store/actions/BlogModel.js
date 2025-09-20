@@ -4,7 +4,8 @@ import { addNotification } from "./NotificationsModel";
 /**
  * Fetch a single blog or a list of blogs
  * Returns the content in user's language automatically (EN or FR)
- */
+*/
+
 export const getBlog = (field, value) => {
   return (dispatch) => {
     const blogsRef = db.collection("blogs");

@@ -168,9 +168,9 @@ const CreateBlog = () => {
             {/* Category */}
              <div className={`input-box ${errorClass('category')}`}>
               <select value={category} onChange={(e) => setCategory(e.target.value)} disabled={loading}>
-                <option value="">{""}</option>
+                <option key={category.id } value=""></option>
                 {safeCategories.map((category) => (
-                  <option value={category.name}>{category.name}</option>
+                  <option key={category.id } value={category.name}>{category.name}</option>
                 ))}
               </select>
               {errors.category && <p className="input-error">{errors.category}</p>}
@@ -179,7 +179,7 @@ const CreateBlog = () => {
             {/* Content English */}
             <div className="input-box my-3">
               <p>{t("Content (English)")}</p>
-              <div className="quill-wrapper" id="editor">
+              <div className="quill-wrapper">
                 <ReactQuill
                   theme="snow"
                   value={content_en}

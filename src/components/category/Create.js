@@ -59,7 +59,7 @@ const CreateCategory = () => {
       <div className="card border-0 shadow-sm">
         <h2>New Category</h2>
         <div className="card-body">
-          <form id="new-category-form" autoComplete="off" onSubmit={handleSubmit}>
+          <form autoComplete="off" onSubmit={handleSubmit}>
             <div className={`input-box ${errorClass('name')}`}>
               <input
                 type="text"
@@ -74,7 +74,7 @@ const CreateCategory = () => {
 
             <div className="input-box">
               {!loading ? (
-                <button id="new-article-btn" className="btn btn-sm w-100" type="submit">
+                <button className="btn btn-sm w-100" type="submit">
                   Add
                 </button>
               ) : (

@@ -17,9 +17,7 @@ export const addNotification = (notification) => {
   };
 };
 
-
 // Fetch notifications
-
 export const getNotification = () => {
   return (dispatch, getState) => {
     const state = getState();
@@ -39,9 +37,34 @@ export const getNotification = () => {
         }));
         dispatch({ type: 'GET_NOTIFICATION', payload: notifications });
       }, (error) => {
+        dispatch({ type: 'NOTIFICATION_ERROR', payload: error.message });
       });
 
     // Return unsubscribe so you can clean up in useEffect
     return unsubscribe;
+  };
+};
+
+// Delete a notification
+export const deleteNotification = (id) => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const isAdmin = state.auth.isAdmin;
+
+    if (!isAdmin) {
+      const errorMsg = "You are not authorized to delete notifications";
+      dispatch({ type: 'NOTIFICATION_ERROR', payload: errorMsg });
+      return { success: false, error: errorMsg };
+    }
+
+    try {
+      const notificationsRef = firebase.firestore().collection('notifications').doc(id);
+      await notificationsRef.delete();
+      dispatch({ type: 'DELETE_NOTIFICATION', payload: id });
+      return { success: true };
+    } catch (error) {
+      dispatch({ type: 'NOTIFICATION_ERROR', payload: error.message });
+      return { success: false, error: error.message };
+    }
   };
 };

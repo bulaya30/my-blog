@@ -53,6 +53,7 @@ function NavBar({ auth }) {
         <ul className="nav-links">
           <li><Link to="/" onClick={() => setMenuOpen(false)}>{t('home')}</Link></li>
           <li><Link to="/blogs" onClick={() => setMenuOpen(false)}>{t('blogs')}</Link></li>
+          <li><Link to="/projects" onClick={() => setMenuOpen(false)}>{t('project')}</Link></li>
           <li><Link to="/about" onClick={() => setMenuOpen(false)}>{t('about')}</Link></li>
           <li><Link to="/contact" onClick={() => setMenuOpen(false)}>{t('contact')}</Link></li>
           {auth ? (

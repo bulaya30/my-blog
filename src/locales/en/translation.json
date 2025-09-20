@@ -1,6 +1,7 @@
 {
   "home": "Home",
   "blogs": "Blogs",
+  "project": "Projects",
   "about": "About",
   "contact": "Contact",
   "login": "Login",
@@ -13,7 +14,7 @@
   "subscribeSuccess": "Thank you for subscribing!",
   "noBlogsYet" : "No blog published yet",
   "heroTitle": "Unlock Your Potential",
-  "heroSubtitle": "We inspire and equip young people to discover their potential, build strong character, increase their value, and commit to achieving their goals.",
+  "heroSubtitle": "Our mission is to empower anyone who wants to become the best version of themselves—by cultivating character, unlocking potential, and achieving meaningful goals.",
   "exploreBlogs": "Explore Blogs",
 
   "focusAreas": "Our Focus Areas",
@@ -205,6 +206,18 @@
   "date": "Date",
   "time": "Time"
 },
+"notificationPage" :{
+  "title": "Notifications",
+  "none": "No notifications available",
+  "confirmDelete": "Are you sure you want to delete this notification?",
+  "types": {
+    "new_user": "New Users",
+    "new_blog": "New Blog Posts",
+    "new_subscriber": "New Subscribers",
+     "new_project": "New Projects",
+    "other": "Other"
+  }
+},
 "notifications": {
     "title": "Recent Notifications",
     "filterTitle": "Filter",
@@ -225,14 +238,18 @@
       "newBlog": "New Blog",
       "subscribers": "Subscribers",
       "accountHeading": "Account",
-      "profile": "Profile"
+      "profile": "Profile",
+      "projects": "Projects",
+      "notifications": "Notifications"
     },
     "breadcrumb": {
       "profile": "Profile",
       "dashboard": "Dashboard",
       "blogs": "Blogs",
       "newArticle": "New Article",
-      "subscribers": "Subscribers"
+      "subscribers": "Subscribers",
+      "projects": "Projects",
+      "notifications": "Notifications"
     },
     "categories": {
       "title": "Categories",
@@ -243,38 +260,40 @@
     }
   },
   "createBlogPage":{
-  "New Blog": "New Blog",
-  "Title (English)": "Title (English)",
-  "Title (French)": "Title (French)",
-  "Category": "Category",
-  "Mentorship and advice": "Mentorship and advice",
-  "Tips": "Tips",
-  "Business": "Business",
-  "Content (English)": "Content (English)",
-  "Content (French)": "Content (French)",
-  "Publish": "Publish",
-  "Publishing...": "Publishing...",
-  "Loading user info...": "Loading user info...",
+    "New Blog": "New Blog",
+    "Title (English)": "Title (English)",
+    "Title (French)": "Title (French)",
+    "Category": "Category",
+    "Mentorship and advice": "Mentorship and advice",
+    "Tips": "Tips",
+    "Business": "Business",
+    "Content (English)": "Content (English)",
+    "Content (French)": "Content (French)",
+    "Publish": "Publish",
+    "Publishing...": "Publishing...",
+    "Loading user info...": "Loading user info...",
 
-  "Title (English) is required.": "Title (English) is required.",
-  "Title (English) must be at least 5 characters long.": "Title (English) must be at least 5 characters long.",
-  "Invalid name.": "Invalid name.",
-  "Title (French) is required.": "Title (French) is required.",
-  "Title (French) must be at least 5 characters long.": "Title (French) must be at least 5 characters long.",
+    "Title (English) is required.": "Title (English) is required.",
+    "Title (English) must be at least 5 characters long.": "Title (English) must be at least 5 characters long.",
+    "Invalid name.": "Invalid name.",
+    "Title (French) is required.": "Title (French) is required.",
+    "Title (French) must be at least 5 characters long.": "Title (French) must be at least 5 characters long.",
 
-  "Content (English) is required.": "Content (English) is required.",
-  "Content (English) must be at least 50 characters long.": "Content (English) must be at least 50 characters long.",
-  "Invalid content.": "Invalid content.",
-  "Content (French) is required.": "Content (French) is required.",
-  "Content (French) must be at least 50 characters long.": "Content (French) must be at least 50 characters long.",
+    "Content (English) is required.": "Content (English) is required.",
+    "Content (English) must be at least 50 characters long.": "Content (English) must be at least 50 characters long.",
+    "Invalid content.": "Invalid content.",
+    "Content (French) is required.": "Content (French) is required.",
+    "Content (French) must be at least 50 characters long.": "Content (French) must be at least 50 characters long.",
 
-  "Category is required.": "Category is required.",
+    "Category is required.": "Category is required.",
 
-  "User info not loaded. Please wait.": "User info not loaded. Please wait.",
-  "Please fix the errors before submitting.": "Please fix the errors before submitting.",
-  "Blog added successfully!": "Blog added successfully!",
-  "Failed to add blog": "Failed to add blog",
-  "An error occurred": "An error occurred"
+    "User info not loaded. Please wait.": "User info not loaded. Please wait.",
+    "Please fix the errors before submitting.": "Please fix the errors before submitting.",
+    "Blog added successfully!": "Blog added successfully!",
+    "Failed to add blog": "Failed to add blog",
+    "An error occurred": "An error occurred",
+    "interested": "Interested in this article?",
+  "collaborateBtn": "Let’s Collaborate"
 },
 "dataProjectsPage": {
   "title": "Data Analysis Projects",
@@ -282,6 +301,19 @@
   "noProjects": "No projects published yet",
   "viewProject": "View project →",
   "learnMore": "Learn more about the project"
+},
+"projectsPage": {
+  "title": "Data Analysis Projects",
+  "subtitle": "Showcasing how I use data to tell stories, find patterns, and solve real-world problems.",
+  "noProjects": "No projects added yet.",
+  "tools": "Tools Used",
+  "noTools": "Not specified",
+  "viewProject": "View Project",
+  "addedBy": "Added by",
+  "notFound": "Project not found.",
+  "viewDemo": "View Demo",
+  "interested": "Interested in this project?",
+  "collaborateBtn": "Let’s Collaborate"
 },
 
 "loadingAuthor": "Loading author...",

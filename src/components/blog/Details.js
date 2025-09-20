@@ -110,6 +110,14 @@ const Details = () => {
             </div>
           </div>
         </div>
+
+        {/* Collaborate CTA */}
+        <div className="text-center mt-3 pb-5">
+          <h4 className="mb-3">{t("createBlogPage.interested")}</h4>
+          <Link to="/contact" className="btn hero-btn">
+            {t("createBlogPage.collaborateBtn")}
+          </Link>
+        </div>
       </div>
       <Footer />
     </>

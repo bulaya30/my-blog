@@ -11,6 +11,8 @@ import { getCategory, deleteCategory } from '../store/actions/categoryModel';
 import { useSidebar } from '../context/sidebarContext';
 import ConfirmModal from '../models/confirmModel';
 import { useTranslation } from 'react-i18next';
+import CreateProject from '../Data Analysis/Create';
+import NotificationDetails from '../Notification/NotificationDetails';
 
 const Profile = () => {
   const { t } = useTranslation();
@@ -76,6 +78,15 @@ const Profile = () => {
           <li className="nav-item">
             <Link
               to="#"
+              className={`nav-link ${activeTab === "notifications" ? "active" : ""}`}
+              onClick={() => setActiveTab("notifications")}
+            >
+              <i className="bi bi-bell"></i><span>{t('profilePage.sidebar.notifications')}</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
+              to="#"
               className={`nav-link ${activeTab === "blogs" ? "active" : ""}`}
               onClick={() => setActiveTab("blogs")}
             >
@@ -89,6 +100,15 @@ const Profile = () => {
               onClick={() => setActiveTab("new-blog")}
             >
               <i className="bi bi-plus-circle"></i><span>{t('profilePage.sidebar.newBlog')}</span>
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
+              to="#"
+              className={`nav-link ${activeTab === "projects" ? "active" : ""}`}
+              onClick={() => setActiveTab("dataProject")}
+            >
+              <i className="bi bi-plus-circle"></i><span>{t('profilePage.sidebar.projects')}</span>
             </Link>
           </li>
           <li className="nav-item">
@@ -130,6 +150,22 @@ const Profile = () => {
               <Dashboard />
             </div>
 
+            {/* Notifications */}
+            <div className={`tab-pane tabContents fade ${activeTab === "notifications" ? "show active" : ""}`} id="blogs" role="tabpanel">
+              <div className="pagetitle">
+                <nav>
+                  <ol className="breadcrumb">
+                    <li className="breadcrumb-item"><Link to="/profile">{t('profilePage.breadcrumb.profile')}</Link></li>
+                    <li className="breadcrumb-item active">{t('profilePage.breadcrumb.notifications')}</li>
+                  </ol>
+                </nav>
+              </div>
+              <div className="row">                
+                <div className="col-12 shadow-sm">
+                  <NotificationDetails />
+                </div>
+              </div>
+            </div>
             {/* Blogs */}
             <div className={`tab-pane tabContents fade ${activeTab === "blogs" ? "show active" : ""}`} id="blogs" role="tabpanel">
               <div className="pagetitle">
@@ -201,6 +237,21 @@ const Profile = () => {
               </div>
             </div>
 
+            {/* Projects Profile */}
+            <div className={`tab-pane tabContents fade ${activeTab === "dataProject" ? "show active" : ""}`} id="profile" role="tabpanel">
+              <div className="pagetitle">
+                <nav>
+                  <ol className="breadcrumb">
+                    <li className="breadcrumb-item"><Link to="/profile">{t('profilePage.breadcrumb.profile')}</Link></li>
+                    <li className="breadcrumb-item active">{t('profilePage.breadcrumb.projects')}</li>
+                  </ol>
+                </nav>
+              </div>
+              <section className="section profile">
+                <CreateProject />
+              </section>
+            </div>
+
             {/* Subscribers Profile */}
             <div className={`tab-pane tabContents fade ${activeTab === "subscribers" ? "show active" : ""}`} id="profile" role="tabpanel">
               <div className="pagetitle">
@@ -215,7 +266,6 @@ const Profile = () => {
                 <Subscribers />
               </section>
             </div>
-
             {/* Account Profile */}
             <div className={`tab-pane tabContents fade ${activeTab === "profile" ? "show active" : ""}`} id="profile" role="tabpanel">
               <div className="pagetitle">

@@ -1,6 +1,7 @@
 {
   "home": "Accueil",
   "blogs": "Articles",
+  "project": "Projets",
   "about": "À propos",
   "contact": "Contacte",
   "login": "Se connecter",
@@ -13,7 +14,7 @@
   "subscribeSuccess": "Merci pour votre abonnement !",
   "noBlogsYet": "Aucun blog n'a encore été publié",
   "heroTitle": "Libérez votre potentiel",
-  "heroSubtitle": "Nous inspirons et équipons les jeunes à découvrir leur potentiel, développer un caractère fort, augmenter leur valeur et s'engager à atteindre leurs objectifs.",
+  "heroSubtitle": "Notre mission est de permettre à tous ceux qui le souhaitent de devenir la meilleure version d'eux-mêmes en cultivant leur caractère, en libérant leur potentiel et en atteignant des objectifs significatifs.",
   "exploreBlogs": "Explorer les articles",
 
   "focusAreas": "Nos Domaines d'Intervention",
@@ -192,7 +193,18 @@
   "date": "Date",
   "time": "Heure"
 },
-
+"notificationPage" :{
+  "title": "Notifications",
+  "none": "Aucune notification disponible",
+  "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette notification ?",
+  "types": {
+    "new_user": "Nouveaux utilisateurs",
+    "new_blog": "Nouveaux articles de blog",
+    "new_subscriber": "Nouveaux abonnés",
+     "new_project": "Nouveaux projets",
+    "other": "Autres"
+  }
+},
 "notifications": {
     "title": "Notifications récentes",
     "filterTitle": "Filtre",
@@ -214,14 +226,18 @@
       "newBlog": "Nouveau blog",
       "subscribers": "Abonnés",
       "accountHeading": "Compte",
-      "profile": "Profil"
+      "profile": "Profil",
+      "projects": "Projets",
+      "notifications": "Notifications"
     },
     "breadcrumb": {
       "profile": "Profil",
       "dashboard": "Tableau de bord",
       "blogs": "Blogs",
       "newArticle": "Nouvel article",
-      "subscribers": "Abonnés"
+      "subscribers": "Abonnés",
+      "projects": "Projets",
+      "notifications": "Notifications"
     },
     "categories": {
       "title": "Catégories",
@@ -263,7 +279,9 @@
   "Please fix the errors before submitting.": "Veuillez corriger les erreurs avant de soumettre.",
   "Blog added successfully!": "Blog ajouté avec succès !",
   "Failed to add blog": "Échec de l'ajout du blog",
-  "An error occurred": "Une erreur est survenue"
+  "An error occurred": "Une erreur est survenue",
+  "interested": "Intéressé par cet article?",
+  "collaborateBtn": "Collaborons"
 },
 
 "dataProjectsPage": {
@@ -272,6 +290,19 @@
   "noProjects": "Aucun projet publié pour le moment",
   "viewProject": "Voir le projet →",
   "learnMore": "En savoir plus sur le projet"
+},
+"projectsPage": {
+  "title": "Projets d'analyse de données",
+  "subtitle": "Montrer comment j'utilise les données pour raconter des histoires, trouver des modèles et résoudre des problèmes concrets.",
+  "noProjects": "Aucun projet n'a encore été ajouté.",
+  "tools": "Outils utilisés",
+  "noTools": "Non spécifié",
+  "viewProject": "Voir le projet",
+  "addedBy": "Ajouté par",
+  "notFound": "Projet non trouvé.",
+  "viewDemo": "Voir la démo",
+  "interested": "Intéressé par ce projet?",
+  "collaborateBtn": "Collaborons"
 },
 
 "loadingAuthor": "Chargement de l'auteur...",

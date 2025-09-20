@@ -167,13 +167,13 @@ const UpdateProfile = () => {
 
         <div className="input-box">
           {!loading ? (
-            <button id="new-article-btn" className="btn btn-sm w-50" type="submit">
+            <button className="btn btn-sm w-50" type="submit">
               Save changes
             </button>
           ) : (
             <button className="btn btn-sm w-50" type="button" disabled>
               <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              <span>Saving...</span>
+              <span> Saving...</span>
             </button>
           )}
         </div>
