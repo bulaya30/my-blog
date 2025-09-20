@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addProject } from "../store/actions/DataAnalysisModel";
+import { addProject } from "../store/actions/ProjectModel";
 import { checkName, checkString, checkURL } from '../../validation/validate';
 import { Navigate } from "react-router-dom";
 

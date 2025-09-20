@@ -5,7 +5,7 @@ import CategoryReducer from "./categoryReducer";
 import ContactReducer from "./contactReducer";
 import NotifcationReducer from "./notificationReducer";
 import SubscriberReducer from "./subscriberReducer";
-import DataAnalysisReducer from "./dataAnalysisReducer";
+import DataAnalysisReducer from "./ProjectReducer";
 import { combineReducers} from 'redux'
 
 

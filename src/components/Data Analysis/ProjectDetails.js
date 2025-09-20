@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useParams, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { getProjects } from "../store/actions/DataAnalysisModel";
+import { getProjects } from "../store/actions/ProjectModel";
 import Footer from "../home/footer";
 
 const ProjectDetails = () => {

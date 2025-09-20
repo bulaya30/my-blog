@@ -4,12 +4,17 @@ const initialState = {
 
 export default function projectReducer(state = initialState, action) {
   switch (action.type) {
-    case "GET_DATA_ANALYSIS_PROJECTS":
+    case "ADD_PROJECT": 
+      return {
+        ...state,
+        projects: [...state.projects, action.payload]
+      };
+    case "GET_PROJECTS":
       return { ...state, projects: action.payload };
-    case "UPDATE_ANALYSIS":
-    case "DELETE_ANALYSIS":
+    case "UPDATE_PROJECT":
+    case "DELETE_PROJECT":
       return state;
-    case "ANALYSIS_ERROR":
+    case "PROJECT_ERROR":
       return state;
     default:
       return state;

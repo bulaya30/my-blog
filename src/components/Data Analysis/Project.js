@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProjects } from "../store/actions/DataAnalysisModel";
+import { getProjects } from "../store/actions/ProjectModel";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Footer from "../home/footer";

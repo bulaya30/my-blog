@@ -10,13 +10,13 @@ export const addProject = (project) => {
       });
 
       dispatch({
-        type: "ADD_PROJECT_SUCCESS",
+        type: "ADD_PROJECT",
         payload: { id: docRef.id, ...project },
       });
 
       return { success: true };
     } catch (error) {
-      dispatch({ type: "ERROR", payload: error.message });
+      dispatch({ type: "PROJECT_ERROR", payload: error.message });
       return { success: false, error: error.message };
     }
   };
@@ -34,12 +34,12 @@ export const getProjects = (field, value) => {
               id: doc.id, ...data,
             };
             const author = await fetchAuthor(projectData.authorId);
-            dispatch({ type: "GET_DATA_ANALYSIS_PROJECTS", payload: { ...projectData, author } });
+            dispatch({ type: "GET_PROJECTS", payload: { ...projectData, author } });
           } else {
-            dispatch({ type: "GET_BLOG", payload: null });
+            dispatch({ type: "GET_PROJECTS", payload: null });
           }
         },
-        (error) => dispatch({ type: "ANALYSIS_ERROR", payload: error.message })
+        (error) => dispatch({ type: "PROJECT_ERROR", payload: error.message })
       );
     } else {
       let queryRef = projectsRef;
@@ -65,8 +65,8 @@ export const getProjects = (field, value) => {
         const payload =
           projectsWithAuthors.length === 1 ? projectsWithAuthors[0] : projectsWithAuthors;
 
-        dispatch({ type: "GET_DATA_ANALYSIS_PROJECTS", payload });
-      }, (error) => dispatch({ type: "ANALYSIS_ERROR", payload: error.message }));
+        dispatch({ type: "GET_PROJECTS_PROJECTS", payload });
+      }, (error) => dispatch({ type: "PROJECT_ERROR", payload: error.message }));
     }
   };
 };
@@ -80,10 +80,10 @@ export const updateProject = (project) => {
         ...project,
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
       })
-      dispatch({ type: 'UPDATE_ANALYSIS', payload: project });
+      dispatch({ type: 'UPDATE_PROJECT', payload: project });
        return { success: true };
     } catch (error) {
-       dispatch({ type: 'ANALYSIS_ERROR', error })
+       dispatch({ type: 'PROJECT_ERROR', error })
        return {success: false, error: error.message}
     }
   };
@@ -93,7 +93,7 @@ export const updateProject = (project) => {
 /**
  * Delete a blog (only author or admin)
  */
-export const deleteBlog = (id) => {
+export const deleteProject = (id) => {
   return (dispatch, getState) => {
     const state = getState();
     const isAdmin = state.auth.isAdmin;
@@ -114,8 +114,8 @@ export const deleteBlog = (id) => {
           throw new Error("You are not authorized to delete this project");
         }
       })
-      .then(() => dispatch({ type: "DELETE_ANALYSIS", payload: id }))
-      .catch((err) => dispatch({ type: "ANALYSIS_ERROR", payload: err.message }));
+      .then(() => dispatch({ type: "DELETE_PROJECT", payload: id }))
+      .catch((err) => dispatch({ type: "PROJECT_ERROR", payload: err.message }));
   };
 };
 

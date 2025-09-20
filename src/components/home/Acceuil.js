@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from "react-i18next";
 import { getBlog } from '../store/actions/BlogModel';
 // import DataProjects from '../Data Analysis/DataProjects';
-import { getProjects } from '../store/actions/DataAnalysisModel';
+import { getProjects } from '../store/actions/ProjectModel';
 import { addSubscriber } from '../store/actions/SubscriberModel';
 import Footer from './footer';
 
