@@ -310,7 +310,7 @@
     margin: 20px auto;
   }
 .form-section .card,
-.form-section #profile-edit-form{
+.form-section .edit-form{
    top:0;
   width: 100%;
   display: flex;
@@ -318,9 +318,12 @@
   flex-direction: column;
   left: 0;
   padding: 0 20px ;
+  /* overflow: hidden; */
 }
-#profile-edit-form .img-preview{
-  border-radius: 50%;
+.img-preview{
+  border-radius: 5px;
+  /* width: 100px; */
+  max-height: 150px;
 }
 .form-section h2{
   text-align: center;

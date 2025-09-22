@@ -13,7 +13,7 @@ const authReducer = (state = initState, action) => {
     case "LOGIN_AUTH":
     case "PROFILE_LOADED":
     case "SIGNUP_SUCCESS":   // ✅ now handled same as login
-      return { ...state, authError: null, user: action.payload };
+      return { ...state, authError: null, user: {...action.payload} };
 
     case "LOGIN_ERROR":
       return { ...state, authError: "Wrong email address or password" };

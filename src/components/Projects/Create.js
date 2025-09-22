@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addProject } from "../store/actions/ProjectModel";
-import { checkName, checkString, checkURL } from '../../validation/validate';
+import { checkName, checkString, checkURL,  } from '../../validation/validate';
 import { Navigate } from "react-router-dom";
 
 const CreateProject = () => {
@@ -15,7 +15,8 @@ const CreateProject = () => {
         title: "",
         description: "",
         tools: "",
-        link: ""
+        link: "",
+        photo: ""
     });
 
     const handleChange = (e) => {
@@ -79,7 +80,35 @@ const CreateProject = () => {
 
                 <div className="card border-0 shadow-sm">
                     <h2>Add Data Analysis Project</h2>
-                    <form onSubmit={handleSubmit} autoComplete="off">
+                    <form className="edit-form" onSubmit={handleSubmit} autoComplete="off">
+                        {/* Project Image */}
+                        <div className="row mb-3">
+                            <label htmlFor="projectImage" className="col-md-4 col-lg-3 col-form-label">Project Image</label>
+                            <div className="col-md-8 col-lg-9 col-sm-12">
+                                {/* Only show image if user has selected one */}
+                                {project.photo && (
+                                <img
+                                    src={project.photo instanceof File ? URL.createObjectURL(project.photo) : project.photo}
+                                    alt="Project"
+                                    className="img-preview"
+                                />
+                                )}
+                                <div className="pt-2 mb-3">
+                                    <div className={`input-box ${errorClass('photo')}`}>
+                                        <input
+                                            accept="image/*"
+                                            type="file"
+                                            id="project-photo"
+                                            name="file"
+                                            onChange={(e) => setProject({ ...project, photo: e.target.files[0] })}
+                                        />
+                                        <label htmlFor="project-photo" className="btn btn-primary btn-sm text-white mt-3 ms-5" title="Upload the project image">
+                                            <i className="bi bi-upload"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div className={`input-box ${errorClass('title')}`}>
                         <input
                             type="text"

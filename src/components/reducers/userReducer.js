@@ -6,7 +6,6 @@ const initState = {
 const UserReducer = (state = initState, action) => {
   switch (action.type) {
     case "SET_PROFILE":
-      console.log(action.payload)
       return {
         ...state,
         user: action.payload,  

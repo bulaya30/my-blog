@@ -18,7 +18,7 @@ function Acceuil() {
   const [loadingProjects, setLoadingProjects] = useState(true);
 
   const blogs = useSelector(state => state.blog.blogs);
-  const projects = useSelector(state => state.dataAnalysis.projects);
+  const projects = useSelector(state => state.project.projects);
 
   // Ensure blogs and projects are always arrays
   const safeBlogs = Array.isArray(blogs) ? blogs : blogs ? [blogs] : [];

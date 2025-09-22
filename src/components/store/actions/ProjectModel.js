@@ -1,4 +1,5 @@
 import { db, firebase } from "../../../config/DB";
+import axios from "axios";
 
 export const addProject = (project) => {
   return async (dispatch) => {
@@ -73,21 +74,46 @@ export const getProjects = (field, value) => {
 
 
 export const updateProject = (project) => {
-  return async  (dispatch) => {
+  return async (dispatch) => {
     try {
-      await firebase.firestore().collection('projects').doc(project.id)
-      .update({
-        ...project,
+      let updatedProject = { ...project };
+
+      // If project has a new photo file
+      if (updatedProject.photo instanceof File) {
+        const formData = new FormData();
+        formData.append("file", updatedProject.photo);
+        formData.append("upload_preset", "projects"); // your unsigned preset
+        formData.append("folder", `projects/${project.id}`); // organize by project ID
+
+        const cloudinaryResponse = await axios.post(
+          "https://api.cloudinary.com/v1_1/dzoaynyni/image/upload",
+          formData
+        );
+
+        // Replace the File object with the Cloudinary URL
+        updatedProject.photo = cloudinaryResponse.data.secure_url;
+      }
+
+      // Remove undefined or null values to avoid Firestore errors
+      const cleanedProject = Object.fromEntries(
+        Object.entries(updatedProject).filter(([_, v]) => v !== undefined && v !== null)
+      );
+
+      // Update Firestore
+      await firebase.firestore().collection("projects").doc(project.id).update({
+        ...cleanedProject,
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      })
-      dispatch({ type: 'UPDATE_PROJECT', payload: project });
-       return { success: true };
+      });
+
+      dispatch({ type: "UPDATE_PROJECT", payload: cleanedProject });
+      return { success: true };
     } catch (error) {
-       dispatch({ type: 'PROJECT_ERROR', error })
-       return {success: false, error: error.message}
+      dispatch({ type: "PROJECT_ERROR", error });
+      return { success: false, error: error.message };
     }
   };
 };
+
 
 
 /**

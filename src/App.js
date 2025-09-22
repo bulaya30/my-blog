@@ -14,8 +14,9 @@ import EditCategory from './components/category/Update';
 import UpdateBlog from './components/blog/Update';
 import { SidebarProvider } from './components/context/sidebarContext';
 import Author from './components/home/Author';
-import Projects from './components/Data Analysis/Project';
-import ProjectDetails from './components/Data Analysis/ProjectDetails';
+import Projects from './components/Projects/Project';
+import ProjectDetails from './components/Projects/ProjectDetails';
+import UpdateProject from './components/Projects/UpdateProject';
 
 
 // Import Bootstrap & CSS
@@ -48,6 +49,7 @@ export class App extends Component {
               <Route path='/profile' element={<Profile />} />
               <Route path='/projects' element={<Projects />} />
               <Route path="/projects/:id" element={<ProjectDetails />} />
+              <Route path='/projects/:id/edit' element={<UpdateProject />} />
               <Route path="/author/:authorId" element={<Author />} />
             </Routes>
           </div>

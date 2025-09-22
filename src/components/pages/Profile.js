@@ -11,7 +11,7 @@ import { getCategory, deleteCategory } from '../store/actions/categoryModel';
 import { useSidebar } from '../context/sidebarContext';
 import ConfirmModal from '../models/confirmModel';
 import { useTranslation } from 'react-i18next';
-import CreateProject from '../Data Analysis/Create';
+import CreateProject from '../Projects/Create';
 import NotificationDetails from '../Notification/NotificationDetails';
 
 const Profile = () => {

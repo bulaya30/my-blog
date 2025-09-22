@@ -6,7 +6,8 @@ import { checkName, checkString, checkPhone, checkURL } from '../../validation/v
 
 const UpdateProfile = () => {
   const dispatch = useDispatch();
-  const profile = useSelector(state => state.auth.user);
+      // const st = useSelector(state => state);
+  const profile = useSelector(state => state.auth.user.profile);
 
   const [toast, setToast] = useState({ message: '', type: '' });
   const [loading, setLoading] = useState(false);
@@ -108,7 +109,7 @@ const UpdateProfile = () => {
 
   return (
     <div className="form-section">
-      <form id="profile-edit-form" autoComplete="off" encType="multipart/form-data" onSubmit={handleSubmit}>
+      <form className='edit-form' autoComplete="off" encType="multipart/form-data" onSubmit={handleSubmit}>
         {/* Profile Image */}
         <div className="row mb-3">
           <label htmlFor="profileImage" className="col-md-4 col-lg-3 col-form-label">Profile Image</label>
@@ -127,7 +128,7 @@ const UpdateProfile = () => {
                   name="file"
                   onChange={(e) => setFormData({ ...formData, photo: e.target.files[0] })}
                 />
-                <label htmlFor="file" className="btn btn-primary btn-sm text-white" title="Upload new profile image">
+                <label htmlFor="file" className="mt-3 btn btn-primary btn-sm text-white" title="Upload new profile image">
                   <i className="bi bi-upload"></i>
                 </label>
               </div>

@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
     subscriber: SubscriberReducer,
     contact: ContactReducer,
     user: UserReducer,
-    dataAnalysis: DataAnalysisReducer,
+    project: DataAnalysisReducer,
 })
 
 

@@ -9,7 +9,7 @@ const Projects = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   // const lang = i18n.language.startsWith("fr") ? "fr" : "en";
-  const projects = useSelector((state) => state.dataAnalysis.projects || []);
+  const projects = useSelector((state) => state.project.projects || []);
 
   useEffect(() => {
     dispatch(getProjects());
