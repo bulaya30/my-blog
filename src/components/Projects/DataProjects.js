@@ -9,7 +9,8 @@ const DataProjects = () => {
   const { t, i18n } = useTranslation();
   const lang = i18n.language.startsWith("fr") ? "fr" : "en";
   const dispatch = useDispatch();
-
+  const st = useSelector((state) => state);
+  console.log(st)
   const [loading, setLoading] = useState(true);
   const projects = useSelector((state) => state.project.projects);
 

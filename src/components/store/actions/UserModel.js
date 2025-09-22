@@ -44,7 +44,7 @@ export const updateProfile = (profile) => {
         const formData = new FormData();
         formData.append("file", updatedProfile.photo);
         formData.append("upload_preset", "user_profiles");
-        formData.append("folder", `profiles/${user.uid}`);
+        formData.append("folder", `profiles`);
 
         const cloudinaryResponse = await axios.post(
           "https://api.cloudinary.com/v1_1/dzoaynyni/image/upload",

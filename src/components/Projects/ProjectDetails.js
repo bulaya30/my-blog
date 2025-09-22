@@ -11,10 +11,10 @@ const ProjectDetails = () => {
   const { t } = useTranslation();
 
   const project = useSelector((state) =>
-    Array.isArray(state.dataAnalysis.project)
-      ? state.dataAnalysis.project.find((b) => b.id === id)
-      : state.dataAnalysis.project?.id === id
-      ? state.dataAnalysis.project
+    Array.isArray(state.project.projects)
+      ? state.project.projects.find((b) => b.id === id)
+      : state.project.projects?.id === id
+      ? state.project.projects
       : null
   );
 
@@ -42,17 +42,21 @@ const ProjectDetails = () => {
 
   return (
     <>
-      <main id="main" className="project-details-page">
-        <div className="container py-5">
+      <main className="project-details-page container pt-5 mt-5 bg-white">
+        {/* <div className="container py-5"> */}
           {/* Title */}
-          <section className="text-center mb-5">
-            <h1 className="display-5 fw-bold">{project.title}</h1>
-            <p className="lead">{project.description}</p>
+          <section className=" mb-5">
+            <h3 className="text-center fw-bold">{project.title}</h3>
+            <img src={project.photo || "logo.png"} alt="" className="" />
+            <section className="mb-4 project-description">
+              <h4 className="text-center">{t("projectsPage.description")}</h4>
+              <p className="lead ">{project.description}</p>
+            </section>
           </section>
-
+          <hr className="divider" />
           {/* Tools */}
           {project.tools && project.tools.length > 0 && (
-            <section className="mb-4">
+            <section className="mb-4 project-tools">
               <h4>{t("projectsPage.tools")}</h4>
               <p>{project.tools.join(", ")}</p>
             </section>
@@ -82,13 +86,13 @@ const ProjectDetails = () => {
           )}
 
           {/* Collaborate CTA */}
-          <section className="mt-5 text-center">
+          <section className=" pb-3 my-5 text-center">
             <h4 className="mb-3">{t("projectsPage.interested")}</h4>
             <NavLink to="/contact" className="btn hero-btn">
               {t("projectsPage.collaborateBtn")}
             </NavLink>
           </section>
-        </div>
+        {/* </div> */}
       </main>
       <Footer />
     </>

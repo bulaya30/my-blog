@@ -1,14 +1,53 @@
 import { db, firebase } from "../../../config/DB";
 import axios from "axios";
+import { addNotification } from "./NotificationsModel";
+
 
 export const addProject = (project) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const admin = state.auth.isAdmin;
     try {
+      // If project has a new photo file
+      if (project.photo instanceof File) {
+        const formData = new FormData();
+        formData.append("file", project.photo);
+        formData.append("upload_preset", "projects"); // must exist in Cloudinary dashboard
+        formData.append("folder", "projects"); // simple folder, avoid project.id here
+
+        const cloudinaryResponse = await axios.post(
+          "https://api.cloudinary.com/v1_1/dzoaynyni/image/upload",
+          formData
+        );
+
+        // Replace the File object with the Cloudinary URL
+        project.photo = cloudinaryResponse.data.secure_url;
+      }
+
+      // Remove undefined or null values to avoid Firestore errors
+      const cleanedProject = Object.fromEntries(
+        Object.entries(project).filter(([_, v]) => v !== undefined && v !== null)
+      );
+
       const docRef = await db.collection("projects").add({
-        ...project,
+        ...cleanedProject,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        updateddAt: firebase.firestore.FieldValue.serverTimestamp(),
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
       });
+
+
+      // Notify admin
+      const authorSnap = await db.collection("users").doc(project.authorId).get();
+      const author = authorSnap.exists ? authorSnap.data() : null;
+
+      await dispatch(
+        addNotification({
+          title: "New Project",
+          message: admin ? `You have published a new project "${cleanedProject.title}".` : `${author?.firstName} ${author?.lastName} published a new project "${cleanedProject.title}".`,
+          type: "Publish",
+        })
+      );
+      
 
       dispatch({
         type: "ADD_PROJECT",
@@ -17,11 +56,13 @@ export const addProject = (project) => {
 
       return { success: true };
     } catch (error) {
+      console.error("Upload error:", error.response?.data.error.message);
       dispatch({ type: "PROJECT_ERROR", payload: error.message });
       return { success: false, error: error.message };
     }
   };
 };
+
 
 export const getProjects = (field, value) => {
   return (dispatch) => {
@@ -66,7 +107,7 @@ export const getProjects = (field, value) => {
         const payload =
           projectsWithAuthors.length === 1 ? projectsWithAuthors[0] : projectsWithAuthors;
 
-        dispatch({ type: "GET_PROJECTS_PROJECTS", payload });
+        dispatch({ type: "GET_PROJECTS", payload });
       }, (error) => dispatch({ type: "PROJECT_ERROR", payload: error.message }));
     }
   };

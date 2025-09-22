@@ -16,6 +16,8 @@ function Acceuil() {
   const [email, setEmail] = useState('');
   const [loadingBlogs, setLoadingBlogs] = useState(true);
   const [loadingProjects, setLoadingProjects] = useState(true);
+  // const st = useSelector(state => state);
+  // console.log(st)
 
   const blogs = useSelector(state => state.blog.blogs);
   const projects = useSelector(state => state.project.projects);
@@ -159,10 +161,27 @@ function Acceuil() {
                 safeProjects.slice(0, 3).map((project) => (
                   <div key={project.id} className="col-md-4 mb-4">
                     <div className="blog-card norrechel-card p-3 h-100">
-                      <h3>{project.title[lang]}</h3>
-                      <p>{project.description[lang]}</p>
+                      <h3>{project.title}</h3>
+                      <p>
+                        <strong>{t("projectsPage.tools")}:</strong>{" "}
+                        {project.tools?.join(", ") || t("projectsPage.noTools")}
+                      </p>
+                      <p>
+                        {t("acceuilPage.by")}{" "}
+                        {project.author
+                          ? `${project.author.firstName || ""} ${project.author.lastName || ""}`.trim()
+                          : t("acceuilPage.unknownAuthor")}{" "}
+                        •{" "}
+                        {project.createdAt?.toDate
+                          ? project.createdAt.toDate().toLocaleDateString(i18n.language, {
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric",
+                            })
+                          : t("acceuilPage.unknownDate")}
+                      </p>
                       <NavLink to={`/projects/${project.id}`} className="read-more">
-                        {t("dataProjectsPage.viewProject")}
+                        {t("acceuilPage.readMore")} →
                       </NavLink>
                     </div>
                   </div>
@@ -172,7 +191,7 @@ function Acceuil() {
             {projects && projects.length !== 0 && (
               <div className="text-center mt-3">
                 <NavLink to="/projects" className="btn hero-btn">
-                  {t("dataProjectsPage.viewAllProjects")}
+                  {t("projectsPage.viewAllProjects")}
                 </NavLink>
               </div>
             )}

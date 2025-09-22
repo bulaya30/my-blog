@@ -223,8 +223,8 @@ body {
   overflow: hidden;
 }
 .blog-card img { width: 100%; height: auto; display: block; }
-.blog-card h3 { margin: 1rem; font-size: 1.2rem; font-weight: 600;}
-.blog-card p { margin: 0 1rem 1rem; font-size: .9rem; color: #666; }
+.norrechel-card h3 { margin: 1rem; font-size: 1.2rem; font-weight: 600;}
+.norrechel-card p { margin: 0 1rem 1rem; font-size: .9rem; color: #666; }
 .read-more { margin: 0 1rem 1.5rem; display: block; color: #ff4b2b; text-decoration: none; }
 /* Newsletter */
 .newsletter form { margin: 1rem auto; justify-content: center;}
@@ -248,7 +248,31 @@ body {
     text-decoration: none; border-radius: 4px;
     display: inline-block; transition: background .3s
 }
-
+/*------------------------------------------------------------------
+# Project
+------------------------------------------------------------------*/
+.project-details-page img{
+  max-width: 100%;
+  max-height: 100%;
+  margin-bottom: 20px;
+}
+.project-description p,
+.project-tools p{
+  color: #012970;
+  font-size: 1.1em;
+  font-weight: 400;
+  padding-left: 10px;
+}
+.project-description h4,
+.project-tools h4{
+  color: #012970;
+  font-weight: 600;
+  font-size: 1.4em;
+}
+.project-tools p{
+  font-size: 1em;
+  font-weight: 500;
+}
 /*------------------------------------------------------------- 
   # Login and Registration
   ---------------------------------------------------------------*/

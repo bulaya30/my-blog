@@ -313,7 +313,9 @@
   "notFound": "Project not found.",
   "viewDemo": "View Demo",
   "interested": "Interested in this project?",
-  "collaborateBtn": "Let’s Collaborate"
+  "collaborateBtn": "Let’s Collaborate",
+  "description": "Description",
+  "viewAllProjects": "Voir tous les projets"
 },
 
 "loadingAuthor": "Loading author...",

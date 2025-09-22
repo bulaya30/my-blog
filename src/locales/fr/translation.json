@@ -302,7 +302,9 @@
   "notFound": "Projet non trouvé.",
   "viewDemo": "Voir la démo",
   "interested": "Intéressé par ce projet?",
-  "collaborateBtn": "Collaborons"
+  "collaborateBtn": "Collaborons",
+  "description": "Description",
+  "viewAllProjects": "Voir tous les projets"
 },
 
 "loadingAuthor": "Chargement de l'auteur...",
