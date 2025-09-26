@@ -6,10 +6,9 @@ import { useTranslation } from "react-i18next";
 
 const Blog = () => {
   const dispatch = useDispatch();
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
 
   const blogs = useSelector((state) => state.blog.blogs || []);
-  const loading = useSelector((state) => state.blog.loading || false);
 
   // Fetch blogs on mount
   useEffect(() => {
@@ -19,18 +18,20 @@ const Blog = () => {
   // Ensure blogs is always an array
   const safeBlogs = Array.isArray(blogs) ? blogs : blogs ? [blogs] : [];
 
-  if (loading) {
+  if (!blogs) {
     return (
       <div className="accordion accordion-flush" id="accordionFlushExample">
-        <p>{t("Loading blogs...")}</p>
+        <p>No Blog available</p>
       </div>
     );
   }
 
   if (safeBlogs.length === 0) {
     return (
-      <div className="accordion accordion-flush" id="accordionFlushExample">
-        <p>{t("No blogs available.")}</p>
+      <div className="text-start">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
       </div>
     );
   }

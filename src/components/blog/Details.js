@@ -32,8 +32,15 @@ const Details = () => {
     navigate(-1);
   };
 
-  if (!blog) return <p>{t("loadingBlog")}</p>;
-
+    if (!blog) {
+    return (
+        <div className="text-center py-5 my-5">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      );
+}
   return (
     <>
       <div className="container pt-5 mt-5 bg-white">

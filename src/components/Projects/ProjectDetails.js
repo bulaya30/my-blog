@@ -1,15 +1,18 @@
-import React, { useEffect } from "react";
-import { useParams, NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, NavLink, Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { getProjects } from "../store/actions/ProjectModel";
+import { getProjects, deleteProject } from "../store/actions/ProjectModel";
+import ConfirmModal from '../models/confirmModel';
 import Footer from "../home/footer";
 
 const ProjectDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { t } = useTranslation();
-
+  const navigate = useNavigate();
+  const auth = useSelector((state) => state.auth.user);
+  const admin = useSelector((state) => state.auth.isAdmin);
   const project = useSelector((state) =>
     Array.isArray(state.project.projects)
       ? state.project.projects.find((b) => b.id === id)
@@ -17,25 +20,46 @@ const ProjectDetails = () => {
       ? state.project.projects
       : null
   );
-
+  // Modal state
+  const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     dispatch(getProjects("id", id));
   }, [dispatch, id]);
 
+  const handleDeleteClick = () => {
+    setShowModal(true);
+  };
+  
+    const handleCancel = () => {
+      setShowModal(false);
+    };
+
+   const handleDelete = async () => {
+    const result = await dispatch(deleteProject(id));
+    setShowModal(false);
+    if (result.success) {
+      navigate('/projects');
+    } else {
+      alert("Delete failed: " + result.error);
+    }
+  };
+
+
+
   if (!project) {
     return (
-      <div className="text-center py-5">
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
+      <div className="text-center py-5 my-5 fw-bold">
+        {t("projectsPage.notFound")}
       </div>
     );
   }
 
-  if (!project) {
+  if (project.length === 0) {
     return (
-      <div className="text-center py-5 fw-bold">
-        {t("projectsPage.notFound")}
+      <div className="text-center py-5 my-5">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
       </div>
     );
   }
@@ -64,18 +88,45 @@ const ProjectDetails = () => {
 
           {/* Link */}
           {project.link && (
-            <section className="mb-4">
+            <section className="mb-4 link-btn">
               <a
                 href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn btn-sm hero-btn"
               >
                 {t("projectsPage.viewProject")}
               </a>
             </section>
           )}
-
+          {/* Show Edit/Delete buttons */}
+              {auth && project.authorId === auth.uid ? (
+                <>
+                  <button
+                    className="btn btn-danger mt-3"
+                    onClick={handleDeleteClick}
+                    title={t("deleteThisArticle")}
+                  >
+                    <i className="bi bi-trash"></i>
+                  </button>
+                  <Link
+                    className="btn btn-primary mt-3 ms-2"
+                    to={`/projects/${id}/edit`}
+                    title={t("updateThisArticle")}
+                  >
+                    <i className="bi bi-pencil-square"></i>
+                  </Link>
+                </>
+              ) : (
+                admin && (
+                  <button
+                    className="btn btn-danger mt-3"
+                    onClick={handleDeleteClick}
+                    title={t("deleteThisArticle")}
+                  >
+                    <i className="bi bi-trash"></i>
+                  </button>
+                )
+              )}
           {/* Author */}
           {project.authorName && (
             <section className="mt-5">
@@ -93,6 +144,13 @@ const ProjectDetails = () => {
             </NavLink>
           </section>
         {/* </div> */}
+         {/* Confirm Modal */}
+              <ConfirmModal
+                show={showModal}
+                message={t('profilePage.confirm.deleteCategory')}
+                onConfirm={handleDelete}
+                onCancel={handleCancel}
+              />
       </main>
       <Footer />
     </>

@@ -17,12 +17,19 @@ const Category = ({ categories, getCategory, auth, deleteCategory }) => {
     : categories
     ? [categories] // single object case
     : []; // null/undefined case
-
-  if (safeCategories.length === 0) {
+  if(!categories) {
     return (
-      <div className="home-category-container">
-        <h2>{t('categoryPage.title')}</h2>
-        <p>{t('categoryPage.loading')}</p>
+      <div className="accordion accordion-flush" id="accordionFlushExample">
+        <p>No Category available</p>
+      </div>
+    );
+  }
+  if (safeCategories.length === 0) {
+   return (
+      <div className="text-start">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
       </div>
     );
   }

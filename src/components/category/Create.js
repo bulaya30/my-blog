@@ -78,9 +78,9 @@ const CreateCategory = () => {
                   Add
                 </button>
               ) : (
-                <button className="btn btn-sm w-100 loading-btn" type="button" disabled>
+                <button className="btn btn-sm w-100" type="button" disabled>
                   <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                  <span>Adding...</span>
+                  <span> Adding...</span>
                 </button>
               )}
             </div>

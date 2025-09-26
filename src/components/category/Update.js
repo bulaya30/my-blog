@@ -96,9 +96,9 @@ useEffect(() => {
                         Save changes
                       </button>
                     ) : (
-                      <button className="btn btn-sm w-100 loading-btn" type="button" disabled>
+                      <button className="btn btn-sm w-100" type="button" disabled>
                         <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        <span>Saving...</span>
+                        <span> Saving...</span>
                       </button>
                     )}
                   </div>

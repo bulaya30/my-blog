@@ -56,7 +56,6 @@ export const addProject = (project) => {
 
       return { success: true };
     } catch (error) {
-      console.error("Upload error:", error.response?.data.error.message);
       dispatch({ type: "PROJECT_ERROR", payload: error.message });
       return { success: false, error: error.message };
     }
@@ -158,31 +157,36 @@ export const updateProject = (project) => {
 
 
 /**
- * Delete a blog (only author or admin)
+ * Delete a project (only author or admin)
  */
+
 export const deleteProject = (id) => {
-  return (dispatch, getState) => {
-    const state = getState();
-    const isAdmin = state.auth.isAdmin;
-    const currentUid = firebase.auth().currentUser?.uid;
+  return async (dispatch, getState) => {
+    try {
+      const state = getState();
+      const isAdmin = state.auth.isAdmin;
+      const currentUid = firebase.auth().currentUser?.uid;
 
-    const projectRef = db.collection("projects").doc(id);
+      const projectRef = db.collection("projects").doc(id);
+      const doc = await projectRef.get();
 
-    projectRef
-      .get()
-      .then((doc) => {
-        if (!doc.exists) throw new Error("Project not found");
+      if (!doc.exists) throw new Error("Project not found");
 
-        const projectAuthorId = doc.data().authorId;
+      const projectAuthorId = doc.data().authorId;
 
-        if (isAdmin || projectAuthorId === currentUid) {
-          return projectRef.delete();
-        } else {
-          throw new Error("You are not authorized to delete this project");
-        }
-      })
-      .then(() => dispatch({ type: "DELETE_PROJECT", payload: id }))
-      .catch((err) => dispatch({ type: "PROJECT_ERROR", payload: err.message }));
+      if (!isAdmin && projectAuthorId !== currentUid) {
+        throw new Error("You are not authorized to delete this project");
+      }
+
+      await projectRef.delete();
+
+      dispatch({ type: "DELETE_PROJECT", payload: id });
+
+      return { success: true }; // ✅ deletion succeeded
+    } catch (err) {
+      dispatch({ type: "PROJECT_ERROR", payload: err.message });
+      return { success: false, error: err.message }; // ❌ deletion failed
+    }
   };
 };
 

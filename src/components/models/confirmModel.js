@@ -1,31 +1,50 @@
-import React from 'react';
-// import './ConfirmModal.css'; // optional, for styling
+import React, { useState, useEffect } from "react";
 
 const ConfirmModal = ({ show, message, onConfirm, onCancel }) => {
-  if (!show) return null;
+  const [isShaking, setIsShaking] = useState(false);
+  const [isVisible, setIsVisible] = useState(show);
+
+  // Sync visibility with show prop
+  useEffect(() => {
+    if (show) setIsVisible(true);
+  }, [show]);
+
+  const handleDeleteClick = () => {
+    setIsShaking(true);
+    setTimeout(() => {
+      setIsShaking(false);
+      setIsVisible(false); // hide modal
+      onConfirm(); // call parent confirm
+    }, 400); // shake duration
+  };
+
+  const handleCancelClick = () => {
+    setIsVisible(false); // hide modal
+    setTimeout(() => onCancel(), 300); // optional fade-out delay
+  };
+
+  if (!isVisible) return null;
 
   return (
-    <div
-      className="modal-backdrop"
-      onClick={onCancel}       
-    >
+    <div className="custom-modal-backdrop" onClick={handleCancelClick}>
       <div
-        className="modal-dialog"
-        onClick={(e) => e.stopPropagation()} 
-        
+        className={`custom-modal-dialog ${isShaking ? "shake" : ""}`}
+        onClick={(e) => e.stopPropagation()}
       >
-        <p>{message}</p>
-        <div className='modal-btn-container'>
-          <button
-            onClick={onCancel}
-            className="btn btn-sm cancel-btn"
-          >
+        <div className="custom-modal-header">
+          <h5 className="custom-modal-title">Confirm Deletion</h5>
+          <button className="close-btn" onClick={handleCancelClick}>
+            &times;
+          </button>
+        </div>
+        <div className="custom-modal-body">
+          <p>{message}</p>
+        </div>
+        <div className="custom-modal-footer">
+          <button className="btn btn-sm btn-secondary" onClick={handleCancelClick}>
             Cancel
           </button>
-          <button
-            onClick={onConfirm}
-            className="btn btn-sm confirm-btn"
-          >
+          <button className="btn btn-sm btn-danger" onClick={handleDeleteClick}>
             Delete
           </button>
         </div>
