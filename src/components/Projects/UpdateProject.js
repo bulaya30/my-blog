@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useParams } from 'react-router-dom';
 import { checkImage, checkName, checkURL, checkString } from '../../validation/validate';
 import { updateProject } from '../store/actions/ProjectModel';
+import { useTranslation } from 'react-i18next';
 
 const UpdateProject = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
 
-  // Find the project from Redux store
   const project = useSelector((state) =>
     Array.isArray(state.project.projects)
       ? state.project.projects.find((b) => b.id === id)
@@ -31,7 +32,6 @@ const UpdateProject = () => {
     photo: ""
   });
 
-  // Load project data into form
   useEffect(() => {
     if (project) {
       setFormData({
@@ -50,29 +50,24 @@ const UpdateProject = () => {
     setTimeout(() => setToast({ message: '', type: '' }), 8000);
   };
 
-  // Validation
   const validate = () => {
     const newErrors = {};
 
-    if (!formData.title.trim()) newErrors.title = "Project Title is required.";
-    else if (!checkName(formData.title.trim())) newErrors.title = "Invalid Project title.";
+    if (!formData.title.trim()) newErrors.title = t("updateProjectPage.errors.requiredTitle");
+    else if (!checkName(formData.title.trim())) newErrors.title = t("updateProjectPage.errors.invalidTitle");
 
-    if (!formData.description.trim()) newErrors.description = "Project Description is required.";
-    else if (!checkString(formData.description.trim())) newErrors.description = "Invalid Project Description.";
+    if (!formData.description.trim()) newErrors.description = t("updateProjectPage.errors.requiredDescription");
+    else if (!checkString(formData.description.trim())) newErrors.description = t("updateProjectPage.errors.invalidDescription");
 
-    if (!formData.tools.trim()) newErrors.tools = "Project Tools are required.";
-    else if (!checkString(formData.tools.trim())) newErrors.tools = "Invalid Project Tools.";
+    if (!formData.tools.trim()) newErrors.tools = t("updateProjectPage.errors.requiredTools");
+    else if (!checkString(formData.tools.trim())) newErrors.tools = t("updateProjectPage.errors.invalidTools");
 
-    if (!formData.link.trim()) newErrors.link = "Project link is required.";
-    else if (!checkURL(formData.link.trim())) newErrors.link = "Invalid Project Link.";
+    if (!formData.link.trim()) newErrors.link = t("updateProjectPage.errors.requiredLink");
+    else if (!checkURL(formData.link.trim())) newErrors.link = t("updateProjectPage.errors.invalidLink");
 
     if (formData.photo) {
-      if (typeof formData.photo === "string" && !checkImage(formData.photo.trim())) {
-        newErrors.photo = "Invalid Photo URL.";
-      }
-      if (formData.photo instanceof File && !formData.photo.type.startsWith("image/")) {
-        newErrors.photo = "Invalid Photo File.";
-      }
+      if (typeof formData.photo === "string" && !checkImage(formData.photo.trim())) newErrors.photo = t("updateProjectPage.errors.invalidPhoto");
+      if (formData.photo instanceof File && !formData.photo.type.startsWith("image/")) newErrors.photo = t("updateProjectPage.errors.invalidPhoto");
     }
 
     setErrors(newErrors);
@@ -81,7 +76,7 @@ const UpdateProject = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validate()) return showToast("Please fix the errors before submitting.", "error");
+    if (!validate()) return showToast(t("updateProjectPage.fixErrors"), "error");
 
     setLoading(true);
     try {
@@ -92,13 +87,10 @@ const UpdateProject = () => {
       };
 
       const result = await dispatch(updateProject(newProject));
-      if (!result.error) {
-        showToast("Project updated successfully!", "success");
-      } else {
-        showToast(result.error || "Failed to update project", "error");
-      }
+      if (!result.error) showToast(t("updateProjectPage.success"), "success");
+      else showToast(result.error || t("updateProjectPage.errors.invalidLink"), "error");
     } catch (err) {
-      showToast(err.message || "An error occurred", "error");
+      showToast(err.message || t("updateProjectPage.errors.invalidLink"), "error");
     } finally {
       setLoading(false);
     }
@@ -118,7 +110,7 @@ const UpdateProject = () => {
                   
                   {/* Project Image */}
                   <div className="row mb-3">
-                    <label htmlFor="projectImage" className="col-md-4 col-lg-3 col-form-label">Project Image</label>
+                    <label htmlFor="projectImage" className="col-md-4 col-lg-3 col-form-label">{t("updateProjectPage.photo")}</label>
                     <div className="col-md-8 col-lg-9 col-sm-12">
                       <img
                         src={formData.photo instanceof File ? URL.createObjectURL(formData.photo) : formData.photo || "logo.png"}
@@ -133,7 +125,7 @@ const UpdateProject = () => {
                           name="file"
                           onChange={(e) => setFormData({ ...formData, photo: e.target.files[0] })}
                         />
-                        <label htmlFor="file" className="btn btn-primary btn-sm text-white mt-3" title="Upload the project image">
+                        <label htmlFor="file" className="btn btn-primary btn-sm text-white mt-3" title={t("updateProjectPage.photo")}>
                           <i className="bi bi-upload"></i>
                         </label>
                         {errors.photo && <p className="input-error">{errors.photo}</p>}
@@ -153,7 +145,7 @@ const UpdateProject = () => {
                             value={formData[field] || ""}
                             onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
                           />
-                          <label htmlFor={field}>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
+                          <label htmlFor={field}>{t(`updateProjectPage.${field}`)}</label>
                         </>
                       ) : (
                         <>
@@ -164,7 +156,7 @@ const UpdateProject = () => {
                             value={formData[field] || ""}
                             onChange={(e) => setFormData({ ...formData, [field]: e.target.value })}
                           />
-                          <label htmlFor={field}>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
+                          <label htmlFor={field}>{t(`updateProjectPage.${field}`)}</label>
                         </>
                       )}
                       {errors[field] && <p className="input-error">{errors[field]}</p>}
@@ -173,20 +165,17 @@ const UpdateProject = () => {
 
                   <div className="input-box">
                     {!loading ? (
-                      <button className="btn btn-sm w-50" type="submit">
-                        Save changes
-                      </button>
+                      <button className="btn btn-sm w-50" type="submit">{t("updateProjectPage.saveChanges")}</button>
                     ) : (
                       <button className="btn btn-sm w-50" type="button" disabled>
                         <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        <span> Saving...</span>
+                        <span> {t("updateProjectPage.saving")}</span>
                       </button>
                     )}
                   </div>
                 </form>
               </div>
               
-              {/* Toast */}
               {toast.message && (
                 <div className={`toast-notification ${toast.type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white p-3 rounded mt-3`}>
                   {toast.message}

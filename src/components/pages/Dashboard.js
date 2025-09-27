@@ -17,7 +17,7 @@ const Dashboard = () => {
   return (
     <article className="dashboard">
       <div className="row">
-        <div className="col-lg-8 col-md-8 col-sm-12 mb-2">
+        <div className="col-lg-8 col-md-12 col-sm-12 mb-2">
           <div className="row">
             {/* Visits card */}
             <div className="col-lg-6 col-md-6 mb-2">
@@ -165,7 +165,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="col-lg-4 col-md-8 col-sm-12">
+        <div className="col-lg-4 col-md-8 col-sm-12 d-none d-lg-block">
           <Notifications />
         </div>
       </div>

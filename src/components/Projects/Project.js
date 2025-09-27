@@ -8,14 +8,16 @@ import Footer from "../home/footer";
 const Projects = () => {
   const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
-  // const lang = i18n.language.startsWith("fr") ? "fr" : "en";
+  const lang = i18n.language.startsWith("fr") ? "fr" : "en";
+
   const projects = useSelector((state) => state.project.projects || []);
 
   useEffect(() => {
     dispatch(getProjects());
   }, [dispatch]);
-  // Ensure project is always an array
+
   const safeProjects = Array.isArray(projects) ? projects : projects ? [projects] : [];
+
   return (
     <>
       <main id="main" className="projects-page">
@@ -31,7 +33,7 @@ const Projects = () => {
             {!safeProjects ? (
               <div className="col-12 text-center">
                 <div className="spinner-border text-primary" role="status">
-                  <span className="visually-hidden">Loading...</span>
+                  <span className="visually-hidden">{t("projectsPage.loading")}</span>
                 </div>
               </div>
             ) : safeProjects.length === 0 ? (
@@ -42,25 +44,25 @@ const Projects = () => {
               safeProjects.map((project) => (
                 <div key={project.id} className="col-md-4 mb-4">
                   <div className="card norrechel-card h-100 p-3">
-                    <h3 className="text-center">{project.title}</h3>
+                    <h3 className="text-center">{project.title[lang] || project.title}</h3>
                     <p>
-                        <strong>{t("projectsPage.tools")}:</strong>{" "}
-                        {project.tools?.join(", ") || t("projectsPage.noTools")}
-                      </p>
-                      <p>
-                        {t("acceuilPage.by")}{" "}
-                        {project.author
-                          ? `${project.author.firstName || ""} ${project.author.lastName || ""}`.trim()
-                          : t("acceuilPage.unknownAuthor")}{" "}
-                        •{" "}
-                        {project.createdAt?.toDate
-                          ? project.createdAt.toDate().toLocaleDateString(i18n.language, {
-                              month: "short",
-                              day: "numeric",
-                              year: "numeric",
-                            })
-                          : t("acceuilPage.unknownDate")}
-                      </p>
+                      <strong>{t("projectsPage.tools")}:</strong>{" "}
+                      {project.tools?.join(", ") || t("projectsPage.noTools")}
+                    </p>
+                    <p>
+                      {t("acceuilPage.by")}{" "}
+                      {project.author
+                        ? `${project.author.firstName || ""} ${project.author.lastName || ""}`.trim()
+                        : t("acceuilPage.unknownAuthor")}{" "}
+                      •{" "}
+                      {project.createdAt?.toDate
+                        ? project.createdAt.toDate().toLocaleDateString(i18n.language, {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          })
+                        : t("acceuilPage.unknownDate")}
+                    </p>
                     <NavLink to={`/projects/${project.id}`} className="text-center read-more">
                       {t("projectsPage.viewProject")} →
                     </NavLink>

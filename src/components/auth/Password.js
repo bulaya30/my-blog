@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { updatePassword } from '../store/actions/UserModel'; // 🔹 implement in actions
+import { updatePassword } from '../store/actions/UserModel';
 import { checkPassword } from '../../validation/validate';
+import { useTranslation } from 'react-i18next';
 
 const Password = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const [formData, setFormData] = useState({
     currentPassword: "",
@@ -35,18 +37,17 @@ const Password = () => {
     const newErrors = {};
 
     if (!formData.currentPassword?.trim())
-      newErrors.currentPassword = "Current password is required.";
+      newErrors.currentPassword = t('passwordPage.currentRequired');
 
     if (!formData.newPassword?.trim())
-      newErrors.newPassword = "New password is required.";
+      newErrors.newPassword = t('passwordPage.newRequired');
     else if (!checkPassword(formData.newPassword))
-      newErrors.newPassword =
-        "Password must be at least 8 characters, 1 uppercase, 1 lowercase, 1 number.";
+      newErrors.newPassword = t('passwordPage.newInvalid');
 
     if (!formData.renewPassword?.trim())
-      newErrors.renewPassword = "Please confirm your new password.";
+      newErrors.renewPassword = t('passwordPage.confirmRequired');
     else if (formData.newPassword !== formData.renewPassword)
-      newErrors.renewPassword = "Passwords do not match.";
+      newErrors.renewPassword = t('passwordPage.passwordMismatch');
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -54,21 +55,20 @@ const Password = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validatePassword()) return showToast("Please fix the errors first.");
-    if (formData.newPassword !== formData.renewPassword) return showToast("Passwords do not match.", "success");
+    if (!validatePassword()) return showToast(t('passwordPage.fixErrors'), 'error');
+
     setLoading(true);
     try {
-      // 🔹 Replace with your Redux action
       const result = await dispatch(updatePassword(formData.currentPassword, formData.newPassword));
 
       if (result.success) {
-        showToast("Password updated successfully!", "success");
+        showToast(t('passwordPage.success'), 'success');
         setFormData({ currentPassword: "", newPassword: "", renewPassword: "" });
       } else {
-        showToast("Failed to update password", "error");
+        showToast(result.error || t('passwordPage.fail'), 'error');
       }
-    } catch (err) {
-      showToast("An error occurred", "error");
+    } catch {
+      showToast(t('passwordPage.errorOccurred'), 'error');
     } finally {
       setLoading(false);
     }
@@ -76,7 +76,7 @@ const Password = () => {
 
   const errorClass = (field) => (errors[field] ? "input-error-border" : "");
 
-  const renderPasswordField = (id, label) => (
+  const renderPasswordField = (id, labelKey) => (
     <div className={`input-box position-relative ${errorClass(id)}`}>
       <input
         type={showPassword[id] ? "text" : "password"}
@@ -85,7 +85,7 @@ const Password = () => {
         onChange={(e) => setFormData({ ...formData, [id]: e.target.value })}
         required
       />
-      <label htmlFor={id}>{label}</label>
+      <label htmlFor={id}>{t(labelKey)}</label>
       <i
         className={`bx ${showPassword[id] ? "bx-show" : "bx-hide"} password-toggle`}
         onClick={() => toggleShow(id)}
@@ -104,19 +104,19 @@ const Password = () => {
   return (
     <div className="form-section">
       <form autoComplete="off" onSubmit={handleSubmit}>
-        {renderPasswordField("currentPassword", "Current Password")}
-        {renderPasswordField("newPassword", "New Password")}
-        {renderPasswordField("renewPassword", "Confirm Password")}
+        {renderPasswordField("currentPassword", "passwordPage.currentLabel")}
+        {renderPasswordField("newPassword", "passwordPage.newLabel")}
+        {renderPasswordField("renewPassword", "passwordPage.confirmLabel")}
 
         <div className="input-box">
           {!loading ? (
-            <button id="new-article-btn" className="btn btn-sm w-50" type="submit">
-              Save changes
+            <button id="save-password-btn" className="btn btn-sm w-50" type="submit">
+              {t('passwordPage.saveBtn')}
             </button>
           ) : (
             <button className="btn btn-sm w-50" type="button" disabled>
               <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              <span> Saving...</span>
+              <span> {t('passwordPage.saving')}</span>
             </button>
           )}
         </div>

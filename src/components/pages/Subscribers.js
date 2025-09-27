@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { getSubscribers, deleteSubscribers } from "../store/actions/SubscriberModel";
+import { getSubscribers, deleteSubscriber } from "../store/actions/SubscriberModel";
 import ConfirmModal from "../models/confirmModel";
 import { useTranslation } from "react-i18next";
 
@@ -51,7 +51,7 @@ const Subscribers = () => {
   const confirmDelete = async () => {
     if (selected) {
       try {
-        const result = await dispatch(deleteSubscribers(selected.id));
+        const result = await dispatch(deleteSubscriber(selected.id));
         if (result?.success) {
           showToast(t("subscriberDeleted"), "success");
         } else {

@@ -9,10 +9,12 @@ import Footer from "../home/footer";
 const ProjectDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth.user);
   const admin = useSelector((state) => state.auth.isAdmin);
+  const lang = i18n.language.startsWith("fr") ? "fr" : "en";
+
   const project = useSelector((state) =>
     Array.isArray(state.project.projects)
       ? state.project.projects.find((b) => b.id === id)
@@ -20,137 +22,95 @@ const ProjectDetails = () => {
       ? state.project.projects
       : null
   );
-  // Modal state
+
   const [showModal, setShowModal] = useState(false);
+
   useEffect(() => {
     dispatch(getProjects("id", id));
   }, [dispatch, id]);
 
-  const handleDeleteClick = () => {
-    setShowModal(true);
-  };
-  
-    const handleCancel = () => {
-      setShowModal(false);
-    };
-
-   const handleDelete = async () => {
+  const handleDeleteClick = () => setShowModal(true);
+  const handleCancel = () => setShowModal(false);
+  const handleDelete = async () => {
     const result = await dispatch(deleteProject(id));
     setShowModal(false);
-    if (result.success) {
-      navigate('/projects');
-    } else {
-      alert("Delete failed: " + result.error);
-    }
+    if (result.success) navigate('/projects');
+    else alert("Delete failed: " + result.error);
   };
 
-
-
   if (!project) {
-    return (
-      <div className="text-center py-5 my-5 fw-bold">
-        {t("projectsPage.notFound")}
-      </div>
-    );
-  }
-
-  if (project.length === 0) {
-    return (
-      <div className="text-center py-5 my-5">
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    );
+    return <div className="text-center py-5 my-5 fw-bold">{t("projectsPage.notFound")}</div>;
   }
 
   return (
     <>
       <main className="project-details-page container pt-5 mt-5 bg-white">
-        {/* <div className="container py-5"> */}
-          {/* Title */}
-          <section className=" mb-5">
-            <h3 className="text-center fw-bold">{project.title}</h3>
-            <img src={project.photo || "logo.png"} alt="" className="" />
-            <section className="mb-4 project-description">
-              <h4 className="text-center">{t("projectsPage.description")}</h4>
-              <p className="lead ">{project.description}</p>
-            </section>
+        <section className="mb-5 text-center">
+          <h3 className="fw-bold">{project.title[lang] || project.title}</h3>
+          <img src={project.photo || "logo.png"} alt="" />
+          <section className="mb-4 project-description">
+            <h4>{t("projectsPage.description")}</h4>
+            <p className="lead">{project.description[lang] || project.description}</p>
           </section>
-          <hr className="divider" />
-          {/* Tools */}
-          {project.tools && project.tools.length > 0 && (
-            <section className="mb-4 project-tools">
-              <h4>{t("projectsPage.tools")}</h4>
-              <p>{project.tools.join(", ")}</p>
-            </section>
-          )}
+        </section>
 
-          {/* Link */}
-          {project.link && (
-            <section className="mb-4 link-btn">
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
+        <hr className="divider" />
+
+        {project.tools?.length > 0 && (
+          <section className="mb-4 project-tools">
+            <h4>{t("projectsPage.tools")}</h4>
+            <p>{project.tools.join(", ")}</p>
+          </section>
+        )}
+
+        {project.link && (
+          <section className="mb-4 link-btn">
+            <a href={project.link} target="_blank" rel="noopener noreferrer">
+              {t("projectsPage.viewProject")}
+            </a>
+          </section>
+        )}
+
+        {(auth && project.authorId === auth.uid) || admin ? (
+          <div>
+            <button
+              className="btn btn-danger mt-3"
+              onClick={handleDeleteClick}
+              title={t("deleteThisArticle")}
+            >
+              <i className="bi bi-trash"></i>
+            </button>
+            {auth && project.authorId === auth.uid && (
+              <Link
+                className="btn btn-primary mt-3 ms-2"
+                to={`/projects/${id}/edit`}
+                title={t("updateThisArticle")}
               >
-                {t("projectsPage.viewProject")}
-              </a>
-            </section>
-          )}
-          {/* Show Edit/Delete buttons */}
-              {auth && project.authorId === auth.uid ? (
-                <>
-                  <button
-                    className="btn btn-danger mt-3"
-                    onClick={handleDeleteClick}
-                    title={t("deleteThisArticle")}
-                  >
-                    <i className="bi bi-trash"></i>
-                  </button>
-                  <Link
-                    className="btn btn-primary mt-3 ms-2"
-                    to={`/projects/${id}/edit`}
-                    title={t("updateThisArticle")}
-                  >
-                    <i className="bi bi-pencil-square"></i>
-                  </Link>
-                </>
-              ) : (
-                admin && (
-                  <button
-                    className="btn btn-danger mt-3"
-                    onClick={handleDeleteClick}
-                    title={t("deleteThisArticle")}
-                  >
-                    <i className="bi bi-trash"></i>
-                  </button>
-                )
-              )}
-          {/* Author */}
-          {project.authorName && (
-            <section className="mt-5">
-              <p className="text-muted">
-                {t("projectsPage.addedBy")}: {project.authorName}
-              </p>
-            </section>
-          )}
+                <i className="bi bi-pencil-square"></i>
+              </Link>
+            )}
+          </div>
+        ) : null}
 
-          {/* Collaborate CTA */}
-          <section className=" pb-3 my-5 text-center">
-            <h4 className="mb-3">{t("projectsPage.interested")}</h4>
-            <NavLink to="/contact" className="btn hero-btn">
-              {t("projectsPage.collaborateBtn")}
-            </NavLink>
+        {project.authorName && (
+          <section className="mt-5">
+            <p className="text-muted">{t("projectsPage.addedBy")}: {project.authorName}</p>
           </section>
-        {/* </div> */}
-         {/* Confirm Modal */}
-              <ConfirmModal
-                show={showModal}
-                message={t('profilePage.confirm.deleteCategory')}
-                onConfirm={handleDelete}
-                onCancel={handleCancel}
-              />
+        )}
+
+        <section className="pb-3 my-5 text-center">
+          <h4 className="mb-3">{t("projectsPage.interested")}</h4>
+          <NavLink to="/contact" className="btn hero-btn">
+            {t("projectsPage.collaborateBtn")}
+          </NavLink>
+        </section>
+
+        <ConfirmModal
+          show={showModal}
+          message={t('profilePage.confirm.deleteCategory')}
+          onConfirm={handleDelete}
+          onCancel={handleCancel}
+        />
       </main>
       <Footer />
     </>

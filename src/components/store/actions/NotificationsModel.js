@@ -1,5 +1,8 @@
 import firebase from '../../../config/DB';
 
+/**
+ * Add a notification
+ */
 export const addNotification = (notification) => {
   return async (dispatch) => {
     try {
@@ -10,42 +13,47 @@ export const addNotification = (notification) => {
       });
       
       dispatch({ type: 'NOTIFICATION_SUCCESS', payload: notification });
-
+      return { success: true, notification, error: null };
     } catch (error) {
       dispatch({ type: 'NOTIFICATION_ERROR', payload: error.message });
+      return { success: false, error: error.message };
     }
   };
 };
 
-// Fetch notifications
+/**
+ * Fetch notifications for the current user
+ */
 export const getNotification = () => {
   return (dispatch, getState) => {
     const state = getState();
     const currentUser = state.auth.user;
 
-    if (!currentUser) {
-      return () => {}; 
-    }
+    if (!currentUser) return () => {};
 
     const unsubscribe = firebase.firestore()
       .collection('notifications')
       .orderBy('createdAt', 'desc')
-      .onSnapshot((snapshot) => {
-        const notifications = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        dispatch({ type: 'GET_NOTIFICATION', payload: notifications });
-      }, (error) => {
-        dispatch({ type: 'NOTIFICATION_ERROR', payload: error.message });
-      });
+      .onSnapshot(
+        (snapshot) => {
+          const notifications = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+          dispatch({ type: 'GET_NOTIFICATION', payload: notifications });
+        },
+        (error) => {
+          dispatch({ type: 'NOTIFICATION_ERROR', payload: error.message });
+        }
+      );
 
-    // Return unsubscribe so you can clean up in useEffect
-    return unsubscribe;
+    return unsubscribe; // for cleanup in useEffect
   };
 };
 
-// Delete a notification
+/**
+ * Delete a notification (admin only)
+ */
 export const deleteNotification = (id) => {
   return async (dispatch, getState) => {
     const state = getState();

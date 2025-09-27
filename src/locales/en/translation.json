@@ -66,35 +66,36 @@
 
   "aboutPage": {
   "title": "About Me",
-  "subtitle": "I am a creator, developer, and data analyst passionate about solving real-life problems with technology.",
-  "exploreBlogs": "Explore my articles",
+  "subtitle": "Discover who I am, what drives me, and how I bring ideas to life with technology.",
+  "exploreBlogs": "Explore My Blogs",
 
-  "whoAmITitle": "Who I Am",
-  "whoAmIText": "I love building websites, desktop applications, and data-driven solutions. I write to inspire others through lessons I’ve learned from life and books I read.",
+  "whoAmITitle": "Who Am I?",
+  "whoAmIText": "I am a telecom engineer, web developer, and data analyst passionate about creating solutions that make a real difference. With a strong foundation in both software and networks, I blend analytical thinking with creativity to design impactful digital experiences. Beyond the technical side, I believe in continuous learning, collaboration, and sharing knowledge to empower others.",
 
   "missionTitle": "My Mission",
-  "missionText": "My mission is to help others achieve lasting success by sharing insights from my journey, projects, and the knowledge I gain from books.",
+  "missionText": "My mission is to use technology as a tool for problem-solving and empowerment. Whether it’s building scalable web applications, analyzing complex datasets, or designing efficient systems, my goal is to deliver solutions that are practical, user-friendly, and transformative. I strive to bridge the gap between innovation and real-world needs.",
 
   "whatIDoTitle": "What I Do",
-  "articlesTitle": "Inspiring Articles",
-  "articlesDesc": "I share insights from personal experiences and books to help people develop habits and skills for success.",
-  "dataProjectsTitle": "Data Analysis Projects",
-  "dataProjectsDesc": "I use data to uncover insights and create solutions to real-world problems.",
-  "techSolutionsTitle": "Technology & Solutions",
-  "techSolutionsDesc": "I create websites and desktop apps that make an impact and improve life.",
+  "articlesTitle": "Articles & Insights",
+  "articlesDesc": "I write articles that simplify technology, share insights, and help others unlock their potential by building digital skills and confidence.",
+  "dataProjectsTitle": "Data-Driven Projects",
+  "dataProjectsDesc": "I work on projects that turn raw data into meaningful insights—helping individuals and businesses make informed, strategic decisions.",
+  "techSolutionsTitle": "Tech Solutions",
+  "techSolutionsDesc": "From web applications to telecom systems, I develop tailored solutions that blend functionality, performance, and modern design.",
 
   "timelineTitle": "My Approach",
   "timeline": {
-    "whoAmI": { "title": "Background", "desc": "Learning, creating, and growing with technology." },
-    "mission": { "title": "Mission", "desc": "Inspire others through projects, writing, and practical solutions." },
-    "whatIDo": { "title": "What I Do", "desc": "Articles, data projects, and technology solutions to solve problems." },
-    "approach": { "title": "Approach", "desc": "Combining creativity with analysis to maximize impact." }
+    "whoAmI": { "title": "Curiosity & Learning", "desc": "I approach every project with curiosity, eager to learn and explore new possibilities." },
+    "mission": { "title": "Impact-Driven", "desc": "I focus on creating solutions that not only solve problems but also create long-term value." },
+    "whatIDo": { "title": "Collaboration", "desc": "I believe the best solutions come from teamwork, feedback, and shared ideas." },
+    "approach": { "title": "Continuous Growth", "desc": "I never stop improving—every challenge is an opportunity to grow and refine my skills." }
   },
 
-  "ctaTitle": "Let's Connect",
-  "ctaDesc": "Explore my work, follow my journey, and join me in creating meaningful solutions.",
+  "ctaTitle": "Let’s Build Something Great Together",
+  "ctaDesc": "I’m always open to collaborations, new opportunities, and meaningful conversations about technology, innovation, and personal growth.",
   "ctaBtn": "Contact Me"
-},
+}
+,
   "contactPage": {
     "title": "Contact Us",
     "info": {
@@ -135,10 +136,6 @@
   "categoriesTitle": "Categories",
   "latestBlogs": "Latest Blogs"
 },
-"categoryPage": {
-  "title": "Categories",
-  "loading": "Loading categories..."
-},
 "aboutSection": {
   "title": "About Norrechel",
   "text": "Norrechel is dedicated to empowering young people to discover their potential, develop strong character, raise their value, and take committed action towards achieving their goals. Our content inspires, motivates, and provides actionable insights for growth and success.",
@@ -157,41 +154,62 @@
   "error": "An error occurred"
 },
 "loginPage": {
-  "welcome": "Welcome Back",
-  "signInInfo": "Sign in to your account",
-  "emailLabel": "Email address",
-  "emailRequired": "Email address required",
-  "passwordLabel": "Password",
-  "passwordRequired": "Password required",
-  "loginBtn": "Login",
-  "loggingInBtn": "Logging in...",
-  "noAccount": "Don't have an account?",
-  "registerLink": "Register",
-  "notAllowed": "Not allowed",
-  "error": "Wrong email address or password."
-},
+    "welcome": "Welcome Back!",
+    "signInInfo": "Sign in to your account",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "loginBtn": "Log In",
+    "loggingInBtn": "Logging In...",
+    "noAccount": "Don't have an account?",
+    "registerLink": "Register",
+    "emailRequired": "Email is required",
+    "invalidEmail": "Please enter a valid email",
+    "passwordRequired": "Password is required",
+    "passwordInvalid": "Password must be at least 8 characters, with 1 uppercase, 1 lowercase, and 1 number",
+    "fixErrors": "Please fix the errors before submitting.",
+    "error": "Invalid email or password"
+  },
 "registrationPage": {
-  "createAccount": "Create Account",
-  "joinUs": "Join Us",
-  "fillDetails": "Fill in your details to get started with your new account.",
-  "firstName": "First Name",
-  "lastName": "Last Name",
-  "email": "Email Address",
-  "password": "Password",
-  "confirmPassword": "Confirm Password",
-  "agree": "I agree to the",
-  "terms": "terms and conditions",
-  "registerBtn": "Register",
-  "registeringBtn": "Registering...",
-  "haveAccount": "Already have an account?",
-  "loginLink": "Login",
-  "firstNameRequired": "First name required",
-  "lastNameRequired": "Last name required",
-  "emailRequired": "Valid email required",
-  "passwordRequired": "Password required",
-  "passwordsMismatch": "Passwords must match",
-  "error" : "The email address is already used"
-},
+    "createAccount": "Create Account",
+    "joinUs": "Join Us",
+    "fillDetails": "Please fill in your details to create an account",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "agree": "I agree to the",
+    "terms": "Terms & Conditions",
+    "registerBtn": "Register",
+    "registeringBtn": "Registering...",
+    "haveAccount": "Already have an account?",
+    "loginLink": "Login",
+    "firstNameInvalid": "First name is invalid",
+    "lastNameInvalid": "Last name is invalid",
+    "emailInvalid": "Email is invalid",
+    "passwordInvalid": "Password must be at least 8 characters, 1 uppercase, 1 lowercase, 1 number",
+    "passwordsMismatch": "Passwords do not match",
+    "agreeRequired": "You must agree to the terms",
+    "fixErrors": "Please fix the errors first",
+    "emailVerificationSent": "A verification link has been sent to your email",
+    "error": "An error occurred"
+  },
+"passwordPage": {
+    "currentLabel": "Current Password",
+    "newLabel": "New Password",
+    "confirmLabel": "Confirm Password",
+    "currentRequired": "Current password is required.",
+    "newRequired": "New password is required.",
+    "newInvalid": "Password must be at least 8 characters, 1 uppercase, 1 lowercase, 1 number.",
+    "confirmRequired": "Please confirm your new password.",
+    "passwordMismatch": "Passwords do not match.",
+    "fixErrors": "Please fix the errors first.",
+    "success": "Password updated successfully!",
+    "fail": "Failed to update password.",
+    "errorOccurred": "An error occurred while updating the password.",
+    "saveBtn": "Save changes",
+    "saving": "Saving..."
+  },
 "dashboard":{
   "today": "Today",
   "thisMonth": "This Month",
@@ -229,6 +247,15 @@
     "noResults": "No notifications found for {{filter}}.",
     "toast": {
       "newVisitor": "New visitor read: {{blogTitle}}"
+    },
+    "confirmDelete": "Are you sure you want to delete this notification?",
+    "delete": "Delete",
+    "label": "Notification",
+    "types": {
+      "info": "Info",
+      "alert": "Alert",
+      "message": "Message",
+      "other": "Other"
     }
   },
 "profilePage": {
@@ -259,42 +286,148 @@
       "deleteCategory": "Are you sure you want to delete this category?"
     }
   },
-  "createBlogPage":{
-    "New Blog": "New Blog",
-    "Title (English)": "Title (English)",
-    "Title (French)": "Title (French)",
-    "Category": "Category",
-    "Mentorship and advice": "Mentorship and advice",
-    "Tips": "Tips",
-    "Business": "Business",
-    "Content (English)": "Content (English)",
-    "Content (French)": "Content (French)",
-    "Publish": "Publish",
-    "Publishing...": "Publishing...",
-    "Loading user info...": "Loading user info...",
-
-    "Title (English) is required.": "Title (English) is required.",
-    "Title (English) must be at least 5 characters long.": "Title (English) must be at least 5 characters long.",
-    "Invalid name.": "Invalid name.",
-    "Title (French) is required.": "Title (French) is required.",
-    "Title (French) must be at least 5 characters long.": "Title (French) must be at least 5 characters long.",
-
-    "Content (English) is required.": "Content (English) is required.",
-    "Content (English) must be at least 50 characters long.": "Content (English) must be at least 50 characters long.",
-    "Invalid content.": "Invalid content.",
-    "Content (French) is required.": "Content (French) is required.",
-    "Content (French) must be at least 50 characters long.": "Content (French) must be at least 50 characters long.",
-
-    "Category is required.": "Category is required.",
-
-    "User info not loaded. Please wait.": "User info not loaded. Please wait.",
-    "Please fix the errors before submitting.": "Please fix the errors before submitting.",
-    "Blog added successfully!": "Blog added successfully!",
-    "Failed to add blog": "Failed to add blog",
-    "An error occurred": "An error occurred",
+  "profileUpdatePage": {
+    "fields": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "company": "Company",
+      "country": "Country",
+      "address": "Address",
+      "phone": "Phone",
+      "title": "Title",
+      "facebook": "Facebook",
+      "twitter": "Twitter",
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn",
+      "about": "About",
+      "photo": "Profile Image"
+    },
+    "uploadPhoto": "Upload new profile image",
+    "saveChanges": "Save changes",
+    "saving": "Saving...",
+    "successUpdated": "User information updated successfully!",
+    "errors": {
+      "firstNameRequired": "Firstname is required.",
+      "firstNameLength": "Firstname must be at least 3 characters long.",
+      "lastNameRequired": "Lastname is required.",
+      "lastNameLength": "Lastname must be at least 3 characters long.",
+      "companyRequired": "Company is required.",
+      "countryRequired": "Country is required.",
+      "addressRequired": "Address is required.",
+      "phoneRequired": "Phone is required.",
+      "titleRequired": "Title is required.",
+      "aboutRequired": "About is required.",
+      "fixErrors": "Please fix the errors before submitting.",
+      "updateFailed": "Failed to update user information.",
+      "invalidName": "Invalid name.",
+      "invalidAddress": "Invalid address.",
+      "invalidPhone": "Invalid phone number.",
+      "invalidURL": "Invalid URL address.",
+      "facebookRequired": "Facebook is required.",
+      "twitterRequired": "Twitter is required.",
+      "instagramRequired": "Instagram is required.",
+      "linkedinRequired": "LinkedIn is required."
+    }
+  },
+  "account": {
+    "fullName": "Full Name",
+    "company": "Company",
+    "country": "Country",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "about": "About",
+    "profileDetails": "Profile Details",
+    "tabs": {
+      "overview": "Overview",
+      "editProfile": "Edit Profile",
+      "changePassword": "Change Password"
+    }
+  },
+  "blog": {
+    "noBlogAvailable": "No blog available"
+  },
+  "loading": "Loading...",
+  "createBlogPage": {
+    "newBlog": "New Blog",
+    "titleEn": "Title (English)",
+    "titleFr": "Title (French)",
+    "contentEn": "Content (English)",
+    "contentFr": "Content (French)",
+    "category": "Category",
+    "publish": "Publish",
+    "publishing": "Publishing",
+    "titleRequired": "Title is required",
+    "invalidTitle": "Invalid title",
+    "contentRequired": "Content is required",
+    "invalidContent": "Invalid content",
+    "categoryRequired": "Category is required",
+    "userNotLoaded": "User info not loaded",
+    "fixErrors": "Please fix the errors before submitting",
+    "blogAddedSuccess": "Blog added successfully",
+    "blogAddFailed": "Failed to add blog",
+    "anErrorOccurred": "An error occurred",
     "interested": "Interested in this article?",
-  "collaborateBtn": "Let’s Collaborate"
-},
+    "collaborateBtn": "Let's Collaborate"
+  },
+  "updateBlogPage": {
+    "updateBlogTitle": "Update Blog",
+    "titleEn": "Title (English)",
+    "titleFr": "Title (French)",
+    "category": "Category",
+    "contentEn": "Content (English)",
+    "contentFr": "Content (French)",
+    "saveChanges": "Save changes",
+    "saving": "Saving...",
+    "titleEnRequired": "Title (English) is required.",
+    "titleEnLength": "Title (English) must be at least 5 characters long.",
+    "titleEnInvalid": "Invalid name.",
+    "titleFrRequired": "Title (French) is required.",
+    "titleFrLength": "Title (French) must be at least 5 characters long.",
+    "titleFrInvalid": "Invalid name.",
+    "contentEnRequired": "Content (English) is required.",
+    "contentEnLength": "Content (English) must be at least 50 characters long.",
+    "contentEnInvalid": "Invalid content.",
+    "contentFrRequired": "Content (French) is required.",
+    "contentFrLength": "Content (French) must be at least 50 characters long.",
+    "contentFrInvalid": "Invalid content.",
+    "categoryRequired": "Category is required.",
+    "userNotLoaded": "User info not loaded. Please wait.",
+    "fixErrors": "Please fix the errors before submitting.",
+    "success": "Blog updated successfully!"
+  },
+   "createCategory": {
+    "newCategory": "New Category",
+    "name": "Name",
+    "add": "Add",
+    "adding": "Adding...",
+    "nameRequired": "Category name is required.",
+    "nameInvalid": "Invalid category name.",
+    "notAllowed": "Not allowed.",
+    "fixErrors": "Invalid category name. Please fix the errors before submitting.",
+    "success": "Category added successfully!",
+    "failed": "Failed to add category.",
+    "error": "An error occurred."
+  },
+  "categoryPage": {
+    "title": "Categories",
+    "noCategory": "No Category available",
+    "loading": "Loading categories..."
+  },
+  "editCategory": {
+    "title": "Update Category",
+    "nameLabel": "Name",
+    "nameRequired": "Category name is required.",
+    "nameMinLength": "Category name must be at least 5 characters long.",
+    "nameInvalid": "Invalid category name.",
+    "notAllowed": "Not allowed",
+    "fixErrors": "Invalid category name. Please fix the errors before submitting.",
+    "updatedSuccess": "Category name updated successfully!",
+    "updatedFailed": "Failed to update category name",
+    "errorOccurred": "An error occurred",
+    "saveBtn": "Save changes",
+    "saving": "Saving..."
+  },
 "dataProjectsPage": {
   "title": "Data Analysis Projects",
   "subtitle": "Exploring real-world insights through data",
@@ -303,7 +436,7 @@
   "learnMore": "Learn more about the project"
 },
 "projectsPage": {
-  "title": "Data Analysis Projects",
+  "title": "Our Projects",
   "subtitle": "Showcasing how I use data to tell stories, find patterns, and solve real-world problems.",
   "noProjects": "No projects added yet.",
   "tools": "Tools Used",
@@ -317,7 +450,71 @@
   "description": "Description",
   "viewAllProjects": "Voir tous les projets"
 },
-
+"createProjectPage": {
+    "addTitle": "Add a Project",
+    "projectImage": "Project Image",
+    "uploadImage": "Upload the project image",
+    "title": "Project Title",
+    "description": "Description",
+    "tools": "Tools Used (comma separated)",
+    "toolsPlaceholder": "Python, Pandas, Matplotlib",
+    "link": "Project Link (GitHub, Notebook, etc.)",
+    "addProject": "Add Project",
+    "adding": "Adding...",
+    "validation": {
+      "titleRequired": "Project Title is required.",
+      "titleInvalid": "Invalid Project title.",
+      "descriptionRequired": "Project Description is required.",
+      "descriptionInvalid": "Invalid Project description.",
+      "toolsRequired": "Project Tools is required.",
+      "toolsInvalid": "Invalid Tools.",
+      "linkRequired": "Project link is required.",
+      "linkInvalid": "Invalid link.",
+      "loginRequired": "You must be logged in to add a project!",
+      "fixErrors": "Please fix the errors before submitting."
+    },
+    "success": "Project added successfully!",
+    "error": "An error occurred"
+  },
+  "updateProjectPage": {
+    "title": "Project Title",
+    "description": "Project Description",
+    "tools": "Project Tools (comma separated)",
+    "link": "Project Link (GitHub, Notebook, etc.)",
+    "photo": "Project Image",
+    "saveChanges": "Save changes",
+    "saving": "Saving...",
+    "errors": {
+      "requiredTitle": "Project Title is required.",
+      "invalidTitle": "Invalid Project title.",
+      "requiredDescription": "Project Description is required.",
+      "invalidDescription": "Invalid Project Description.",
+      "requiredTools": "Project Tools are required.",
+      "invalidTools": "Invalid Project Tools.",
+      "requiredLink": "Project link is required.",
+      "invalidLink": "Invalid Project Link.",
+      "invalidPhoto": "Invalid Photo."
+    },
+    "success": "Project updated successfully!",
+    "fixErrors": "Please fix the errors before submitting."
+  },
+"footer": {
+    "addressLine1": "Kansanga, Kampala, Uganda",
+    "phone": "Phone",
+    "email": "Email",
+    "servicesTitle": "Our Services",
+    "serviceWebDesign": "Web Design",
+    "serviceMentorship": "Mentorship",
+    "serviceBusinessConsulting": "Business Consulting",
+    "connectTitle": "Connect With Us",
+    "connectText": "Follow us for updates, insights, and more.",
+    "rightsReserved": "All rights reserved."
+  },
+  "confirmModal": {
+    "title": "Confirm Deletion",
+    "cancel": "Cancel",
+    "delete": "Delete"
+  },
 "loadingAuthor": "Loading author...",
 "email": "Email",
 "bio": "Biography",
@@ -347,3 +544,4 @@
   "confirmDeleteSubscriber": "Do you really want delete this subscriber?",
   "dateSubscribed": "Date subscribed"
 }
+

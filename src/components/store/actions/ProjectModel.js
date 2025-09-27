@@ -2,31 +2,32 @@ import { db, firebase } from "../../../config/DB";
 import axios from "axios";
 import { addNotification } from "./NotificationsModel";
 
-
+/**
+ * Add a new project
+ */
 export const addProject = (project) => {
   return async (dispatch, getState) => {
     const state = getState();
     const admin = state.auth.isAdmin;
+
     try {
-      // If project has a new photo file
+      // Handle Cloudinary photo upload
       if (project.photo instanceof File) {
         const formData = new FormData();
         formData.append("file", project.photo);
-        formData.append("upload_preset", "projects"); // must exist in Cloudinary dashboard
-        formData.append("folder", "projects"); // simple folder, avoid project.id here
+        formData.append("upload_preset", "projects");
+        formData.append("folder", "projects");
 
         const cloudinaryResponse = await axios.post(
           "https://api.cloudinary.com/v1_1/dzoaynyni/image/upload",
           formData
         );
-
-        // Replace the File object with the Cloudinary URL
         project.photo = cloudinaryResponse.data.secure_url;
       }
 
-      // Remove undefined or null values to avoid Firestore errors
+      // Clean undefined/null values
       const cleanedProject = Object.fromEntries(
-        Object.entries(project).filter(([_, v]) => v !== undefined && v !== null)
+        Object.entries(project).filter(([_, v]) => v != null)
       );
 
       const docRef = await db.collection("projects").add({
@@ -35,7 +36,6 @@ export const addProject = (project) => {
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
       });
 
-
       // Notify admin
       const authorSnap = await db.collection("users").doc(project.authorId).get();
       const author = authorSnap.exists ? authorSnap.data() : null;
@@ -43,17 +43,14 @@ export const addProject = (project) => {
       await dispatch(
         addNotification({
           title: "New Project",
-          message: admin ? `You have published a new project "${cleanedProject.title}".` : `${author?.firstName} ${author?.lastName} published a new project "${cleanedProject.title}".`,
+          message: admin
+            ? `You have published a new project "${cleanedProject.title}".`
+            : `${author?.firstName} ${author?.lastName} published a new project "${cleanedProject.title}".`,
           type: "Publish",
         })
       );
-      
 
-      dispatch({
-        type: "ADD_PROJECT",
-        payload: { id: docRef.id, ...project },
-      });
-
+      dispatch({ type: "ADD_PROJECT", payload: { id: docRef.id, ...cleanedProject } });
       return { success: true };
     } catch (error) {
       dispatch({ type: "PROJECT_ERROR", payload: error.message });
@@ -62,23 +59,23 @@ export const addProject = (project) => {
   };
 };
 
-
+/**
+ * Fetch projects (single or list)
+ */
 export const getProjects = (field, value) => {
   return (dispatch) => {
     const projectsRef = db.collection("projects");
+
     if (field === "id") {
       projectsRef.doc(value).onSnapshot(
         async (doc) => {
-          if (doc.exists) {
-            const data = doc.data();
-            const projectData = {
-              id: doc.id, ...data,
-            };
-            const author = await fetchAuthor(projectData.authorId);
-            dispatch({ type: "GET_PROJECTS", payload: { ...projectData, author } });
-          } else {
+          if (!doc.exists) {
             dispatch({ type: "GET_PROJECTS", payload: null });
+            return;
           }
+          const projectData = { id: doc.id, ...doc.data() };
+          const author = await fetchAuthor(projectData.authorId);
+          dispatch({ type: "GET_PROJECTS", payload: { ...projectData, author } });
         },
         (error) => dispatch({ type: "PROJECT_ERROR", payload: error.message })
       );
@@ -87,60 +84,52 @@ export const getProjects = (field, value) => {
       if (field && value) queryRef = queryRef.where(field, "==", value);
       else queryRef = queryRef.orderBy("updatedAt", "desc");
 
-      queryRef.onSnapshot(async (snapshot) => {
-        const projects = snapshot.docs.map((doc) => {
-          const data = doc.data();
-          return {
-            id: doc.id, ...data,
-          };
-        });
-
-        const uniqueAuthorIds = [...new Set(projects.map((b) => b.authorId))];
-        const authorMap = await fetchAuthors(uniqueAuthorIds);
-
-        const projectsWithAuthors = projects.map((project) => ({
-          ...project,
-          author: authorMap[project.authorId] || null,
-        }));
-
-        const payload =
-          projectsWithAuthors.length === 1 ? projectsWithAuthors[0] : projectsWithAuthors;
-
-        dispatch({ type: "GET_PROJECTS", payload });
-      }, (error) => dispatch({ type: "PROJECT_ERROR", payload: error.message }));
+      queryRef.onSnapshot(
+        async (snapshot) => {
+          const projects = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+          const uniqueAuthorIds = [...new Set(projects.map((p) => p.authorId))];
+          const authorMap = await fetchAuthors(uniqueAuthorIds);
+          const projectsWithAuthors = projects.map((project) => ({
+            ...project,
+            author: authorMap[project.authorId] || null,
+          }));
+          const payload =
+            projectsWithAuthors.length === 1 ? projectsWithAuthors[0] : projectsWithAuthors;
+          dispatch({ type: "GET_PROJECTS", payload });
+        },
+        (error) => dispatch({ type: "PROJECT_ERROR", payload: error.message })
+      );
     }
   };
 };
 
-
+/**
+ * Update a project
+ */
 export const updateProject = (project) => {
   return async (dispatch) => {
     try {
       let updatedProject = { ...project };
 
-      // If project has a new photo file
+      // Cloudinary photo upload
       if (updatedProject.photo instanceof File) {
         const formData = new FormData();
         formData.append("file", updatedProject.photo);
-        formData.append("upload_preset", "projects"); // your unsigned preset
-        formData.append("folder", `projects/${project.id}`); // organize by project ID
+        formData.append("upload_preset", "projects");
+        formData.append("folder", `projects/${project.id}`);
 
         const cloudinaryResponse = await axios.post(
           "https://api.cloudinary.com/v1_1/dzoaynyni/image/upload",
           formData
         );
-
-        // Replace the File object with the Cloudinary URL
         updatedProject.photo = cloudinaryResponse.data.secure_url;
       }
 
-      // Remove undefined or null values to avoid Firestore errors
       const cleanedProject = Object.fromEntries(
-        Object.entries(updatedProject).filter(([_, v]) => v !== undefined && v !== null)
+        Object.entries(updatedProject).filter(([_, v]) => v != null)
       );
 
-      // Update Firestore
-      await firebase.firestore().collection("projects").doc(project.id).update({
+      await db.collection("projects").doc(project.id).update({
         ...cleanedProject,
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
       });
@@ -148,18 +137,15 @@ export const updateProject = (project) => {
       dispatch({ type: "UPDATE_PROJECT", payload: cleanedProject });
       return { success: true };
     } catch (error) {
-      dispatch({ type: "PROJECT_ERROR", error });
+      dispatch({ type: "PROJECT_ERROR", payload: error.message });
       return { success: false, error: error.message };
     }
   };
 };
 
-
-
 /**
- * Delete a project (only author or admin)
+ * Delete a project (author or admin)
  */
-
 export const deleteProject = (id) => {
   return async (dispatch, getState) => {
     try {
@@ -173,23 +159,21 @@ export const deleteProject = (id) => {
       if (!doc.exists) throw new Error("Project not found");
 
       const projectAuthorId = doc.data().authorId;
-
       if (!isAdmin && projectAuthorId !== currentUid) {
         throw new Error("You are not authorized to delete this project");
       }
 
+      // Delete the project document
       await projectRef.delete();
 
       dispatch({ type: "DELETE_PROJECT", payload: id });
-
-      return { success: true }; // ✅ deletion succeeded
+      return { success: true };
     } catch (err) {
       dispatch({ type: "PROJECT_ERROR", payload: err.message });
-      return { success: false, error: err.message }; // ❌ deletion failed
+      return { success: false, error: err.message };
     }
   };
 };
-
 
 /**
  * Helper functions

@@ -11,6 +11,7 @@ const Login = () => {
   const { t } = useTranslation();
   const authError = useSelector((state) => state.auth.authError);
   const auth = firebase.auth().currentUser;
+
   const [toast, setToast] = useState({ message: '', type: '' });
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -29,29 +30,32 @@ const Login = () => {
     if (id === 'password') setPassword(value);
   };
 
-  const togglePassword = () => {
-    setShowPassword((prev) => !prev);
-  };
-    // ----- Validation rules -----
+  const togglePassword = () => setShowPassword((prev) => !prev);
+
   const validate = () => {
     const newErrors = {};
-    if (!email.trim()) newErrors.email =` {t('loginPage.emailRequired')}`;
-    else if (!checkMail(email.trim())) newErrors.email =` {t('loginPage.invalidEmail')}`;
-    if (!password.trim()) newErrors.password =` {t('loginPage.passwordRequired')}`;
-    else if (!checkPassword(password.trim())) newErrors.password = "Password must be at least 8 characters, 1 uppercase, 1 lowercase, 1 number.";
+    if (!email.trim()) newErrors.email = t('loginPage.emailRequired');
+    else if (!checkMail(email.trim())) newErrors.email = t('loginPage.invalidEmail');
+
+    if (!password.trim()) newErrors.password = t('loginPage.passwordRequired');
+    else if (!checkPassword(password.trim())) 
+      newErrors.password = t('loginPage.passwordInvalid');
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validate()) return showToast("Please fix the errors before submitting.", "error");
+    if (!validate()) return showToast(t('loginPage.fixErrors'), 'error');
+
     setLoading(true);
     try {
-     const result = await dispatch(signIn({ email, password }));
-     if (!result.error) {
+      const result = await dispatch(signIn({ email, password }));
+      if (result.success) {
         return <Navigate to="/profile" replace />;
       } else {
-        showToast(`{t('loginPage.error')}`, 'error');
+        showToast(result.error || t('loginPage.error'), 'error');
       }
     } finally {
       setLoading(false);
@@ -59,7 +63,8 @@ const Login = () => {
   };
 
   if (auth) return <Navigate to="/profile" replace />;
-  const errorClass = (field) => (errors[field] ? "input-error-border" : "");
+
+  const errorClass = (field) => (errors[field] ? 'input-error-border' : '');
 
   return (
     <div id="main" className="login-page">
@@ -119,7 +124,7 @@ const Login = () => {
                         {t('loginPage.loginBtn')}
                       </button>
                     ) : (
-                      <button className="btn w-100 " type="button" disabled>
+                      <button className="btn w-100" type="button" disabled>
                         <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                         <span className="ms-2">{t('loginPage.loggingInBtn')}</span>
                       </button>
@@ -130,17 +135,20 @@ const Login = () => {
                     <p>
                       {t('loginPage.noAccount')}
                       <NavLink className="signUp-link ms-1" to="/register">
-                       {t('loginPage.registerLink')}
+                        {t('loginPage.registerLink')}
                       </NavLink>
                     </p>
                   </div>
                 </form>
               </div>
             </div>
+
             {/* Toast Notification */}
             {toast.message && (
               <div
-                className={`toast-notification ${toast.type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white p-3 rounded mt-3`}
+                className={`toast-notification ${
+                  toast.type === 'success' ? 'bg-green-500' : 'bg-red-500'
+                } text-white p-3 rounded mt-3`}
                 role="alert"
               >
                 {toast.message}

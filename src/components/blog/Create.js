@@ -11,7 +11,7 @@ import { checkName, checkString } from '../../validation/validate';
 const CreateBlog = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth.user);
-  const categories = useSelector((state) => state.category.categories)
+  const categories = useSelector((state) => state.category.categories);
   const { t } = useTranslation();
 
   const [title_en, setTitle_en] = useState('');
@@ -31,38 +31,38 @@ const CreateBlog = () => {
   const validateBlog = () => {
     const newErrors = {};
 
-    if (!title_en.trim()) newErrors.title_en = t("Title (English) is required");
-    else if (!checkName(title_en.trim())) newErrors.title_en = t("Invalid name");
+    if (!title_en.trim()) newErrors.title_en = t('createBlogPage.titleRequired');
+    else if (!checkName(title_en.trim())) newErrors.title_en = t('createBlogPage.invalidTitle');
 
-    if (!title_fr.trim()) newErrors.title_fr = t("Title (French) is required");
-    else if (!checkName(title_fr.trim())) newErrors.title_fr = t("Invalid name");
+    if (!title_fr.trim()) newErrors.title_fr = t('createBlogPage.titleRequired');
+    else if (!checkName(title_fr.trim())) newErrors.title_fr = t('createBlogPage.invalidTitle');
 
-    if (!content_en.replace(/<[^>]+>/g, '').trim()) newErrors.content_en = t("Content (English) is required");
-    else if (!checkString(content_en.replace(/<[^>]+>/g, '').trim())) newErrors.content_en = t("Invalid content");
+    if (!content_en.replace(/<[^>]+>/g, '').trim()) newErrors.content_en = t('createBlogPage.contentRequired');
+    else if (!checkString(content_en.replace(/<[^>]+>/g, '').trim())) newErrors.content_en = t('createBlogPage.invalidContent');
 
-    if (!content_fr.replace(/<[^>]+>/g, '').trim()) newErrors.content_fr = t("Content (French) is required");
-    else if (!checkString(content_fr.replace(/<[^>]+>/g, '').trim())) newErrors.content_fr = t("Invalid content");
+    if (!content_fr.replace(/<[^>]+>/g, '').trim()) newErrors.content_fr = t('createBlogPage.contentRequired');
+    else if (!checkString(content_fr.replace(/<[^>]+>/g, '').trim())) newErrors.content_fr = t('createBlogPage.invalidContent');
 
-    if (!category.trim()) newErrors.category = t("Category is required");
+    if (!category.trim()) newErrors.category = t('createBlogPage.categoryRequired');
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+
   useEffect(() => {
     dispatch(getCategory);
   }, [dispatch]);
-  // Ensure categories is always an array
+
   const safeCategories = Array.isArray(categories)
     ? categories
     : categories
-    ? [categories] // single object case
-    : []; // null/undefined case
+    ? [categories]
+    : [];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!auth) return showToast(t("User info not loaded"), "error");
-    if (!validateBlog()) return showToast(t("Fix errors before submitting"), "error");
+    if (!auth) return showToast(t('createBlogPage.userNotLoaded'), 'error');
+    if (!validateBlog()) return showToast(t('createBlogPage.fixErrors'), 'error');
 
     setLoading(true);
     const blogData = {
@@ -75,7 +75,7 @@ const CreateBlog = () => {
     try {
       const result = await dispatch(addBlog(blogData));
       if (result?.success) {
-        showToast(t("Blog added successfully"), "success");
+        showToast(t('createBlogPage.blogAddedSuccess'), 'success');
         setTitle_en('');
         setTitle_fr('');
         setContent_en('');
@@ -83,34 +83,28 @@ const CreateBlog = () => {
         setCategory('');
         setErrors({});
       } else {
-        showToast(result?.error || t("Failed to add blog"), "error");
+        showToast(result?.error || t('createBlogPage.blogAddFailed'), 'error');
       }
     } catch (err) {
-      showToast(err.message || t("An error occurred"), "error");
+      showToast(err.message || t('createBlogPage.blogAddFailed'), 'error');
     } finally {
       setLoading(false);
     }
   };
 
-  // ====== Quill Fonts & Sizes ======
+  // Quill Fonts & Sizes
   const Font = Quill.import('formats/font');
   Font.whitelist = ['arial', 'roboto', 'raleway', 'montserrat', 'lato', 'rubik'];
   Quill.register(Font, true);
 
   const Size = Quill.import('attributors/style/size');
   Size.whitelist = [
-    '9px', '10px', '11px',
-    '12px', '14px', '16px',
-    '18px', '20px', '22px',
-    '24px', '26px', '28px'
+    '9px','10px','11px','12px','14px','16px','18px','20px','22px','24px','26px','28px'
   ];
 
-
-
-  // ====== Quill Modules & Formats ======
   const modules = {
     toolbar: [
-      [{ font: [] }, { size:Size.whitelist }],
+      [{ font: [] }, { size: Size.whitelist }],
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
       [{ script: 'sub' }, { script: 'super' }],
       ['bold', 'italic', 'underline', 'strike'],
@@ -125,52 +119,55 @@ const CreateBlog = () => {
   };
 
   const formats = [
-    'font', 'size', 'header',
-    'bold', 'italic', 'underline', 'strike', 'blockquote',
-    'color', 'background',
-    'script', 'list', 'bullet', 'check', 'indent',
-    'direction', 'align',
-    'link', 'image', 'video', 'formula'
+    'font','size','header',
+    'bold','italic','underline','strike','blockquote',
+    'color','background',
+    'script','list','bullet','check','indent',
+    'direction','align',
+    'link','image','video','formula'
   ];
-  if(!auth) return <Navigate to="/login" replace />;
-  const errorClass = (field) => (errors[field] ? "input-error-border" : "");
+
+  if (!auth) return <Navigate to="/login" replace />;
+
+  const errorClass = (field) => (errors[field] ? 'input-error-border' : '');
+
   return (
     <div className="form-section">
       <div className="card border-0 shadow-sm">
-        <h2>{t("New Blog")}</h2>
+        <h2>{t('createBlogPage.newBlog')}</h2>
         <div className="card-body">
           <form onSubmit={handleSubmit} autoComplete="off">
 
             {/* Title English */}
-             <div className={`input-box ${errorClass('title_en')}`}>
+            <div className={`input-box ${errorClass('title_en')}`}>
               <input
                 type="text"
                 value={title_en}
                 onChange={(e) => setTitle_en(e.target.value)}
                 disabled={loading}
               />
-              <label>{t("Title (English)")}</label>
+              <label>{t('createBlogPage.titleEn')}</label>
               {errors.title_en && <p className="input-error">{errors.title_en}</p>}
             </div>
 
             {/* Title French */}
-             <div className={`input-box ${errorClass('title_fr')}`}>
+            <div className={`input-box ${errorClass('title_fr')}`}>
               <input
                 type="text"
                 value={title_fr}
                 onChange={(e) => setTitle_fr(e.target.value)}
                 disabled={loading}
               />
-              <label>{t("Title (French)")}</label>
+              <label>{t('createBlogPage.titleFr')}</label>
               {errors.title_fr && <p className="input-error">{errors.title_fr}</p>}
             </div>
 
             {/* Category */}
-             <div className={`input-box ${errorClass('category')}`}>
+            <div className={`input-box ${errorClass('category')}`}>
               <select value={category} onChange={(e) => setCategory(e.target.value)} disabled={loading}>
-                <option key={category.id } value=""></option>
-                {safeCategories.map((category) => (
-                  <option key={category.id } value={category.name}>{category.name}</option>
+                <option value="">{t('createBlogPage.category')}</option>
+                {safeCategories.map((cat) => (
+                  <option key={cat.id} value={cat.name}>{cat.name}</option>
                 ))}
               </select>
               {errors.category && <p className="input-error">{errors.category}</p>}
@@ -178,7 +175,7 @@ const CreateBlog = () => {
 
             {/* Content English */}
             <div className="input-box my-3">
-              <p>{t("Content (English)")}</p>
+              <p>{t('createBlogPage.contentEn')}</p>
               <div className="quill-wrapper">
                 <ReactQuill
                   theme="snow"
@@ -194,7 +191,7 @@ const CreateBlog = () => {
 
             {/* Content French */}
             <div className="input-box my-3">
-              <p>{t("Content (French)")}</p>
+              <p>{t('createBlogPage.contentFr')}</p>
               <div className="quill-wrapper">
                 <ReactQuill
                   theme="snow"
@@ -212,12 +209,12 @@ const CreateBlog = () => {
             <div className="input-box">
               {!loading ? (
                 <button className="btn btn-sm w-100" type="submit">
-                  {t("Publish")}
+                  {t('createBlogPage.publish')}
                 </button>
               ) : (
                 <button className="btn btn-sm w-100" type="button" disabled>
                   <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                  <span> {t("Publishing")}</span>
+                  <span> {t('createBlogPage.publishing')}</span>
                 </button>
               )}
             </div>

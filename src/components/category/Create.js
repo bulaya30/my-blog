@@ -3,61 +3,64 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { addCategory } from '../store/actions/categoryModel';
 import { checkName } from '../../validation/validate';
+import { useTranslation } from 'react-i18next';
 
 const CreateCategory = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const [name, setName] = useState('');
   const [toast, setToast] = useState({ message: '', type: '' });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
-   const admin = useSelector((state) => state.auth.isAdmin);
-   const auth = useSelector((state) => state.auth.user);
+
+  const admin = useSelector((state) => state.auth.isAdmin);
+  const auth = useSelector((state) => state.auth.user);
 
   const showToast = (message, type = 'error') => {
     setToast({ message, type });
-    setTimeout(() => setToast({ message: '', type: '' }), 8000);
+    setTimeout(() => setToast({ message: '', type: '' }), 5000);
   };
-  // ----- Validation rules -----
-  const validateBlog = () => {
+
+  const validateCategory = () => {
     const newErrors = {};
-    if (!name.trim()) newErrors.name = "Category name is required.";
-    if (!checkName(name.trim())) newErrors.name = "Invalid category name.";
+    if (!name.trim()) newErrors.name = t("createCategory.nameRequired");
+    else if (!checkName(name.trim())) newErrors.name = t("createCategory.nameInvalid");
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  }
-
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!admin) return showToast(t("createCategory.notAllowed"));
 
-    if (!admin) return showToast("Not allowed");
-
-    if (!validateBlog()) return showToast("Invalid category name\nPlease fix the errors before submitting.", 'error');
+    if (!validateCategory())
+      return showToast(t("createCategory.fixErrors"), "error");
 
     setLoading(true);
-
     try {
       const result = await dispatch(addCategory({ name: name.trim() }));
       if (!result.error) {
-        showToast('Category added successfully!', 'success');
-        setName(''); // reset input
+        showToast(t("createCategory.success"), "success");
+        setName('');
       } else {
-        showToast('Failed to add category', 'error');
+        showToast(result.error, "error");
       }
     } catch (err) {
-      showToast('An error occurred', 'error');
+      showToast(t("createCategory.error"), "error");
     } finally {
       setLoading(false);
     }
   };
-   if(!auth) return <Navigate to="/login" replace />;
+
+  if (!auth) return <Navigate to="/login" replace />;
+
   const errorClass = (field) => (errors[field] ? "input-error-border" : "");
 
   return (
     <div className="form-section">
       <div className="card border-0 shadow-sm">
-        <h2>New Category</h2>
+        <h2>{t("createCategory.newCategory")}</h2>
         <div className="card-body">
           <form autoComplete="off" onSubmit={handleSubmit}>
             <div className={`input-box ${errorClass('name')}`}>
@@ -68,19 +71,19 @@ const CreateCategory = () => {
                 required
                 onChange={(e) => setName(e.target.value)}
               />
-              <label htmlFor="name">Name</label>
+              <label htmlFor="name">{t("createCategory.name")}</label>
               {errors.name && <p className="input-error">{errors.name}</p>}
             </div>
 
             <div className="input-box">
               {!loading ? (
                 <button className="btn btn-sm w-100" type="submit">
-                  Add
+                  {t("createCategory.add")}
                 </button>
               ) : (
                 <button className="btn btn-sm w-100" type="button" disabled>
                   <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                  <span> Adding...</span>
+                  <span> {t("createCategory.adding")}</span>
                 </button>
               )}
             </div>
@@ -88,7 +91,6 @@ const CreateCategory = () => {
         </div>
       </div>
 
-      {/* Toast Notification */}
       {toast.message && (
         <div
           className={`toast-notification ${toast.type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white p-3 rounded mt-3`}

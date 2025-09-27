@@ -4,31 +4,32 @@ import { connect } from 'react-redux';
 import { getCategory, deleteCategory } from '../store/actions/categoryModel';
 import { useTranslation } from 'react-i18next';
 
-const Category = ({ categories, getCategory, auth, deleteCategory }) => {
+const Category = ({ categories, getCategory}) => {
   const { t } = useTranslation();
 
   useEffect(() => {
     getCategory();
   }, [getCategory]);
-
   // Ensure categories is always an array
   const safeCategories = Array.isArray(categories)
-    ? categories
-    : categories
-    ? [categories] // single object case
-    : []; // null/undefined case
-  if(!categories) {
+  ? categories
+  : categories
+  ? [categories]
+  : [];
+  
+  if (!categories) {
     return (
       <div className="accordion accordion-flush" id="accordionFlushExample">
-        <p>No Category available</p>
+        <p>{t('categoryPage.noCategory')}</p>
       </div>
     );
   }
+
   if (safeCategories.length === 0) {
-   return (
+    return (
       <div className="text-start">
         <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
+          <span className="visually-hidden">{t('categoryPage.loading')}</span>
         </div>
       </div>
     );
@@ -41,7 +42,9 @@ const Category = ({ categories, getCategory, auth, deleteCategory }) => {
         {safeCategories.map((category) => (
           <li key={category.id}>
             <i className="bx bx-chevron-right"></i>
-            <NavLink to={`/categories/${category.id}`}>{category.name}</NavLink>
+            <NavLink to={`/categories/${category.id}`}>
+              {category.name}
+            </NavLink>
           </li>
         ))}
       </ul>
@@ -49,18 +52,14 @@ const Category = ({ categories, getCategory, auth, deleteCategory }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    categories: state.category.categories || [],
-    auth: state.auth.user?.profile || null,
-  };
-};
+const mapStateToProps = (state) => ({
+  categories: state.category.categories || [],
+  auth: state.auth.user?.profile || null,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    deleteCategory: (id) => dispatch(deleteCategory(id)),
-    getCategory: () => dispatch(getCategory()),
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  deleteCategory: (id) => dispatch(deleteCategory(id)),
+  getCategory: () => dispatch(getCategory()),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Category);

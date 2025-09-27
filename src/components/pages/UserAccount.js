@@ -3,12 +3,30 @@ import { NavLink, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import UpdateProfile from './Update';
 import Password from '../auth/Password';
+import { useTranslation } from 'react-i18next';
 
 const Account = () => {
-  const user = useSelector((state) => state.auth.user);
+  const { t } = useTranslation();
+  const user = useSelector((state) => state.auth.user.profile);
   const [activeTab, setActiveTab] = useState('overview');
 
-   if (!user) return <Navigate to="/login" replace />;
+  if (!user) return <Navigate to="/login" replace />;
+
+  const overviewFields = [
+    { label: t('account.fullName', 'Full Name'), value: `${user.firstName} ${user.lastName}` },
+    { label: t('account.company', 'Company'), value: user.company },
+    { label: t('account.country', 'Country'), value: user.country },
+    { label: t('account.address', 'Address'), value: user.address },
+    { label: t('account.phone', 'Phone'), value: user.phone },
+    { label: t('account.email', 'Email'), value: user.email }
+  ];
+
+  const socialLinks = [
+    { icon: 'twitter', url: user.twitter },
+    { icon: 'facebook', url: user.facebook },
+    { icon: 'instagram', url: user.instagram },
+    { icon: 'linkedin', url: user.linkedin }
+  ];
 
   return (
     <div className="row">
@@ -20,90 +38,94 @@ const Account = () => {
             <h2>{user.firstName} {user.lastName}</h2>
             <h3>{user.title}</h3>
             <div className="social-links mt-2">
-              <NavLink to="#" className="twitter"><i className="bi bi-twitter"></i></NavLink>
-              <NavLink to="#" className="facebook"><i className="bi bi-facebook"></i></NavLink>
-              <NavLink to="#" className="instagram"><i className="bi bi-instagram"></i></NavLink>
-              <NavLink to="#" className="linkedin"><i className="bi bi-linkedin"></i></NavLink>
+              {socialLinks.map((link) => (
+                <NavLink key={link.icon} to={link.url || '#'} className={link.icon}>
+                  <i className={`bi bi-${link.icon}`}></i>
+                </NavLink>
+              ))}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Right column: Tabs for Overview / Edit / Password */}
+      {/* Right column: Tabs */}
       <div className="col-lg-8 col-md-12 col-sm-12">
         <div className="card border-0 shadow-sm">
           <div className="card-body pt-3">
-            <ul className="nav nav-underline">
-              <li className="nav-item">
+            <ul className="nav nav-underline" role="tablist">
+              <li className="nav-item" role="presentation">
                 <button
+                  id="overview-tab"
+                  role="tab"
+                  aria-controls="overview-panel"
+                  aria-selected={activeTab === 'overview'}
                   className={`nav-link ${activeTab === 'overview' ? 'active' : ''}`}
                   onClick={() => setActiveTab('overview')}
                 >
-                  Overview
+                  {t('account.tabs.overview', 'Overview')}
                 </button>
               </li>
-              <li className="nav-item">
+              <li className="nav-item" role="presentation">
                 <button
+                  id="edit-tab"
+                  role="tab"
+                  aria-controls="edit-panel"
+                  aria-selected={activeTab === 'edit'}
                   className={`nav-link ${activeTab === 'edit' ? 'active' : ''}`}
                   onClick={() => setActiveTab('edit')}
                 >
-                  Edit Profile
+                  {t('account.tabs.editProfile', 'Edit Profile')}
                 </button>
               </li>
-              <li className="nav-item">
+              <li className="nav-item" role="presentation">
                 <button
+                  id="password-tab"
+                  role="tab"
+                  aria-controls="password-panel"
+                  aria-selected={activeTab === 'password'}
                   className={`nav-link ${activeTab === 'password' ? 'active' : ''}`}
                   onClick={() => setActiveTab('password')}
                 >
-                  Change Password
+                  {t('account.tabs.changePassword', 'Change Password')}
                 </button>
               </li>
             </ul>
 
             <div className="tab-content pt-2">
-              {/* Profile Overview */}
+              {/* Overview Tab */}
               <div
+                id="overview-panel"
+                role="tabpanel"
+                aria-labelledby="overview-tab"
                 className={`tab-pane fade profile-overview ${activeTab === 'overview' ? 'show active' : ''}`}
               >
-                <h5 className="card-title">About</h5>
+                <h5 className="card-title">{t('account.about', 'About')}</h5>
                 <p className="small fst-italic">{user.about}</p>
 
-                <h5 className="card-title">Profile Details</h5>
-                <div className="row">
-                  <div className="col-lg-3 col-md-4 label">Full Name</div>
-                  <div className="col-lg-9 col-md-8">{user.firstName} {user.lastName}</div>
-                </div>
-                <div className="row">
-                  <div className="col-lg-3 col-md-4 label">Company</div>
-                  <div className="col-lg-9 col-md-8">{user.company}</div>
-                </div>
-                <div className="row">
-                  <div className="col-lg-3 col-md-4 label">Country</div>
-                  <div className="col-lg-9 col-md-8">{user.country}</div>
-                </div>
-                <div className="row">
-                  <div className="col-lg-3 col-md-4 label">Address</div>
-                  <div className="col-lg-9 col-md-8">{user.address}</div>
-                </div>
-                <div className="row">
-                  <div className="col-lg-3 col-md-4 label">Phone</div>
-                  <div className="col-lg-9 col-md-8">{user.phone}</div>
-                </div>
-                <div className="row">
-                  <div className="col-lg-3 col-md-4 label">Email</div>
-                  <div className="col-lg-9 col-md-8">{user.email}</div>
-                </div>
+                <h5 className="card-title">{t('account.profileDetails', 'Profile Details')}</h5>
+                {overviewFields.map(field => (
+                  <div className="row" key={field.label}>
+                    <div className="col-lg-3 col-md-4 label">{field.label}</div>
+                    <div className="col-lg-9 col-md-8">{field.value}</div>
+                  </div>
+                ))}
               </div>
 
-              {/* Edit Profile */}
+              {/* Edit Profile Tab */}
               <div
+                id="edit-panel"
+                role="tabpanel"
+                aria-labelledby="edit-tab"
                 className={`tab-pane fade profile-edit pt-3 ${activeTab === 'edit' ? 'show active' : ''}`}
               >
                 <UpdateProfile />
               </div>
 
-              {/* Change Password */}
+              {/* Change Password Tab */}
               <div
+                id="password-panel"
+                role="tabpanel"
+                aria-labelledby="password-tab"
                 className={`tab-pane fade profile-edit pt-3 ${activeTab === 'password' ? 'show active' : ''}`}
               >
                 <Password />

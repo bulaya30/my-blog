@@ -7,17 +7,15 @@ import Footer from "../home/footer";
 
 const DataProjects = () => {
   const { t, i18n } = useTranslation();
-  const lang = i18n.language.startsWith("fr") ? "fr" : "en";
+  const lang = i18n.language.startsWith("fr") ? "fr" : "en"; // Determine language
   const dispatch = useDispatch();
-  const st = useSelector((state) => state);
-  console.log(st)
   const [loading, setLoading] = useState(true);
   const projects = useSelector((state) => state.project.projects);
 
   useEffect(() => {
     const fetchProjects = async () => {
       setLoading(true);
-      await dispatch(getProjects()); // Fetch your projects from Firestore
+      await dispatch(getProjects()); // Fetch projects from Firestore
       setLoading(false);
     };
     fetchProjects();
@@ -27,39 +25,39 @@ const DataProjects = () => {
 
   return (
     <>
-        <div className="container my-5">
+      <div className="container my-5">
         <section className="text-center mb-5">
-            <h1>{t("dataProjectsPage.title")}</h1>
-            <p className="lead">{t("dataProjectsPage.subtitle")}</p>
+          <h1>{t("dataProjectsPage.title")}</h1>
+          <p className="lead">{t("dataProjectsPage.subtitle")}</p>
         </section>
 
         <div className="row">
-            {loading ? (
+          {loading ? (
             <div className="col-12 text-center">
-                <div className="spinner-border text-primary" role="status">
-                <span className="visually-hidden">Loading...</span>
-                </div>
+              <div className="spinner-border text-primary" role="status">
+                <span className="visually-hidden">{t("dataProjectsPage.loading")}</span>
+              </div>
             </div>
-            ) : safeProjects.length === 0 ? (
+          ) : safeProjects.length === 0 ? (
             <div className="col-12 text-center fw-bold h3">
-                {t("dataProjectsPage.noProjects")}
+              {t("dataProjectsPage.noProjects")}
             </div>
-            ) : (
+          ) : (
             safeProjects.map((project) => (
-                <div key={project.id} className="col-md-4 mb-4">
+              <div key={project.id} className="col-md-4 mb-4">
                 <div className="card norrechel-card p-3 h-100">
-                    <h3>{project.title[lang]}</h3>
-                    <p>{project.description[lang]}</p>
-                    <NavLink to={`/projects/${project.id}`} className="read-more">
+                  <h3>{project.title[lang]}</h3>
+                  <p>{project.description[lang]}</p>
+                  <NavLink to={`/projects/${project.id}`} className="read-more">
                     {t("dataProjectsPage.viewProject")}
-                    </NavLink>
+                  </NavLink>
                 </div>
-                </div>
+              </div>
             ))
-            )}
+          )}
         </div>
-        </div>
-        <Footer />
+      </div>
+      <Footer />
     </>
   );
 };

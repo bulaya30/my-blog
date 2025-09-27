@@ -55,7 +55,6 @@ const SignedIn = ({ auth, profile, signOut }) => {
 const mapStateToProps = (state) => { 
   return{
     profile: state.auth.user.profile,
-    // auth: state.auth.user,
   }
 };
 

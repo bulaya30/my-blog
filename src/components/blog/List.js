@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 
 const Blog = () => {
   const dispatch = useDispatch();
-  // const { t } = useTranslation();
+  const { t } = useTranslation();
 
   const blogs = useSelector((state) => state.blog.blogs || []);
 
@@ -17,24 +17,25 @@ const Blog = () => {
 
   // Ensure blogs is always an array
   const safeBlogs = Array.isArray(blogs) ? blogs : blogs ? [blogs] : [];
-
-  if (!blogs) {
-    return (
-      <div className="accordion accordion-flush" id="accordionFlushExample">
-        <p>No Blog available</p>
-      </div>
-    );
-  }
+  // console.log(blogs.Array)
 
   if (safeBlogs.length === 0) {
     return (
-      <div className="text-start">
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
+      <div className="accordion accordion-flush" id="accordionFlushExample">
+        <p>{t("blog.noBlogAvailable")}</p>
       </div>
     );
   }
+
+  // if (safeBlogs.length === 0) {
+  //   return (
+  //     <div className="text-start">
+  //       <div className="spinner-border text-primary" role="status">
+  //         <span className="visually-hidden">{t("loading")}</span>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="accordion accordion-flush" id="accordionFlushExample">

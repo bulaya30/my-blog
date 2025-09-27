@@ -29,35 +29,27 @@ export default function About() {
 
           {/* Who I Am */}
           <section className="about-content py-5">
-            <div className="row align-items-center">
+            <div className="row">
               <div className="col-md-6 mb-4 mb-md-0 justify-content-center align-items-center">
                 {/* Optional Image */}
                 <img
-                  src={ "logo.png" }
+                  src={ "norbert.png" }
                   alt={"Norrechel"}
                   className="m-auto"
-                  style={{ width: "240px", height: "240px", objectFit: "cover" }}
                 />
               </div>
-              <div className="col-md-6">
-                <h2 className="mb-3">{t('aboutPage.whoAmITitle')}</h2>
+              <div className="col-md-6 about-details">
+                <h2 className="my-3">{t('aboutPage.whoAmITitle')}</h2>
                 <p>{t('aboutPage.whoAmIText')}</p>
+                {/* My Mission */}
+                <section className="about-content">
+                  <h2 className="mb-3">{t('aboutPage.missionTitle')}</h2>
+                  <p>{t('aboutPage.missionText')}</p>
+                </section>
               </div>
             </div>
           </section>
 
-          {/* My Mission */}
-          <section className="about-content py-5 bg-light">
-            <div className="row align-items-center">
-              <div className="col-md-6 mb-4 mb-md-0">
-                {/* Optional Image */}
-              </div>
-              <div className="col-md-6">
-                <h2 className="mb-3">{t('aboutPage.missionTitle')}</h2>
-                <p>{t('aboutPage.missionText')}</p>
-              </div>
-            </div>
-          </section>
 
           {/* What I Do */}
           <section className="about-content py-5">

@@ -2,11 +2,12 @@ import firebase from "../../../config/DB";
 import { addNotification } from "./NotificationsModel";
 import { ADMIN_EMAILS } from "../../../config/Admin.config";
 
-// signIn
+/**
+ * Sign In
+ */
 export const signIn = (credentials) => {
   return async (dispatch) => {
     try {
-      // 1️⃣ Authenticate with Firebase Auth
       const res = await firebase
         .auth()
         .signInWithEmailAndPassword(credentials.email, credentials.password);
@@ -14,7 +15,6 @@ export const signIn = (credentials) => {
       const loggedInUser = res.user;
       const uid = loggedInUser.uid;
 
-      // 2️⃣ Get Firestore profile
       const userDocRef = firebase.firestore().collection("users").doc(uid);
       const doc = await userDocRef.get();
 
@@ -24,39 +24,44 @@ export const signIn = (credentials) => {
 
       const profileData = { id: uid, ...doc.data() };
 
-      // 3️⃣ Create final user object (auth + profile)
       const fullUser = {
         ...loggedInUser.toJSON(),
         profile: profileData,
       };
 
-      // 4️⃣ Dispatch user + admin role
       dispatch({ type: "LOGIN_SUCCESS", payload: fullUser });
       dispatch({ type: "SET_ADMIN", payload: profileData.role === "admin" });
 
       return { success: true };
     } catch (err) {
-      dispatch({ type: "LOGIN_ERROR", err });
+      dispatch({ type: "LOGIN_ERROR", payload: err.message });
       return { success: false, error: err.message };
     }
   };
 };
 
-// Sign Out
+/**
+ * Sign Out
+ */
 export const signOut = () => {
   return async (dispatch) => {
     try {
       await firebase.auth().signOut();
-      dispatch({ type: 'SIGNOUT_SUCCESS' });
+      dispatch({ type: "SIGNOUT_SUCCESS" });
+      return { success: true };
     } catch (err) {
-      dispatch({ type: 'SIGNOUT_ERROR', err });
+      dispatch({ type: "SIGNOUT_ERROR", payload: err.message });
+      return { success: false, error: err.message };
     }
   };
 };
+
+/**
+ * Sign Up
+ */
 export const signUp = (newUser) => {
   return async (dispatch) => {
     try {
-      // 1️⃣ Create user in Firebase Auth
       const res = await firebase
         .auth()
         .createUserWithEmailAndPassword(newUser.email, newUser.password);
@@ -64,12 +69,10 @@ export const signUp = (newUser) => {
       const createdUser = res.user;
       const uid = createdUser.uid;
 
-      // 2️⃣ Decide role (admin/user)
       const role = ADMIN_EMAILS.includes(newUser.email.toLowerCase())
         ? "admin"
         : "user";
 
-      // 3️⃣ Create Firestore profile document
       const userDocRef = firebase.firestore().collection("users").doc(uid);
       const profileData = {
         firstName: newUser.fname,
@@ -91,17 +94,14 @@ export const signUp = (newUser) => {
 
       await userDocRef.set(profileData);
 
-      // 4️⃣ Create final user object
       const fullUser = {
-        ...createdUser.toJSON(), // Firebase auth fields
-        profile: { id: uid, ...profileData }, // Firestore profile
+        ...createdUser.toJSON(),
+        profile: { id: uid, ...profileData },
       };
 
-      // 5️⃣ Dispatch once → keeps state consistent
       dispatch({ type: "SIGNUP_SUCCESS", payload: fullUser });
       dispatch({ type: "SET_ADMIN", payload: role === "admin" });
 
-      // 6️⃣ Send admin notification
       await dispatch(
         addNotification({
           title: "New User",
@@ -112,9 +112,8 @@ export const signUp = (newUser) => {
 
       return { success: true };
     } catch (err) {
-      dispatch({ type: "SIGNUP_ERROR", err });
+      dispatch({ type: "SIGNUP_ERROR", payload: err.message });
       return { success: false, error: err.message };
     }
   };
 };
-

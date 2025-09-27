@@ -1,6 +1,9 @@
 import { db, firebase } from '../../../config/DB';
 import { addNotification } from './NotificationsModel';
 
+/**
+ * Add a contact message
+ */
 export const addContact = (formData) => {
   return async (dispatch) => {
     dispatch({ type: 'CONTACT_REQUEST' });
@@ -9,19 +12,25 @@ export const addContact = (formData) => {
         ...formData,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       });
+
       await dispatch(addNotification({
         title: "New Subscriber",
         message: `A new user ${formData.email} just contacted.`,
         type: "Contact",
       }));
+
       dispatch({ type: 'CONTACT_SUCCESS', payload: formData });
+      return { success: true, contact: formData, error: null };
     } catch (error) {
       dispatch({ type: 'CONTACT_ERROR', payload: error.message });
+      return { success: false, error: error.message };
     }
   };
 };
 
-// 👉 New action to fetch all messages
+/**
+ * Fetch all contacts/messages
+ */
 export const fetchContacts = () => {
   return async (dispatch) => {
     dispatch({ type: 'CONTACTS_REQUEST' });
@@ -36,8 +45,10 @@ export const fetchContacts = () => {
       }));
 
       dispatch({ type: 'CONTACTS_SUCCESS', payload: contacts });
+      return { success: true, contacts, error: null };
     } catch (error) {
       dispatch({ type: 'CONTACTS_ERROR', payload: error.message });
+      return { success: false, error: error.message };
     }
   };
 };
