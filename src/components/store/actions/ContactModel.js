@@ -11,6 +11,7 @@ export const addContact = (formData) => {
       await db.collection('contacts').add({
         ...formData,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
       });
 
       await dispatch(addNotification({

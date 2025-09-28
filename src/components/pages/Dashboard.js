@@ -5,11 +5,18 @@ import { useTranslation } from 'react-i18next';
 import Notifications from '../Notification/Notifications';
 
 const Dashboard = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const st = useSelector((state) => state);
+  console.log(st)
   const user = useSelector((state) => state.auth.user);
+  const subscribers = useSelector((state) => state.subscriber.subscribers);
+  const contacts = useSelector((state) => state.contact.messages);
   const [visitsFilter, setVisitsFilter] = useState('Today');
   const [commentsFilter, setCommentsFilter] = useState('Today');
   const [recentFilter, setRecentFilter] = useState('Today');
+
+  const safeSubscribers = Array.isArray(subscribers) ? subscribers : subscribers ? [subscribers] : [];
+  const safeContacts = Array.isArray(contacts) ? contacts : contacts ? [contacts] : [];
 
   // Translated periods
   const periods = [t('dashboard.today'), t('dashboard.thisMonth'), t('thisYear')];
@@ -44,13 +51,11 @@ const Dashboard = () => {
                 </div>
                 <div className="card-body">
                   <h5 className="card-title">
-                    {t('visits')} <span>| {visitsFilter}</span>
+                    {t('dashboard.subscribers')} <span>| {visitsFilter}</span>
                   </h5>
                   <div className="d-flex align-items-center">
                     <div className="ps-3">
-                      <h6>145</h6>
-                      <span className="text-success small pt-1 fw-bold">12%</span>
-                      <span className="text-muted small pt-2 ps-1">{t('increase')}</span>
+                      <h6>{safeSubscribers.length}</h6>
                     </div>
                   </div>
                 </div>
@@ -82,13 +87,11 @@ const Dashboard = () => {
                 </div>
                 <div className="card-body">
                   <h5 className="card-title">
-                    {t('comments')} <span>| {commentsFilter}</span>
+                    {t('contact')} <span>| {commentsFilter}</span>
                   </h5>
                   <div className="d-flex align-items-center">
                     <div className="ps-3">
-                      <h6>25</h6>
-                      <span className="text-success small pt-1 fw-bold">5%</span>
-                      <span className="text-muted small pt-2 ps-1">{t('increase')}</span>
+                      <h6>{safeContacts.length}</h6>
                     </div>
                   </div>
                 </div>
@@ -120,42 +123,46 @@ const Dashboard = () => {
                 </div>
                 <div className="card-body">
                   <h5 className="card-title">
-                    {t('recentViewed')} <span>| {recentFilter}</span>
+                    {t('dashboard.contact')} <span>| {recentFilter}</span>
                   </h5>
                   <table className="table table-borderless datatable">
                     <thead>
                       <tr>
-                        <th scope="col">{t('dashboard.visitor')}</th>
-                        <th scope="col">{t('dashboard.article')}</th>
+                        <th scope="col">{t('dashboard.email')}</th>
+                        <th scope="col">{t('dashboard.message')}</th>
                         <th scope="col">{t('dashboard.date')}</th>
                         <th scope="col">{t('dashboard.time')}</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>Brandon Jacob</td>
-                        <td><a href="/blog">Self-Mastery</a></td>
-                        <td>09/July/2025</td>
-                        <td>03:20 PM</td>
-                      </tr>
-                      <tr>
-                        <td>Bridie Kessler</td>
-                        <td><a href="/blog">Time Management</a></td>
-                        <td>05/July/2025</td>
-                        <td>11:45 AM</td>
-                      </tr>
-                      <tr>
-                        <td>Jack Ma</td>
-                        <td><a href="/blog">Developing a strong Mindset</a></td>
-                        <td>03/July/2025</td>
-                        <td>10:30 AM</td>
-                      </tr>
-                      <tr>
-                        <td>John Falase</td>
-                        <td><a href="/blog">Leadership</a></td>
-                        <td>01/July/2025</td>
-                        <td>02:30 PM</td>
-                      </tr>
+                      {safeContacts.map((contact, index) => {
+                        const createdAtDate = contact.createdAt?.toDate ? contact.createdAt.toDate() : null;
+
+                        const formattedDate = createdAtDate
+                          ? createdAtDate.toLocaleDateString(i18n.language, {
+                              day: "2-digit",
+                              month: "long",
+                              year: "numeric",
+                            })
+                          : t("acceuilPage.unknownDate");
+
+                        const formattedTime = createdAtDate
+                          ? createdAtDate.toLocaleTimeString(i18n.language, {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                              hour12: true,
+                            })
+                          : "";
+
+                        return (
+                          <tr key={index}>
+                            <td>{contact.email}</td>
+                            <td>{contact.message}</td>
+                            <td>{formattedDate}</td>
+                            <td>{formattedTime}</td>
+                          </tr>
+                        );
+                      })}                     
                     </tbody>
                   </table>
                 </div>
