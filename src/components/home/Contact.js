@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { addContact } from '../store/actions/ContactModel';
-import { checkName, checkMail } from '../../validation/validate';
+import { checkName, checkMail, checkString } from '../../validation/validate';
 import Footer from './footer';
 
 export default function Contact() {
@@ -35,7 +35,7 @@ export default function Contact() {
     else if (!checkMail(formData.email.trim())) newErrors.email = t('contactPage.validation.emailInvalid');
 
     if (!formData.message.trim()) newErrors.message = t('contactPage.validation.messageRequired');
-    else if (!checkName(formData.message.trim())) newErrors.message = t('contactPage.validation.messageInvalid');
+    else if (!checkString(formData.message.trim())) newErrors.message = t('contactPage.validation.messageInvalid');
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
