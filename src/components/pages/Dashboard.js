@@ -158,6 +158,7 @@ const Dashboard = () => {
                   <table className="table table-borderless datatable">
                     <thead>
                       <tr>
+                        <th scope="col">{t('dashboard.name')}</th>
                         <th scope="col">{t('dashboard.email')}</th>
                         <th scope="col">{t('dashboard.message')}</th>
                         <th scope="col">{t('dashboard.date')}</th>
@@ -187,6 +188,7 @@ const Dashboard = () => {
 
                         return (
                           <tr key={index}>
+                            <td>{contact.name}</td>
                             <td>{contact.email}</td>
                             <td>{contact.message}</td>
                             <td>{formattedDate}</td>
