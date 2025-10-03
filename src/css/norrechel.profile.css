@@ -222,11 +222,12 @@
   font-size: 14px;
 }
 .dashboard .recent-view .table{
-  font-weight: 500;
+  font-weight: 400;
   color: #012970;
 }
 .dashboard .recent-view .table thead {
   background: #f6f6fe;
+  border-bottom: 2px solid #012970;
 }
 
 .dashboard .recent-view .table thead th {

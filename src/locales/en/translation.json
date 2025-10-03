@@ -222,7 +222,9 @@
   "email": "Email",
   "message": "Message",
   "date": "Date",
-  "time": "Time"
+  "time": "Time",
+  "delete": "Delete",
+  "actions": "Action"
 },
 "notificationPage" :{
   "title": "Notifications",

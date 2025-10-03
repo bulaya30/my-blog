@@ -222,7 +222,9 @@
   "email": "E-mail",
   "message": "Message",
   "date": "Date",
-  "time": "Heure"
+  "time": "Heure",
+  "delete": "Supprimer",
+  "actions": "Action"
 },
 "notificationPage" :{
   "title": "Notifications",

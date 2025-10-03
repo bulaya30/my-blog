@@ -13,6 +13,8 @@ const contactReducer = (state = initialState, action) => {
 
     case 'CONTACT_SUCCESS':
       return { ...state, loading: false, success: true };
+    case 'DELETE_CONTACT':
+      return { ...state};
 
     case 'CONTACTS_SUCCESS':
       return { ...state, loading: false, messages: action.payload };

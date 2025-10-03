@@ -32,7 +32,7 @@ export const addContact = (formData) => {
 /**
  * Fetch all contacts/messages
  */
-export const fetchContacts = () => {
+export const getContacts = () => {
   return async (dispatch) => {
     dispatch({ type: 'CONTACTS_REQUEST' });
     try {
@@ -49,6 +49,23 @@ export const fetchContacts = () => {
       return { success: true, contacts, error: null };
     } catch (error) {
       dispatch({ type: 'CONTACTS_ERROR', payload: error.message });
+      return { success: false, error: error.message };
+    }
+  };
+};
+
+
+/**
+ * Delete a Contact
+ */
+export const deleteContact = (id) => {
+  return async (dispatch) => {
+    try {
+      await firebase.firestore().collection("contacts").doc(id).delete();
+      dispatch({ type: "DELETE_CONTACT", payload: { id } });
+      return { success: true };
+    } catch (error) {
+      dispatch({ type: "CONTACT_ERROR", payload: error.message });
       return { success: false, error: error.message };
     }
   };
