@@ -65,6 +65,7 @@ export const deleteContact = (id) => {
       dispatch({ type: "DELETE_CONTACT", payload: { id } });
       return { success: true };
     } catch (error) {
+      console.log(error.message)
       dispatch({ type: "CONTACT_ERROR", payload: error.message });
       return { success: false, error: error.message };
     }

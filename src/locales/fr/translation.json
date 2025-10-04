@@ -225,7 +225,8 @@
   "date": "Date",
   "time": "Heure",
   "delete": "Supprimer",
-  "actions": "Action"
+  "actions": "Action",
+  "confirmDeleteContact": "Êtes-vous sûr de vouloir supprimer ce contact ?"
 },
 "notificationPage" :{
   "title": "Notifications",

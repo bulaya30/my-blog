@@ -4,6 +4,7 @@ import { NavLink, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Notifications from '../Notification/Notifications';
 import { getContacts, deleteContact } from '../store/actions/ContactModel';
+import ConfirmModal from '../models/confirmModel';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -16,6 +17,9 @@ const Dashboard = () => {
   const [visitsFilter, setVisitsFilter] = useState('All');
   const [commentsFilter, setCommentsFilter] = useState('All');
   const [recentFilter, setRecentFilter] = useState('This Month');
+// Modal state
+  const [showModal, setShowModal] = useState(false);
+  const [selectedContact, setSelectedContact] = useState(null);
 
   useEffect(() => {
     dispatch(getContacts());
@@ -31,6 +35,22 @@ const Dashboard = () => {
     t('dashboard.thisYear', 'This Year'),
   ];
 
+  const handleDeleteClick = (id) => {
+    setSelectedContact(id);
+    setShowModal(true);
+  };
+  const handleConfirm = async () => {
+      if (selectedContact) {
+        await dispatch(deleteContact(selectedContact));
+        setShowModal(false);
+        setSelectedContact(null);
+      }
+    };
+  
+    const handleCancel = () => {
+      setShowModal(false);
+      setSelectedContact(null);
+    };
   if (!user) return <Navigate to="/login" replace />;
 
   const filterByDate = (items, filter) => {
@@ -46,7 +66,6 @@ const Dashboard = () => {
       return true; // "All"
     });
   };
-
   const filteredSubscribers = filterByDate(safeSubscribers, visitsFilter);
   const filteredContacts = filterByDate(safeContacts, commentsFilter);
   const filteredRecent = filterByDate(safeContacts, recentFilter);
@@ -196,18 +215,7 @@ const Dashboard = () => {
                             <td>
                               <button
                                 className="btn btn-danger btn-sm"
-                                onClick={() => {
-                                  if (
-                                    window.confirm(
-                                      t(
-                                        'dashboard.confirmDeleteContact',
-                                        'Are you sure you want to delete this contact?'
-                                      )
-                                    )
-                                  ) {
-                                    dispatch(deleteContact(contact.id));
-                                  }
-                                }}
+                                onClick={() => { handleDeleteClick(contact.id)}}
                               >
                                 {t('dashboard.delete', 'Delete')}
                               </button>
@@ -228,6 +236,15 @@ const Dashboard = () => {
           <Notifications />
         </div>
       </div>
+      {/* Confirm Modal */}
+      <ConfirmModal
+        show={showModal}
+        message={ t(
+          'dashboard.confirmDeleteContact'
+        )}
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
+      />
     </article>
   );
 };
